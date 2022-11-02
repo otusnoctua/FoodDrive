@@ -1,0 +1,7 @@
+# FoodDrive
+
+## Package
+```
+./gradlew distZip
+```
+
