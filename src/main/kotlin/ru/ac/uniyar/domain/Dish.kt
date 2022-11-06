@@ -11,7 +11,7 @@ data class Dish(
     val ingredients: String,
     val vegan: Boolean,
     val description: String,
-
+    val nameDish: String,
 
 ){
     companion object{
@@ -23,7 +23,7 @@ data class Dish(
                 jsonObject["ingredients"].asText(),
                 jsonObject["vegan"].asBoolean(),
                 jsonObject["description"].asText(),
-
+                jsonObject["nameDish"].asText(),
 
             )
         }
@@ -35,6 +35,7 @@ data class Dish(
             "ingredients" to ingredients.asJsonValue(),
             "vegan" to vegan.asJsonValue(),
             "description" to description.asJsonValue(),
+            "nameDish" to nameDish.asJsonValue(),
 
         ).asJsonObject()
     }

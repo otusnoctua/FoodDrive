@@ -1,0 +1,44 @@
+<!doctype html>
+<html class="no-js" lang="ru" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Food Drive{% endblock %}</title>
+    <link rel="stylesheet" href="/css/foundation.css">
+    <link rel="stylesheet" href="/css/app.css">
+  </head>
+<body>
+<div class="top-bar">
+<div class="top-bar-left">
+<ul class="dropdown menu" data-dropdown-menu>
+<li class="menu-text">Food Drive</li>
+<li><a href="/restaurants">Список ресторанов</a></li>
+</ul>
+</div>
+<div class="top-bar-right">
+<ul class="dropdown menu" data-dropdown-menu>
+{% if currentUser is null %}
+<li><a href="/register">Зарегистрироваться</a></li>
+{% endif %}
+{% if currentUser is not null %}
+<li class="menu-text">{{ currentUser.name}}</li><li><a href="/logout">Выйти</a></li>
+{% else %}
+<li><a href="/login">Войти</a></li>
+{% endif %}
+</ul>
+</div>
+</div>
+<div class="grid-container">
+
+{% block content %}
+Нет содержимого
+{% endblock %}
+
+</div>
+    <script src="/js/vendor/jquery.js"></script>
+    <script src="/js/vendor/what-input.js"></script>
+    <script src="/js/vendor/foundation.js"></script>
+    <script src="/js/app.js"></script>
+  </body>
+</html>

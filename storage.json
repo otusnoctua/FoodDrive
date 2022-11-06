@@ -1,0 +1,11 @@
+{
+  "rolePermissions" : [ ],
+  "dish" : [ ],
+  "restaurant" : [ {
+    "id" : "73ca1ce0-7d79-485d-80fd-92b0db574edb",
+    "nameRestaurant" : "Мак"
+  } ],
+  "order" : [ ],
+  "review" : [ ],
+  "user" : [ ]
+}
