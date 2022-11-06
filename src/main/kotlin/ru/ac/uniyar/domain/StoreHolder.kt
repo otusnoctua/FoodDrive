@@ -1,8 +1,6 @@
 package ru.ac.uniyar.domain
 
-import ru.ac.uniyar.queries.ListOfDishesQuery
-import ru.ac.uniyar.queries.ListOfRestaurantsQuery
-import ru.ac.uniyar.queries.RestaurantQuery
+import ru.ac.uniyar.queries.*
 import java.nio.file.Path
 
 class StoreHolder(
@@ -14,6 +12,9 @@ class StoreHolder(
     val listOfRestaurantsQuery = ListOfRestaurantsQuery(store.restaurantRepository)
     val restaurantQuery = RestaurantQuery(store.restaurantRepository)
     val listOfDishesQuery = ListOfDishesQuery(store.dishRepository)
-
+    val fetchUserViaUserId = FetchUserViaUserId(store.userRepository)
+    val addUserQuery = AddUserQuery(store, settings, store.userRepository)
+    val authenticateUserViaLoginQuery = AuthenticateUserViaLoginQuery(settings, store.userRepository)
+    val fetchPermissionsViaQuery = FetchPermissionsViaIdQuery(store.rolePermissionsRepository)
 
 }

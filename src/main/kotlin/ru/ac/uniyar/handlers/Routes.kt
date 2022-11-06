@@ -1,7 +1,9 @@
 package ru.ac.uniyar.handlers
 
 import org.http4k.core.*
+import org.http4k.lens.RequestContextLens
 import org.http4k.routing.path
+import ru.ac.uniyar.domain.RolePermissions
 import ru.ac.uniyar.models.ShowListOfDishesVM
 import ru.ac.uniyar.models.ShowListOfRestaurantsVM
 import ru.ac.uniyar.models.template.ContextAwareViewRender
@@ -22,17 +24,25 @@ class RedirectToRestaurants(): HttpHandler {
 }
 
 fun showListOfRestaurants(
+    permissionsLens: RequestContextLens<RolePermissions>,
     listOfRestaurantsQuery: ListOfRestaurantsQuery,
     htmlView: ContextAwareViewRender,
 ): HttpHandler = {request ->
+    val permissions = permissionsLens(request)
+    if (!permissions.listRestaurants)
+        Response(Status.UNAUTHORIZED)
     val model = ShowListOfRestaurantsVM(listOfRestaurantsQuery.invoke())
     Response(Status.OK).with(htmlView(request) of model)
 }
 fun showListOfDishes(
+    permissionsLens: RequestContextLens<RolePermissions>,
     listOfDishesQuery: ListOfDishesQuery,
     restaurantQuery: RestaurantQuery,
     htmlView: ContextAwareViewRender,
 ): HttpHandler = handler@ {request ->
+    val permissions = permissionsLens(request)
+    if (!permissions.listDishes)
+        Response(Status.UNAUTHORIZED)
     val restaurantIdString = request.path("restaurants").orEmpty()
     val id = UUID.fromString(restaurantIdString) ?: return@handler Response(Status.BAD_REQUEST)
     val restaurant = restaurantQuery.invoke(id) ?: return@handler Response(Status.BAD_REQUEST)

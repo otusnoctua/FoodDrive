@@ -148,11 +148,15 @@ data class RolePermissions(
         "editReview" to editReview.asJsonValue(),
         //----------------------------------------
         "deleteOrder" to deleteOrder.asJsonValue(),
-        "deleteOrder" to deleteOrder.asJsonValue(),
+        "deleteUser" to deleteUser.asJsonValue(),
         "deleteRestaurant" to deleteRestaurant.asJsonValue(),
         "deleteDish" to deleteDish.asJsonValue(),
         "deleteReview" to deleteReview.asJsonValue(),
         //----------------------------------------
 
     ).asJsonObject()
+
+    fun setUuid(uuid: UUID): RolePermissions {
+        return this.copy(id = uuid)
+    }
 }

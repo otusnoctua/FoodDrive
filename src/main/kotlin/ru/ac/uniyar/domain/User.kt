@@ -8,7 +8,7 @@ import java.util.*
 data class User(
     val id: UUID,
     val name: String,
-    val phone: Int,
+    val phone: String,
     val email: String,
     val password: String,
     val role_id: UUID,
@@ -20,7 +20,7 @@ data class User(
             return User(
                 UUID.fromString(user["id"].asText()),
                 user["name"].asText(),
-                user["phone"].asInt(),
+                user["phone"].asText(),
                 user["email"].asText(),
                 user["password"].asText(),
                 UUID.fromString(user["role_id"].asText()),
