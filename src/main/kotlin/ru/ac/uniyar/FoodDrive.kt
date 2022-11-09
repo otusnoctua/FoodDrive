@@ -59,6 +59,11 @@ fun main() {
         handlerHolder.showLoginFormHandler,
         handlerHolder.authenticateUser,
         handlerHolder.logOutUser,
+        handlerHolder.showRestaurantForm,
+        handlerHolder.addRestaurant,
+        handlerHolder.deleteRestaurant,
+        handlerHolder.editRestaurant,
+        handlerHolder.showEditRestaurantForm,
 
         routingHttpHandler,
     )

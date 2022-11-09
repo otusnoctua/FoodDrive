@@ -33,6 +33,13 @@ class RestaurantRepository(restaurant: Iterable<Restaurant> = emptyList()) {
         allRestaurants[newId] = restaurant.setUuid(newId)
         return newId
     }
+    fun delete(id: UUID){
+        allRestaurants.remove(id)
+    }
 
     fun list() = allRestaurants.values.toList()
+
+    fun changeRestaurantName(nameRestaurant: String, restaurant: Restaurant){
+        allRestaurants[restaurant.id] = restaurant.copy(nameRestaurant = nameRestaurant)
+    }
 }

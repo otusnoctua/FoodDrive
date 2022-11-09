@@ -36,4 +36,24 @@ class HttpHandlerHolder(
         storeHolder.authenticateUserViaLoginQuery,
         htmlView, jwtTools)
     val logOutUser = LogOutUser()
+    val showRestaurantForm = showRestaurantForm(
+        permissionLens,
+        htmlView)
+    val addRestaurant = addRestaurant(
+        permissionLens,
+        storeHolder.addRestaurantQuery,
+        htmlView)
+    val deleteRestaurant = deleteRestaurant(
+        permissionLens,
+        storeHolder.restaurantQuery,
+        storeHolder.deleteRestaurantQuery,
+        storeHolder.listOfDishesQuery)
+    val editRestaurant = editRestaurant(
+        permissionLens,
+        storeHolder.restaurantQuery,
+        storeHolder.editRestaurantQuery,
+        htmlView)
+    val showEditRestaurantForm = showEditRestaurantForm(
+        permissionLens,
+        htmlView)
 }

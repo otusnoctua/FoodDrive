@@ -28,5 +28,8 @@ data class Restaurant(
     fun setUuid(uuid: UUID): Restaurant {
         return this.copy(id = uuid)
     }
+    fun setRestaurantName(nameRestaurant: String, uuid: UUID): Restaurant {
+        return this.copy(nameRestaurant = nameRestaurant, id = uuid)
+    }
 
 }

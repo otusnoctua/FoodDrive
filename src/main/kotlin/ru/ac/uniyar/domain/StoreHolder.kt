@@ -16,5 +16,8 @@ class StoreHolder(
     val addUserQuery = AddUserQuery(store, settings, store.userRepository)
     val authenticateUserViaLoginQuery = AuthenticateUserViaLoginQuery(settings, store.userRepository)
     val fetchPermissionsViaQuery = FetchPermissionsViaIdQuery(store.rolePermissionsRepository)
+    val addRestaurantQuery = AddRestaurantQuery(store.restaurantRepository, store)
+    val deleteRestaurantQuery = DeleteRestaurantQuery(store)
+    val editRestaurantQuery = EditRestaurantQuery(store, store.restaurantRepository)
 
 }

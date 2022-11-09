@@ -1,9 +1,17 @@
 {% extends "./layout.peb" %}
 
 {% block content %}
+{% if permissions.createRestaurant %}
+<div>
+<a href="/restaurants/new" class="button">Добавить</a>
+</div>
+{% endif %}
+
     {% for restaurant in model.listOfRestaurants %}
         <div>
  {{ restaurant.nameRestaurant }}
+   {% if permissions.editRestaurant %}<a href="/{{restaurant.id}}/edit"class="button">Редактировать</a>{% endif %}
+   {% if permissions.deleteRestaurant %}<a href="/{{restaurant.id}}/delete"class="button">Удалить</a>{% endif %}
   <a href="/{{restaurant.id }}/ListOfDishes"class="button">К ресторану</a>
         </div>
     {% endfor %}

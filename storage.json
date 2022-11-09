@@ -86,11 +86,14 @@
   } ],
   "dish" : [ ],
   "restaurant" : [ {
-    "id" : "73ca1ce0-7d79-485d-80fd-92b0db574edb",
-    "nameRestaurant" : "Мак"
-  }, {
     "id" : "06badb58-9b86-4485-84a5-6caf91661b4b",
     "nameRestaurant" : "KFC"
+  }, {
+    "id" : "c5a5a16b-7cbc-41ed-823b-dbe05ad0e943",
+    "nameRestaurant" : "Вкусно и точка"
+  }, {
+    "id" : "9f72fe8c-28a2-4793-ac7d-1deb71e48e6d",
+    "nameRestaurant" : "Burger King"
   } ],
   "order" : [ ],
   "review" : [ ],
@@ -100,6 +103,6 @@
     "phone" : "89108236375",
     "email" : "oreshnikov@mail.ru",
     "password" : "d093867118da21af4af2ee88198d85f7b1fb2ddf25bcb227c3f0baac31808e6714a9453a22166b2c11f2d88639f3765cb8833dc106cd15e5ac2d80fe69039662",
-    "role_id" : "26b9e5e7-1c8a-40e5-aece-2345f6b8afd9"
+    "role_id" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9"
   } ]
 }
