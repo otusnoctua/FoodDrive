@@ -64,6 +64,11 @@ fun main() {
         handlerHolder.deleteRestaurant,
         handlerHolder.editRestaurant,
         handlerHolder.showEditRestaurantForm,
+        handlerHolder.deleteDish,
+        handlerHolder.showDishForm,
+        handlerHolder.addDish,
+        handlerHolder.showEditDishForm,
+        handlerHolder.editDish,
 
         routingHttpHandler,
     )

@@ -33,12 +33,12 @@ class DishRepository(dish: Iterable<Dish> = emptyList()) {
         return newId
     }
 
-    fun delete(id: UUID) {
-        allDishes.remove(id)
+    fun delete(dish: Dish) {
+        allDishes.remove(dish.id)
     }
 
-    fun edit(dish: Dish){
-        allDishes[dish.id] = dish
+    fun changeDishName(nameDish: String, dish: Dish){
+        allDishes[dish.id] = dish.copy(nameDish = nameDish)
     }
 
     fun list() = allDishes.values.toList()

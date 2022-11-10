@@ -9,10 +9,7 @@ import org.http4k.routing.path
 import ru.ac.uniyar.domain.RolePermissions
 import ru.ac.uniyar.models.ShowListOfRestaurantsVM
 import ru.ac.uniyar.models.template.ContextAwareViewRender
-import ru.ac.uniyar.queries.DeleteRestaurantQuery
-import ru.ac.uniyar.queries.ListOfDishesQuery
-import ru.ac.uniyar.queries.ListOfRestaurantsQuery
-import ru.ac.uniyar.queries.RestaurantQuery
+import ru.ac.uniyar.queries.*
 import java.util.*
 
 fun deleteRestaurant(
@@ -35,4 +32,23 @@ fun deleteRestaurant(
         Response(Status.UNAUTHORIZED)
     deleteRestaurantQuery.invoke(restaurantId)
     Response(Status.FOUND).header("Location", "/restaurants")
+}
+
+fun deleteDish(
+    permissionLens: RequestContextLens<RolePermissions>,
+    dishQuery: DishQuery,
+    deleteDishQuery: DeleteDishQuery,
+): HttpHandler = handler@ { request ->
+    val idString = request.path("dish").orEmpty()
+    val dishId = UUID.fromString(idString) ?: return@handler Response(Status.BAD_REQUEST)
+    val dish = dishQuery.invoke(dishId) ?: return@handler Response(Status.BAD_REQUEST)
+    val restaurantIdString = request.path("restaurant").orEmpty()
+    val permissionsDelete = permissionLens(request)
+    if (!permissionsDelete.deleteDish)
+        Response (Status.UNAUTHORIZED)
+    val permissions = permissionLens(request)
+    if (!permissions.listDishes)
+        Response(Status.UNAUTHORIZED)
+    deleteDishQuery.invoke(dish)
+    Response(Status.FOUND).header("Location", "/"+restaurantIdString+"/ListOfDishes")
 }

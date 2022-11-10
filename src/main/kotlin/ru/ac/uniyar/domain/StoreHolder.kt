@@ -19,5 +19,9 @@ class StoreHolder(
     val addRestaurantQuery = AddRestaurantQuery(store.restaurantRepository, store)
     val deleteRestaurantQuery = DeleteRestaurantQuery(store)
     val editRestaurantQuery = EditRestaurantQuery(store, store.restaurantRepository)
+    val dishQuery = DishQuery(store.dishRepository)
+    val addDishQuery = AddDishQuery(store.dishRepository, store)
+    val deleteDishQuery = DeleteDishQuery(store)
+    val editDishQuery = EditDishQuery(store, store.dishRepository)
 
 }

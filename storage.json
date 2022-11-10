@@ -84,7 +84,21 @@
     "deleteDish" : true,
     "deleteReview" : true
   } ],
-  "dish" : [ ],
+  "dish" : [ {
+    "id" : "b129984d-db73-417b-bc8f-facbd63eba68",
+    "restaurant_id" : "06badb58-9b86-4485-84a5-6caf91661b4b",
+    "ingredients" : "Булка, курица и т.д.",
+    "vegan" : false,
+    "description" : "Вкусно",
+    "nameDish" : "Шефбургер"
+  }, {
+    "id" : "1a9fb169-0666-4fe0-ae4d-8099ee3f851a",
+    "restaurant_id" : "06badb58-9b86-4485-84a5-6caf91661b4b",
+    "ingredients" : "1123",
+    "vegan" : true,
+    "description" : "213",
+    "nameDish" : "Салат"
+  } ],
   "restaurant" : [ {
     "id" : "06badb58-9b86-4485-84a5-6caf91661b4b",
     "nameRestaurant" : "KFC"
@@ -94,6 +108,9 @@
   }, {
     "id" : "9f72fe8c-28a2-4793-ac7d-1deb71e48e6d",
     "nameRestaurant" : "Burger King"
+  }, {
+    "id" : "65d117a4-72d8-4a3f-92c3-94d05f86a9dc",
+    "nameRestaurant" : "Краснодарский парень"
   } ],
   "order" : [ ],
   "review" : [ ],

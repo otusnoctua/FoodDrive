@@ -7,12 +7,12 @@
 </div>
 {% endif %}
 
-    {% for restaurant in model.listOfRestaurants %}
+    {% for restaurantInfo in model.listOfRestaurants %}
         <div>
- {{ restaurant.nameRestaurant }}
-   {% if permissions.editRestaurant %}<a href="/{{restaurant.id}}/edit"class="button">Редактировать</a>{% endif %}
-   {% if permissions.deleteRestaurant %}<a href="/{{restaurant.id}}/delete"class="button">Удалить</a>{% endif %}
-  <a href="/{{restaurant.id }}/ListOfDishes"class="button">К ресторану</a>
+ {{ restaurantInfo.restaurant.nameRestaurant }}
+   {% if permissions.editRestaurant %}<a href="/{{restaurantInfo.restaurant.id}}/edit"class="button">Редактировать</a>{% endif %}
+   {% if not restaurantInfo.haveDish %}{% if permissions.deleteRestaurant %}<a href="/{{restaurantInfo.restaurant.id}}/delete"class="button">Удалить</a>{% endif %}{% endif %}
+  <a href="/{{restaurantInfo.restaurant.id }}/ListOfDishes"class="button">К ресторану</a>
         </div>
     {% endfor %}
 {% endblock %}

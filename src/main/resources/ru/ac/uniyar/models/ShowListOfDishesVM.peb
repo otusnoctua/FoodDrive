@@ -2,11 +2,14 @@
 
 {% block content %}
 <div>
+{% if permissions.createDish %}<a href="/{{model.restaurant.id}}/ListOfDishes/new" class="button">Добавить</a>{% endif %}
 <a href="/restaurants"class="button">К списку ресторанов</a>
 </div>
     {% for dish in model.listOfDishes %}
         <div>
- {{ dish.nameDish }}
+ {{ dish.nameDish }}: {{dish.ingredients}}, {{dish.description}}{% if dish.vegan == true %}, Вегетарианское{% endif %}
+    {% if permissions.editDish %}<a href="/{{model.restaurant.id}}/{{dish.id}}/edit"class="button">Редактировать</a>{% endif %}
+    {% if permissions.deleteDish %}<a href="/{{model.restaurant.id }}/{{dish.id}}/delete"class="button">Удалить</a>{% endif %}
         </div>
     {% endfor %}
 {% endblock %}
