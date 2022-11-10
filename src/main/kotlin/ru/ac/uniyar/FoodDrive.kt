@@ -69,6 +69,8 @@ fun main() {
         handlerHolder.addDish,
         handlerHolder.showEditDishForm,
         handlerHolder.editDish,
+        handlerHolder.showBasket,
+        handlerHolder.addDishToOrder,
 
         routingHttpHandler,
     )

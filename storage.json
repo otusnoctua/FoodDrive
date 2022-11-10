@@ -112,7 +112,14 @@
     "id" : "65d117a4-72d8-4a3f-92c3-94d05f86a9dc",
     "nameRestaurant" : "Краснодарский парень"
   } ],
-  "order" : [ ],
+  "order" : [ {
+    "id" : "0ce07cd6-a2ed-45b6-abf3-0f45a13fdf0c",
+    "client_id" : "a53f3b97-1dd2-4d67-9526-340b6dbb208a",
+    "restaurant_id" : "06badb58-9b86-4485-84a5-6caf91661b4b",
+    "status" : "В ожидании",
+    "timestamp" : "2022-11-10T17:02:40.103772",
+    "dishes" : [ "b129984d-db73-417b-bc8f-facbd63eba68", "b129984d-db73-417b-bc8f-facbd63eba68", "1a9fb169-0666-4fe0-ae4d-8099ee3f851a", "b129984d-db73-417b-bc8f-facbd63eba68", "b129984d-db73-417b-bc8f-facbd63eba68" ]
+  } ],
   "review" : [ ],
   "user" : [ {
     "id" : "5416a740-4c8b-4491-9c3a-8593f4b27e9b",

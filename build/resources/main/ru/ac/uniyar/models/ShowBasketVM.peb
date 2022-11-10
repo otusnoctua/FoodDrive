@@ -1,0 +1,14 @@
+    {% extends "./layout.peb" %}
+    {% block content %}
+<div>
+    <a href="/restaurants" class="button">К списку ресторанов</a>
+</div>
+
+    {% for order in model.listOfOrders %}
+        <div>
+            {{ order.id }}
+            <a href="/basket/{{ order.id }}">Больше</a>
+        </div>
+    {% endfor %}
+
+    {% endblock %}

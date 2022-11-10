@@ -11,6 +11,7 @@ class HttpHandlerHolder(
     permissionLens: RequestContextLens<RolePermissions>,
     htmlView: ContextAwareViewRender,
     storeHolder: StoreHolder,
+
 ) {
     val pingHandler = PingHandler()
     val redirectToRestaurants = RedirectToRestaurants()
@@ -80,4 +81,16 @@ class HttpHandlerHolder(
         permissionLens,
         storeHolder.restaurantQuery,
         htmlView)
+    val showBasket = showBasket(
+        permissionLens,
+        storeHolder.orderQueries,
+        htmlView,
+    )
+    val addDishToOrder = addDishToOrder(
+        permissionLens,
+        htmlView,
+        storeHolder.orderQueries,
+        storeHolder.listOfDishesQuery,
+        storeHolder.restaurantQuery,
+    )
 }

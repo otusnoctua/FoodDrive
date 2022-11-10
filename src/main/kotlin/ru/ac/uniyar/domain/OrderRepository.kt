@@ -32,6 +32,10 @@ class OrderRepository(order:  Iterable<Order> = emptyList()) {
         orders[newId] = order.setUuid(newId)
         return newId
     }
+    fun update(order: Order){
+        val id=order.id
+        orders[id]= order
+    }
 
     fun delete(id: UUID) {
         orders.remove(id)
