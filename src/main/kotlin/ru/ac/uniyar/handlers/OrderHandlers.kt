@@ -122,3 +122,18 @@ fun deleteDishFromOrder(
     orderQuery.update(newOrder)
     Response(Status.OK).with(htmlView(request) of ShowOrderVM(newOrder))
 }
+
+fun editStatusByUser(
+    permissionsLens: RequestContextLens<RolePermissions>,
+    orderQuery: OrderQueries,
+    htmlView: ContextAwareViewRender,
+):HttpHandler= handler@{request->
+    val permissions = permissionsLens(request)
+    if (!permissions.listOrders)
+        Response(Status.UNAUTHORIZED)
+    val user_id = permissions.id
+    val idString = request.form().findSingle("index").orEmpty()
+    val index= idString.toIntOrNull()?: return@handler Response(Status.BAD_REQUEST)
+    orderQuery.editStatus(0,"В обработке", user_id)
+    Response(Status.OK).with(htmlView(request) of ShowBasketVM(orderQuery.fetchOrdersViaUser_Id(user_id)))
+}

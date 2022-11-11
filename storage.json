@@ -116,9 +116,16 @@
     "id" : "4f2490e5-9ee9-495a-9314-827ec9c55042",
     "client_id" : "a53f3b97-1dd2-4d67-9526-340b6dbb208a",
     "restaurant_id" : "06badb58-9b86-4485-84a5-6caf91661b4b",
-    "status" : "В ожидании",
+    "status" : "В обработке",
     "timestamp" : "2022-11-11T04:55:29.5748696",
     "dishes" : [ "Салат", "Шефбургер" ]
+  }, {
+    "id" : "fc43789c-07bb-41ce-974c-0d1ed4aa2e39",
+    "client_id" : "a53f3b97-1dd2-4d67-9526-340b6dbb208a",
+    "restaurant_id" : "06badb58-9b86-4485-84a5-6caf91661b4b",
+    "status" : "В ожидании",
+    "timestamp" : "2022-11-11T13:52:20.0410604",
+    "dishes" : [ "Салат", "Салат" ]
   } ],
   "review" : [ ],
   "user" : [ {

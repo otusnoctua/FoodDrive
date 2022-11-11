@@ -55,4 +55,8 @@ data class Order(
         return this.copy(dishes = mas)
     }
 
+    fun editStatus(status: String):Order{
+        return this.copy(status = status)
+    }
+
 }

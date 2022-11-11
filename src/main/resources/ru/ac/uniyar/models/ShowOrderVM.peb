@@ -7,6 +7,7 @@
              {{ dish }}
                   <a href="/basket/{{model.order.id}}/delete/{{ loop.index }}" class="button">Удалить блюдо</a>
 
+
               </div>
 
              {% endfor %}

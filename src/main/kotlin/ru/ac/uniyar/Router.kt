@@ -7,6 +7,7 @@ import org.http4k.routing.bind
 import org.http4k.routing.routes
 import ru.ac.uniyar.handlers.deleteOrder
 import ru.ac.uniyar.handlers.editRestaurant
+import ru.ac.uniyar.handlers.editStatusByUser
 import ru.ac.uniyar.handlers.showEditRestaurantForm
 
 @Suppress("LongParameterList")
@@ -35,6 +36,7 @@ class Router (
     private val showOrder:HttpHandler,
     private val deleteOrder: HttpHandler,
     private val deleteDishFromOrder:HttpHandler,
+    private val editStatusByUser:HttpHandler,
 
 
     private val staticFilesHandler: RoutingHttpHandler,
@@ -68,6 +70,7 @@ class Router (
         "/{restaurant}/{dish}/edit" bind Method.POST to editDish,
 
         "/basket" bind Method.GET to showBasket,
+        "/basket" bind Method.POST to editStatusByUser,
         "/basket/{order}/delete/{dish}" bind Method.GET to deleteDishFromOrder,
         "/basket/{order}" bind Method.GET to showOrder,
         "/basket/delete/{order}" bind Method.GET to deleteOrder,

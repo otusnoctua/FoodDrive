@@ -24,4 +24,5 @@ class StoreHolder(
     val editDishQuery = EditDishQuery(store, store.dishRepository)
     val orderQueries = OrderQueries(store.orderRepository,dishQueries,store)
 
+
 }

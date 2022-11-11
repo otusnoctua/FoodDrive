@@ -15,6 +15,7 @@ interface OrderQuery {
     fun fetchOrderViaId(id:UUID):Order
     fun delete(id:UUID)
     fun deleteDish(order: Order, index:Int):Order
+    fun editStatus(index: Int,string: String,user_id: UUID)
 
 }
 class OrderQueries(
@@ -48,7 +49,7 @@ class OrderQueries(
     }
 
     override fun check(user_id: UUID): Boolean {
-        return  orderRepository.list().any {it.client_id==user_id}
+        return  orderRepository.list().any {it.client_id==user_id && it.status=="В ожидании"}
     }
 
     override fun addDish(user_id: UUID, id_dish: UUID): Order {
@@ -75,5 +76,9 @@ class OrderQueries(
         return newOrder
     }
 
+    override fun editStatus(index: Int, string: String, user_id: UUID){
+        val mas= fetchOrdersViaUser_Id(user_id).toMutableList()
+        orderRepository.update(mas[index].editStatus(string))
+    }
 
 }

@@ -108,4 +108,9 @@ class HttpHandlerHolder(
         storeHolder.orderQueries,
         htmlView,
     )
+    val editStatusByUser = editStatusByUser(
+        permissionLens,
+        storeHolder.orderQueries,
+        htmlView,
+    )
 }
