@@ -16,13 +16,13 @@ fun deleteRestaurant(
     permissionLens: RequestContextLens<RolePermissions>,
     restaurantQuery: RestaurantQuery,
     deleteRestaurantQuery: DeleteRestaurantQuery,
-    listOfDishesQuery: ListOfDishesQuery,
+    dishQueries: DishQueries,
 ): HttpHandler = handler@ { request ->
     val idString = request.path("restaurant").orEmpty()
     val restaurantId = UUID.fromString(idString) ?: return@handler Response(Status.BAD_REQUEST)
     val restaurant = restaurantQuery.invoke(restaurantId) ?: return@handler Response(Status.BAD_REQUEST)
     val permissionsDelete = permissionLens(request)
-    val haveDishes = listOfDishesQuery.invoke(restaurant.id).map {it.restaurant_id}.contains(restaurant.id)
+    val haveDishes = dishQueries.listOfDishes(restaurant.id).map {it.restaurant_id}.contains(restaurant.id)
     if (haveDishes)
         Response(Status.BAD_REQUEST)
     if (!permissionsDelete.deleteRestaurant)
@@ -41,7 +41,7 @@ fun deleteDish(
 ): HttpHandler = handler@ { request ->
     val idString = request.path("dish").orEmpty()
     val dishId = UUID.fromString(idString) ?: return@handler Response(Status.BAD_REQUEST)
-    val dish = dishQuery.invoke(dishId) ?: return@handler Response(Status.BAD_REQUEST)
+    val dish = dishQuery.fetchDishViaId(dishId) ?: return@handler Response(Status.BAD_REQUEST)
     val restaurantIdString = request.path("restaurant").orEmpty()
     val permissionsDelete = permissionLens(request)
     if (!permissionsDelete.deleteDish)

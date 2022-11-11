@@ -113,12 +113,12 @@
     "nameRestaurant" : "Краснодарский парень"
   } ],
   "order" : [ {
-    "id" : "0ce07cd6-a2ed-45b6-abf3-0f45a13fdf0c",
+    "id" : "4f2490e5-9ee9-495a-9314-827ec9c55042",
     "client_id" : "a53f3b97-1dd2-4d67-9526-340b6dbb208a",
     "restaurant_id" : "06badb58-9b86-4485-84a5-6caf91661b4b",
     "status" : "В ожидании",
-    "timestamp" : "2022-11-10T17:02:40.103772",
-    "dishes" : [ "b129984d-db73-417b-bc8f-facbd63eba68", "b129984d-db73-417b-bc8f-facbd63eba68", "1a9fb169-0666-4fe0-ae4d-8099ee3f851a", "b129984d-db73-417b-bc8f-facbd63eba68", "b129984d-db73-417b-bc8f-facbd63eba68" ]
+    "timestamp" : "2022-11-11T04:55:29.5748696",
+    "dishes" : [ "Салат", "Шефбургер" ]
   } ],
   "review" : [ ],
   "user" : [ {

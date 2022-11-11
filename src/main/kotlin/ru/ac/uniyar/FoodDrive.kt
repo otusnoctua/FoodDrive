@@ -71,6 +71,9 @@ fun main() {
         handlerHolder.editDish,
         handlerHolder.showBasket,
         handlerHolder.addDishToOrder,
+        handlerHolder.showOrder,
+        handlerHolder.deleteOrder,
+        handlerHolder.deleteDishFromOrder,
 
         routingHttpHandler,
     )

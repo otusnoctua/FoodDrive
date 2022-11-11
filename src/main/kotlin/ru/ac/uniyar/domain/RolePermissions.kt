@@ -85,7 +85,7 @@ data class RolePermissions(
             id = UUID.fromString("a53f3b97-1dd2-4d67-9526-340b6dbb208a"),
             name = "Гость",
             //----------------------------------------
-            listOrders = false,
+            listOrders = true,
             listUsers = false,
             listRestaurants = true,
             listDishes = true,
@@ -109,7 +109,7 @@ data class RolePermissions(
             editDish = false,
             editReview = false,
             //----------------------------------------
-            deleteOrder = false,
+            deleteOrder = true,
             deleteUser = false,
             deleteRestaurant = false,
             deleteDish = false,

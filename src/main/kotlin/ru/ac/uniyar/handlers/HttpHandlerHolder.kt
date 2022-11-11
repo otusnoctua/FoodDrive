@@ -18,12 +18,12 @@ class HttpHandlerHolder(
     val showListOfRestaurants = showListOfRestaurants(
         permissionLens,
         storeHolder.listOfRestaurantsQuery,
-        storeHolder.listOfDishesQuery,
+        storeHolder.dishQueries,
         htmlView
     )
     val showListOfDishes = showListOfDishes(
         permissionLens,
-        storeHolder.listOfDishesQuery,
+        storeHolder.dishQueries,
         storeHolder.restaurantQuery,
         htmlView
     )
@@ -49,7 +49,7 @@ class HttpHandlerHolder(
         permissionLens,
         storeHolder.restaurantQuery,
         storeHolder.deleteRestaurantQuery,
-        storeHolder.listOfDishesQuery)
+        storeHolder.dishQueries)
     val editRestaurant = editRestaurant(
         permissionLens,
         storeHolder.restaurantQuery,
@@ -65,11 +65,11 @@ class HttpHandlerHolder(
         htmlView)
     val deleteDish = deleteDish(
         permissionLens,
-        storeHolder.dishQuery,
+        storeHolder.dishQueries,
         storeHolder.deleteDishQuery)
     val editDish = editDish(
         permissionLens,
-        storeHolder.dishQuery,
+        storeHolder.dishQueries,
         storeHolder.restaurantQuery,
         storeHolder.editDishQuery,
         htmlView)
@@ -90,7 +90,22 @@ class HttpHandlerHolder(
         permissionLens,
         htmlView,
         storeHolder.orderQueries,
-        storeHolder.listOfDishesQuery,
+        storeHolder.dishQueries,
         storeHolder.restaurantQuery,
+    )
+    val showOrder = showOrder(
+        permissionLens,
+        storeHolder.orderQueries,
+        htmlView,
+    )
+    val deleteOrder = deleteOrder(
+        permissionLens,
+        storeHolder.orderQueries,
+        htmlView,
+    )
+    val deleteDishFromOrder = deleteDishFromOrder(
+        permissionLens,
+        storeHolder.orderQueries,
+        htmlView,
     )
 }

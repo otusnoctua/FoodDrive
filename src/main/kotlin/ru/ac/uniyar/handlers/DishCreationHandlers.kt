@@ -66,7 +66,7 @@ fun editDish(
     val idString = request.path("restaurant").orEmpty()
     val dishIdString = request.path("dish").orEmpty()
     val dishId = UUID.fromString(dishIdString) ?: return@handler Response(Status.BAD_REQUEST)
-    val dish = dishQuery.invoke(dishId) ?: return@handler Response(Status.BAD_REQUEST)
+    val dish = dishQuery.fetchDishViaId(dishId) ?: return@handler Response(Status.BAD_REQUEST)
     val id = UUID.fromString(idString) ?: return@handler Response(Status.BAD_REQUEST)
     val restaurant = restaurantQuery.invoke(id) ?: return@handler Response(Status.BAD_REQUEST)
     val permissions = permissionLens(request)

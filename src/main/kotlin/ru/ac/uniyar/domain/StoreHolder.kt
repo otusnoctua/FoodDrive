@@ -11,7 +11,6 @@ class StoreHolder(
     val settings = Settings(settingsPath)
     val listOfRestaurantsQuery = ListOfRestaurantsQuery(store.restaurantRepository)
     val restaurantQuery = RestaurantQuery(store.restaurantRepository)
-    val listOfDishesQuery = ListOfDishesQuery(store.dishRepository)
     val fetchUserViaUserId = FetchUserViaUserId(store.userRepository)
     val addUserQuery = AddUserQuery(store, settings, store.userRepository)
     val authenticateUserViaLoginQuery = AuthenticateUserViaLoginQuery(settings, store.userRepository)
@@ -19,10 +18,10 @@ class StoreHolder(
     val addRestaurantQuery = AddRestaurantQuery(store.restaurantRepository, store)
     val deleteRestaurantQuery = DeleteRestaurantQuery(store)
     val editRestaurantQuery = EditRestaurantQuery(store, store.restaurantRepository)
-    val dishQuery = DishQuery(store.dishRepository)
+    val dishQueries = DishQueries(store.dishRepository)
     val addDishQuery = AddDishQuery(store.dishRepository, store)
     val deleteDishQuery = DeleteDishQuery(store)
     val editDishQuery = EditDishQuery(store, store.dishRepository)
-    val orderQueries = OrderQueries(store.orderRepository,store)
+    val orderQueries = OrderQueries(store.orderRepository,dishQueries,store)
 
 }
