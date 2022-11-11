@@ -37,6 +37,9 @@ class Router (
     private val deleteOrder: HttpHandler,
     private val deleteDishFromOrder:HttpHandler,
     private val editStatusByUser:HttpHandler,
+    private val showReviewList:HttpHandler,
+    private val showReviewForm:HttpHandler,
+    private val addReviewToList:HttpHandler,
 
 
     private val staticFilesHandler: RoutingHttpHandler,
@@ -60,9 +63,12 @@ class Router (
         "/{restaurant}/edit" bind Method.GET to showEditRestaurantForm,
         "/{restaurant}/edit" bind Method.POST to editRestaurant,
 
+        "/{restaurant}/addReview" bind Method.GET to showReviewForm,
+        "/{restaurant}/addReview" bind Method.POST to addReviewToList,
+
         "/{restaurant}/{dish}/delete" bind Method.GET to deleteDish,
         "/{restaurant}/ListOfDishes" bind Method.GET to showListOfDishes,
-        "/{restaurants}/ListOfDishes" bind Method.POST to addDishToOrder,
+        "/{restaurant}/ListOfDishes" bind Method.POST to addDishToOrder,
         "/{restaurant}/ListOfDishes/new" bind Method.GET to showDishForm,
         "/{restaurant}/ListOfDishes/new" bind Method.POST to addDish,
 
@@ -74,6 +80,8 @@ class Router (
         "/basket/{order}/delete/{dish}" bind Method.GET to deleteDishFromOrder,
         "/basket/{order}" bind Method.GET to showOrder,
         "/basket/delete/{order}" bind Method.GET to deleteOrder,
+
+        "/reviews" bind Method.GET to showReviewList,
 
         staticFilesHandler,
     )

@@ -23,6 +23,7 @@ class StoreHolder(
     val deleteDishQuery = DeleteDishQuery(store)
     val editDishQuery = EditDishQuery(store, store.dishRepository)
     val orderQueries = OrderQueries(store.orderRepository,dishQueries,store)
+    val reviewQueries = ReviewQueries(store.reviewRepository)
 
 
 }

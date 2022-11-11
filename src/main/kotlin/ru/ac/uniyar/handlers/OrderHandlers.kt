@@ -26,7 +26,6 @@ fun showBasket(
     val permissions = permissionsLens(request)
     if (!permissions.listOrders)
         Response(Status.UNAUTHORIZED)
-
     val user_id = permissions.id
 
     Response(Status.OK).with(htmlView(request) of ShowBasketVM(orderQuery.fetchOrdersViaUser_Id(user_id)))
@@ -48,7 +47,7 @@ fun addDishToOrder(
     val params = request.form()
    val idString = params.findSingle("id").orEmpty()
     val id = UUID.fromString(idString)
-    val restaurantIdString = request.path("restaurants").orEmpty()
+    val restaurantIdString = request.path("restaurant").orEmpty()
     val restaurant_id = UUID.fromString(restaurantIdString) ?: return@handler Response(Status.BAD_REQUEST)
 
     if (!orderQuery.check(user_id)) {

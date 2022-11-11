@@ -5,7 +5,7 @@
         <div>
            Заказ номер: {{ loop.index + 1}}
             <a href="/basket/{{ order.id }}">Больше</a>
-            <form method="POST">  <button name="index" type="submit" value={{ loop.index }}>Подтвердить</button> </form>
+            <form method="POST">  <button name="index" class="button" type="submit" value={{ loop.index }}>Подтвердить</button> </form>
         </div>
     {% endfor %}
 

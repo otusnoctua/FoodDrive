@@ -9,7 +9,7 @@
     {% for dish in model.listOfDishes %}
         <div>
  {{ dish.nameDish }}: {{dish.ingredients}}, {{dish.description}}{% if dish.vegan == true %}, Вегетарианское{% endif %}
-            <button name="id" type="submit" value={{ dish.id }}>В корзину</button>
+            <button name="id" class="button" type="submit" value={{ dish.id }}>В корзину</button>
 
 
     {% if permissions.editDish %}<a href="/{{model.restaurant.id}}/{{dish.id}}/edit"class="button">Редактировать</a>{% endif %}

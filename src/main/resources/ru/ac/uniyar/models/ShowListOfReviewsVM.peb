@@ -1,0 +1,22 @@
+{% extends "./layout.peb" %}
+{% block content %}
+<table>
+    <thead>
+    <tr>
+        <th width="200">Номер отзыва</th>
+        <th>Описание</th>
+        <th width="150">Оценка</th>
+    </tr>
+    </thead>
+    <tbody>
+            {% for review in model.listOfReviews %}
+            <tr>
+        <td>Отзыв:{{ loop.index + 1 }}</td>
+        <td> {{ review.text }}</td>
+        <td> {{ review.rating }}/5</td>
+            </tr>
+            {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

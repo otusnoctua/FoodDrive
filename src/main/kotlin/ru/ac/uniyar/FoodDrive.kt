@@ -75,6 +75,9 @@ fun main() {
         handlerHolder.deleteOrder,
         handlerHolder.deleteDishFromOrder,
         handlerHolder.editStatusByUser,
+        handlerHolder.showReviewList,
+        handlerHolder.showReviewForm,
+        handlerHolder.addReviewToList,
 
         routingHttpHandler,
     )

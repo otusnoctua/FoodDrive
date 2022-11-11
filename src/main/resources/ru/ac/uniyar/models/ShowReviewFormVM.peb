@@ -1,0 +1,41 @@
+    {% extends "./layout.peb" %}
+
+    {% block content %}
+
+        {% if model.form.errors is not empty %}
+        <div class="grid-x grid-padding-x">
+            <div class="medium-12 cell warning">
+                <ul>
+                        {% for error in model.form.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+
+    <form method="POST">
+        <div class="grid-x grid-padding-x">
+            <div class="medium-12 cell">
+                <label>Отзыв:
+                    <textarea name="text">{{ model.form.fields["text"] | first }} </textarea>
+                </label>
+            </div>
+        </div>
+        <div class="grid-x grid-padding-x">
+            <div class="medium-12 cell">
+                <label>Оценка:
+                    <select name = "rating" >
+                        <option  value="1">1</option>
+                        <option  value="2">2</option>
+                        <option  value="3">3</option>
+                        <option  value="4">4</option>
+                        <option selected value="5">5</option>
+                    </select >
+                </label>
+            </div>
+        </div>
+        <input type="submit" value="Добавить" class="button">
+
+    </form>
+    {% endblock %}
