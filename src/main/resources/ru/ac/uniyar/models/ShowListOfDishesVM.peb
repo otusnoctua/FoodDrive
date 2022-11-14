@@ -17,4 +17,5 @@
         </div>
     {% endfor %}
     </form>
+    <a class="button" href="/reviews/{{model.restaurant.id}}">Отзывы</a>
 {% endblock %}

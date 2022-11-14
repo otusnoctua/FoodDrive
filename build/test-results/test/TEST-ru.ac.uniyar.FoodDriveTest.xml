@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ru.ac.uniyar.FoodDriveTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-11-02T12:52:26" hostname="LAPTOP-B81RGE3G" time="1.068">
-  <properties/>
-  <testcase name="Ping test()" classname="ru.ac.uniyar.FoodDriveTest" time="1.049"/>
-  <testcase name="Check Kotest matcher for http4k work as expected()" classname="ru.ac.uniyar.FoodDriveTest" time="0.019"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

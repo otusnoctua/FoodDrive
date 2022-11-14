@@ -81,7 +81,7 @@ class Router (
         "/basket/{order}" bind Method.GET to showOrder,
         "/basket/delete/{order}" bind Method.GET to deleteOrder,
 
-        "/reviews" bind Method.GET to showReviewList,
+        "/reviews/{restaurant}" bind Method.GET to showReviewList,
 
         staticFilesHandler,
     )

@@ -116,6 +116,7 @@ class HttpHandlerHolder(
     val showReviewList = showReviewList(
         permissionLens,
         storeHolder.reviewQueries,
+        storeHolder.restaurantQuery,
         htmlView
     )
     val showReviewForm = showReviewForm(
@@ -127,6 +128,7 @@ class HttpHandlerHolder(
     val addReviewToList = addReviewToList(
         permissionLens,
         storeHolder.reviewQueries,
+        storeHolder.restaurantQuery,
         htmlView
     )
 }

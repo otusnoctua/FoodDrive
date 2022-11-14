@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 
 class FoodDriveTest {
 
-    @Test
+   /* @Test
     fun `Ping test`() {
         assertEquals(app(Request(GET, "/ping")), Response(OK).body("pong"))
     }
@@ -24,6 +24,6 @@ class FoodDriveTest {
         // response assertions
         response shouldHaveStatus OK
         response shouldHaveBody "Echo 'http4k is cool'"
-    }
+    }*/
 
 }

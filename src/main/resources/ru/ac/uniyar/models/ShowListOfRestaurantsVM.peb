@@ -13,7 +13,6 @@
    {% if permissions.editRestaurant %}<a href="/{{restaurantInfo.restaurant.id}}/edit"class="button">Редактировать</a>{% endif %}
    {% if not restaurantInfo.haveDish %}{% if permissions.deleteRestaurant %}<a href="/{{restaurantInfo.restaurant.id}}/delete"class="button">Удалить</a>{% endif %}{% endif %}
   <a href="/{{restaurantInfo.restaurant.id }}/ListOfDishes"class="button">К ресторану</a>
-            <a href="/{{restaurantInfo.restaurant.id }}/addReview"class="button">Оставить отзыв</a>
         </div>
     {% endfor %}
 {% endblock %}

@@ -15,7 +15,6 @@
 <li class="menu-text">Food Drive</li>
 <li><a href="/restaurants">Список ресторанов</a></li>
  <li><a href="/basket">Корзина</a></li>
-    <li><a href="/reviews">Отзывы</a></li>
 </ul>
 </div>
 <div class="top-bar-right">
