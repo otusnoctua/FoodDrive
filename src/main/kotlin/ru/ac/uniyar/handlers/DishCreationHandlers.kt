@@ -35,7 +35,7 @@ val BodyDishFormLens = Body.webForm(
     Validator.Feedback, dishNameFormLens,
 ).toLens()
 
-fun addDish(
+fun addDish(//сделать классом как в авторизации
     permissionLens: RequestContextLens<RolePermissions>,
     restaurantQuery: RestaurantQuery,
     addDishQuery: AddDishQuery,
@@ -44,13 +44,12 @@ fun addDish(
     val permissions = permissionLens(request)
     if (!permissions.createDish)
         Response (Status.UNAUTHORIZED)
-    val idString = request.path("restaurant").orEmpty()
-    val id = UUID.fromString(idString) ?: return@handler Response(Status.BAD_REQUEST)
+    val id = UUID.fromString(request.path("restaurant").orEmpty()) ?: return@handler Response(Status.BAD_REQUEST)//<--пример
     val restaurant = restaurantQuery.invoke(id) ?: return@handler Response(Status.BAD_REQUEST)
     val webForm = BodyDishFormLens(request)
     if (webForm.errors.isEmpty()) {
         addDishQuery.invoke(restaurant, dishNameFormLens(webForm), ingredientsFormLens(webForm), veganFormLens(webForm), descriptionFormLens(webForm))
-        Response(Status.FOUND).header("Location", "/"+idString+"/ListOfDishes")
+        Response(Status.FOUND).header("Location", "/${restaurant.id}/ListOfDishes")//<--пример
     } else {
         Response(Status.OK).with(htmlView(request) of ShowDishFormVM(webForm, restaurant))
     }

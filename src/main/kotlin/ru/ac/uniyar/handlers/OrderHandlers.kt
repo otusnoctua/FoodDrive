@@ -49,6 +49,7 @@ fun addDishToOrder(
     val id = UUID.fromString(idString)
     val restaurantIdString = request.path("restaurant").orEmpty()
     val restaurant_id = UUID.fromString(restaurantIdString) ?: return@handler Response(Status.BAD_REQUEST)
+    val restaurant = restaurantQuery(restaurant_id)?: return@handler Response(Status.BAD_REQUEST)//пример
 
     if (!orderQuery.check(user_id)) {
         val dishes = mutableListOf<String>()
@@ -65,9 +66,8 @@ fun addDishToOrder(
     } else {
         orderQuery.update(orderQuery.addDish(user_id, id))
     }
-    val model =
-        restaurantQuery.invoke(restaurant_id)?.let { ShowListOfDishesVM(dishQueries.listOfDishes(restaurant_id), it) }
-    Response(Status.OK).with(htmlView(request) of model!!)
+    val model = ShowListOfDishesVM(dishQueries.listOfDishes(restaurant.id), restaurant)//пример
+    Response(Status.OK).with(htmlView(request) of model)
 
 }
 
@@ -87,6 +87,7 @@ fun showOrder(
 }
 
 fun deleteOrder(
+    curUserLens:RequestContextLens<RolePermissions>,
     permissionsLens: RequestContextLens<RolePermissions>,
     orderQuery: OrderQueries,
     htmlView: ContextAwareViewRender,
@@ -100,8 +101,8 @@ fun deleteOrder(
     if (!permissions.listOrders)
         Response(Status.UNAUTHORIZED)
     orderQuery.delete(id)
-    val user_id= permissions.id
-    Response(Status.OK).with(htmlView(request) of ShowBasketVM(orderQuery.fetchOrdersViaUser_Id(user_id)))
+    val curUser = curUserLens(request)
+    Response(Status.OK).with(htmlView(request) of ShowBasketVM(orderQuery.fetchOrdersViaUser_Id(curUser.id)))
 
 }
 fun deleteDishFromOrder(
@@ -130,7 +131,7 @@ fun editStatusByUser(
     val permissions = permissionsLens(request)
     if (!permissions.listOrders)
         Response(Status.UNAUTHORIZED)
-    val user_id = permissions.id
+    val user_id = permissions.id//исправить
     val idString = request.form().findSingle("index").orEmpty()
     val index= idString.toIntOrNull()?: return@handler Response(Status.BAD_REQUEST)
     orderQuery.editStatus(0,"В обработке", user_id)
