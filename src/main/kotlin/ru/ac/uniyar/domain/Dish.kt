@@ -7,19 +7,19 @@ import java.util.*
 
 data class Dish(
     val id: UUID,
-    val restaurant_id : UUID,
+    val restaurantId : UUID,
     val ingredients: String,
     val vegan: Boolean,
     val description: String,
     val nameDish: String,
 
-){
+    ){
     companion object{
         fun fromJson(node: JsonNode): Dish {
             val jsonObject = node.asJsonObject()
             return Dish(
                 UUID.fromString(jsonObject["id"].asText()),
-                UUID.fromString(jsonObject["restaurant_id"].asText()),
+                UUID.fromString(jsonObject["restaurantId"].asText()),
                 jsonObject["ingredients"].asText(),
                 jsonObject["vegan"].asBoolean(),
                 jsonObject["description"].asText(),
@@ -31,7 +31,7 @@ data class Dish(
     fun asJsonObject(): JsonNode{
         return listOf(
             "id" to id.toString().asJsonValue(),
-            "restaurant_id" to restaurant_id.toString().asJsonValue(),
+            "restaurantId" to restaurantId.toString().asJsonValue(),
             "ingredients" to ingredients.asJsonValue(),
             "vegan" to vegan.asJsonValue(),
             "description" to description.asJsonValue(),

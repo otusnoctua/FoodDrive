@@ -9,8 +9,7 @@ import ru.ac.uniyar.models.ShowListOfDishesVM
 import ru.ac.uniyar.models.ShowListOfRestaurantsVM
 import ru.ac.uniyar.models.template.ContextAwareViewRender
 import ru.ac.uniyar.queries.DishQueries
-import ru.ac.uniyar.queries.ListOfRestaurantsQuery
-import ru.ac.uniyar.queries.RestaurantQuery
+import ru.ac.uniyar.queries.RestaurantQueries
 import java.util.*
 
 class PingHandler(): HttpHandler {
@@ -26,20 +25,20 @@ class RedirectToRestaurants(): HttpHandler {
 
 fun showListOfRestaurants(
     permissionsLens: RequestContextLens<RolePermissions>,
-    listOfRestaurantsQuery: ListOfRestaurantsQuery,
+    restaurantQueries: RestaurantQueries,
     dishQueries: DishQueries,
     htmlView: ContextAwareViewRender,
 ): HttpHandler = {request ->
     val permissions = permissionsLens(request)
     if (!permissions.listRestaurants)
         Response(Status.UNAUTHORIZED)
-    val model = ShowListOfRestaurantsVM(listOfRestaurantsQuery.invoke().map{RestaurantInfo(it, dishQueries.listOfDishes(it.id).map {it.restaurant_id}.contains(it.id))})
+    val model = ShowListOfRestaurantsVM(restaurantQueries.ListOfRestaurantsQuery().invoke().map{RestaurantInfo(it, dishQueries.ListOfDishes().invoke(it.id).map {it.restaurantId}.contains(it.id))})
     Response(Status.OK).with(htmlView(request) of model)
 }
 fun showListOfDishes(
     permissionsLens: RequestContextLens<RolePermissions>,
    dishQueries: DishQueries,
-    restaurantQuery: RestaurantQuery,
+    restaurantQueries: RestaurantQueries,
     htmlView: ContextAwareViewRender,
 ): HttpHandler = handler@ {request ->
     val permissions = permissionsLens(request)
@@ -47,7 +46,7 @@ fun showListOfDishes(
         Response(Status.UNAUTHORIZED)
     val restaurantIdString = request.path("restaurant").orEmpty()
     val id = UUID.fromString(restaurantIdString) ?: return@handler Response(Status.BAD_REQUEST)
-    val restaurant = restaurantQuery.invoke(id) ?: return@handler Response(Status.BAD_REQUEST)
-    val model = ShowListOfDishesVM(dishQueries.listOfDishes(restaurant.id), restaurant)
+    val restaurant = restaurantQueries.FetchRestaurantViaId().invoke(id) ?: return@handler Response(Status.BAD_REQUEST)
+    val model = ShowListOfDishesVM(dishQueries.ListOfDishes().invoke(restaurant.id), restaurant)
     Response(Status.OK).with(htmlView(request) of model)
 }

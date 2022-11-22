@@ -17,14 +17,14 @@ class HttpHandlerHolder(
     val redirectToRestaurants = RedirectToRestaurants()
     val showListOfRestaurants = showListOfRestaurants(
         permissionLens,
-        storeHolder.listOfRestaurantsQuery,
+        storeHolder.restaurantQueries,
         storeHolder.dishQueries,
         htmlView
     )
     val showListOfDishes = showListOfDishes(
         permissionLens,
         storeHolder.dishQueries,
-        storeHolder.restaurantQuery,
+        storeHolder.restaurantQueries,
         htmlView
     )
     val showUserForm = ShowUserForm(
@@ -43,43 +43,40 @@ class HttpHandlerHolder(
         htmlView)
     val addRestaurant = addRestaurant(
         permissionLens,
-        storeHolder.addRestaurantQuery,
+        storeHolder.restaurantQueries,
         htmlView)
     val deleteRestaurant = deleteRestaurant(
         permissionLens,
-        storeHolder.restaurantQuery,
-        storeHolder.deleteRestaurantQuery,
+        storeHolder.restaurantQueries,
         storeHolder.dishQueries)
     val editRestaurant = editRestaurant(
         permissionLens,
-        storeHolder.restaurantQuery,
-        storeHolder.editRestaurantQuery,
+        storeHolder.restaurantQueries,
         htmlView)
     val showEditRestaurantForm = showEditRestaurantForm(
         permissionLens,
         htmlView)
     val addDish = addDish(
         permissionLens,
-        storeHolder.restaurantQuery,
-        storeHolder.addDishQuery,
+        storeHolder.restaurantQueries,
+        storeHolder.dishQueries,
         htmlView)
     val deleteDish = deleteDish(
         permissionLens,
         storeHolder.dishQueries,
-        storeHolder.deleteDishQuery)
+    )
     val editDish = editDish(
         permissionLens,
         storeHolder.dishQueries,
-        storeHolder.restaurantQuery,
-        storeHolder.editDishQuery,
+        storeHolder.restaurantQueries,
         htmlView)
     val showEditDishForm = showEditDishForm(
         permissionLens,
-        storeHolder.restaurantQuery,
+        storeHolder.restaurantQueries,
         htmlView)
     val showDishForm = showDishForm(
         permissionLens,
-        storeHolder.restaurantQuery,
+        storeHolder.restaurantQueries,
         htmlView)
     val showBasket = showBasket(
         permissionLens,
@@ -91,7 +88,7 @@ class HttpHandlerHolder(
         htmlView,
         storeHolder.orderQueries,
         storeHolder.dishQueries,
-        storeHolder.restaurantQuery,
+        storeHolder.restaurantQueries,
     )
     val showOrder = showOrder(
         permissionLens,
@@ -116,7 +113,7 @@ class HttpHandlerHolder(
     val showReviewList = showReviewList(
         permissionLens,
         storeHolder.reviewQueries,
-        storeHolder.restaurantQuery,
+        storeHolder.restaurantQueries,
         htmlView
     )
     val showReviewForm = showReviewForm(
@@ -128,7 +125,7 @@ class HttpHandlerHolder(
     val addReviewToList = addReviewToList(
         permissionLens,
         storeHolder.reviewQueries,
-        storeHolder.restaurantQuery,
+        storeHolder.restaurantQueries,
         htmlView
     )
 }

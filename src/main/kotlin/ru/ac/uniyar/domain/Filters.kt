@@ -32,7 +32,7 @@ fun authorizationFilter(
     {
         request: Request ->
         val permissions = currentUser(request)?.let {
-            fetchPermissionsViaIdQuery(it.role_id)
+            fetchPermissionsViaIdQuery(it.roleId)
         } ?: RolePermissions.ANONYMOUS_ROLE
         val authorizedRequest = request.with( permissionsLens of permissions)
         next(authorizedRequest)

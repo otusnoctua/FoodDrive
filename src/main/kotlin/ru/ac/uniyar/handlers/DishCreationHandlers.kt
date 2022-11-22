@@ -7,15 +7,12 @@ import ru.ac.uniyar.domain.RolePermissions
 import ru.ac.uniyar.models.ShowDishFormVM
 import ru.ac.uniyar.models.ShowEditDishFormVM
 import ru.ac.uniyar.models.template.ContextAwareViewRender
-import ru.ac.uniyar.queries.AddDishQuery
-import ru.ac.uniyar.queries.DishQuery
-import ru.ac.uniyar.queries.EditDishQuery
-import ru.ac.uniyar.queries.RestaurantQuery
+import ru.ac.uniyar.queries.*
 import java.util.*
 
 fun showDishForm(
     permissionLens: RequestContextLens<RolePermissions>,
-    restaurantQuery: RestaurantQuery,
+    restaurantQueries: RestaurantQueries,
     htmlView: ContextAwareViewRender,
 ): HttpHandler = handler@ { request ->
     val permissions = permissionLens(request)
@@ -23,7 +20,7 @@ fun showDishForm(
         Response (Status.UNAUTHORIZED)
     val idString = request.path("restaurant").orEmpty()
     val id = UUID.fromString(idString) ?: return@handler Response(Status.BAD_REQUEST)
-    val restaurant = restaurantQuery.invoke(id) ?: return@handler Response(Status.BAD_REQUEST)
+    val restaurant = restaurantQueries.FetchRestaurantViaId().invoke(id) ?: return@handler Response(Status.BAD_REQUEST)
     Response(Status.OK).with(htmlView(request) of ShowDishFormVM(restaurant = restaurant))
 }
 
@@ -37,18 +34,18 @@ val BodyDishFormLens = Body.webForm(
 
 fun addDish(//сделать классом как в авторизации
     permissionLens: RequestContextLens<RolePermissions>,
-    restaurantQuery: RestaurantQuery,
-    addDishQuery: AddDishQuery,
+    restaurantQueries: RestaurantQueries,
+    dishQueries: DishQueries,
     htmlView: ContextAwareViewRender,
 ): HttpHandler = handler@ { request ->
     val permissions = permissionLens(request)
     if (!permissions.createDish)
         Response (Status.UNAUTHORIZED)
     val id = UUID.fromString(request.path("restaurant").orEmpty()) ?: return@handler Response(Status.BAD_REQUEST)//<--пример
-    val restaurant = restaurantQuery.invoke(id) ?: return@handler Response(Status.BAD_REQUEST)
+    val restaurant = restaurantQueries.FetchRestaurantViaId().invoke(id) ?: return@handler Response(Status.BAD_REQUEST)
     val webForm = BodyDishFormLens(request)
     if (webForm.errors.isEmpty()) {
-        addDishQuery.invoke(restaurant, dishNameFormLens(webForm), ingredientsFormLens(webForm), veganFormLens(webForm), descriptionFormLens(webForm))
+        dishQueries.AddDishQuery().invoke(restaurant, dishNameFormLens(webForm), ingredientsFormLens(webForm), veganFormLens(webForm), descriptionFormLens(webForm))
         Response(Status.FOUND).header("Location", "/${restaurant.id}/ListOfDishes")//<--пример
     } else {
         Response(Status.OK).with(htmlView(request) of ShowDishFormVM(webForm, restaurant))
@@ -57,23 +54,22 @@ fun addDish(//сделать классом как в авторизации
 
 fun editDish(
     permissionLens: RequestContextLens<RolePermissions>,
-    dishQuery: DishQuery,
-    restaurantQuery: RestaurantQuery,
-    editDishQuery: EditDishQuery,
+    dishQueries: DishQueries,
+    restaurantQueries: RestaurantQueries,
     htmlView: ContextAwareViewRender,
 ): HttpHandler = handler@ { request ->
     val idString = request.path("restaurant").orEmpty()
     val dishIdString = request.path("dish").orEmpty()
     val dishId = UUID.fromString(dishIdString) ?: return@handler Response(Status.BAD_REQUEST)
-    val dish = dishQuery.fetchDishViaId(dishId) ?: return@handler Response(Status.BAD_REQUEST)
+    val dish = dishQueries.FetchDishViaId().invoke(dishId) ?: return@handler Response(Status.BAD_REQUEST)
     val id = UUID.fromString(idString) ?: return@handler Response(Status.BAD_REQUEST)
-    val restaurant = restaurantQuery.invoke(id) ?: return@handler Response(Status.BAD_REQUEST)
+    val restaurant = restaurantQueries.FetchRestaurantViaId().invoke(id) ?: return@handler Response(Status.BAD_REQUEST)
     val permissions = permissionLens(request)
     if (!permissions.editDish)
         Response (Status.UNAUTHORIZED)
     val webForm = BodyDishFormLens(request)
     if (webForm.errors.isEmpty()) {
-        editDishQuery.invoke(dishNameFormLens(webForm), dish)
+        dishQueries.EditDishQuery().invoke(dishNameFormLens(webForm), dish)
         Response(Status.FOUND).header("Location", "/"+idString+"/ListOfDishes")
     } else {
         Response(Status.OK).with(htmlView(request) of ShowEditDishFormVM(webForm,restaurant))
@@ -82,7 +78,7 @@ fun editDish(
 
 fun showEditDishForm(
     permissionLens: RequestContextLens<RolePermissions>,
-    restaurantQuery: RestaurantQuery,
+    restaurantQueries: RestaurantQueries,
     htmlView: ContextAwareViewRender,
 ): HttpHandler = handler@ { request ->
     val permissions = permissionLens(request)
@@ -90,6 +86,6 @@ fun showEditDishForm(
         Response (Status.UNAUTHORIZED)
     val idString = request.path("restaurant").orEmpty()
     val id = UUID.fromString(idString) ?: return@handler Response(Status.BAD_REQUEST)
-    val restaurant = restaurantQuery.invoke(id) ?: return@handler Response(Status.BAD_REQUEST)
+    val restaurant = restaurantQueries.FetchRestaurantViaId().invoke(id) ?: return@handler Response(Status.BAD_REQUEST)
     Response(Status.OK).with(htmlView(request) of ShowEditDishFormVM(restaurant = restaurant))
 }

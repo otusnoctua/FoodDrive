@@ -86,14 +86,14 @@
   } ],
   "dish" : [ {
     "id" : "b129984d-db73-417b-bc8f-facbd63eba68",
-    "restaurant_id" : "06badb58-9b86-4485-84a5-6caf91661b4b",
+    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
     "ingredients" : "Булка, курица и т.д.",
     "vegan" : false,
     "description" : "Вкусно",
     "nameDish" : "Шефбургер"
   }, {
     "id" : "1a9fb169-0666-4fe0-ae4d-8099ee3f851a",
-    "restaurant_id" : "06badb58-9b86-4485-84a5-6caf91661b4b",
+    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
     "ingredients" : "1123",
     "vegan" : true,
     "description" : "213",
@@ -114,51 +114,51 @@
   } ],
   "order" : [ {
     "id" : "0cc4db3e-7366-4039-9ba0-06a14e972a37",
-    "client_id" : "a53f3b97-1dd2-4d67-9526-340b6dbb208a",
-    "restaurant_id" : "06badb58-9b86-4485-84a5-6caf91661b4b",
+    "clientId" : "a53f3b97-1dd2-4d67-9526-340b6dbb208a",
+    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
     "status" : "В обработке",
     "timestamp" : "2022-11-11T22:01:54.6158677",
     "dishes" : [ "Салат", "Шефбургер", "Шефбургер", "Салат" ]
   }, {
     "id" : "a48efe00-6f7c-4be6-8808-363e3d8b784b",
-    "client_id" : "a53f3b97-1dd2-4d67-9526-340b6dbb208a",
-    "restaurant_id" : "06badb58-9b86-4485-84a5-6caf91661b4b",
+    "clientId" : "a53f3b97-1dd2-4d67-9526-340b6dbb208a",
+    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
     "status" : "В ожидании",
     "timestamp" : "2022-11-11T22:03:39.2662139",
     "dishes" : [ "Шефбургер", "Шефбургер" ]
   }, {
     "id" : "bfe7e9d5-23e8-4bf0-a268-f5baa1b9ce0d",
-    "client_id" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9",
-    "restaurant_id" : "06badb58-9b86-4485-84a5-6caf91661b4b",
+    "clientId" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9",
+    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
     "status" : "В обработке",
     "timestamp" : "2022-11-12T13:30:38.9917814",
     "dishes" : [ "Шефбургер", "Шефбургер", "Шефбургер", "Салат" ]
   }, {
     "id" : "3502fd6b-a967-4728-a0e6-3d93ddc179f6",
-    "client_id" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9",
-    "restaurant_id" : "06badb58-9b86-4485-84a5-6caf91661b4b",
+    "clientId" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9",
+    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
     "status" : "В ожидании",
     "timestamp" : "2022-11-12T13:31:00.7359844",
     "dishes" : [ "Салат", "Салат" ]
   } ],
   "review" : [ {
     "id" : "1e4442e6-cef6-4be7-b40d-3ada1e743b05",
-    "user_id" : "a53f3b97-1dd2-4d67-9526-340b6dbb208a",
-    "restaurant_id" : "06badb58-9b86-4485-84a5-6caf91661b4b",
+    "userId" : "a53f3b97-1dd2-4d67-9526-340b6dbb208a",
+    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
     "text" : " Муж купает ребёнка, кричит из ванной:\r\n — Кать, он ест пену! Через пару минут:..\r\n — Кать, она реально вкусная! ",
     "rating" : "5",
     "timestamp" : "2022-11-11T22:21:45.6091551"
   }, {
     "id" : "de65365e-ef51-4c1d-9e9c-15f825950884",
-    "user_id" : "a53f3b97-1dd2-4d67-9526-340b6dbb208a",
-    "restaurant_id" : "06badb58-9b86-4485-84a5-6caf91661b4b",
+    "userId" : "a53f3b97-1dd2-4d67-9526-340b6dbb208a",
+    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
     "text" : " Тестовый отзыв ",
     "rating" : "3",
     "timestamp" : "2022-11-11T22:31:36.5015981"
   }, {
     "id" : "0f16e679-9b29-4aba-beee-4d78c5f728dc",
-    "user_id" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9",
-    "restaurant_id" : "06badb58-9b86-4485-84a5-6caf91661b4b",
+    "userId" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9",
+    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
     "text" : " 1111",
     "rating" : "1",
     "timestamp" : "2022-11-12T13:31:17.2017213"
@@ -169,6 +169,6 @@
     "phone" : "89108236375",
     "email" : "oreshnikov@mail.ru",
     "password" : "d093867118da21af4af2ee88198d85f7b1fb2ddf25bcb227c3f0baac31808e6714a9453a22166b2c11f2d88639f3765cb8833dc106cd15e5ac2d80fe69039662",
-    "role_id" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9"
+    "roleId" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9"
   } ]
 }

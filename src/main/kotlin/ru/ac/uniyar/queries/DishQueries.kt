@@ -1,29 +1,55 @@
 package ru.ac.uniyar.queries
 
-import ru.ac.uniyar.domain.Dish
-import ru.ac.uniyar.domain.DishRepository
+import ru.ac.uniyar.domain.*
 
 import java.util.*
 
-
-interface DishQuery {
-    fun fetchDishViaId(id: UUID): Dish
-    fun fetchNameDishViaId(id: UUID): String
-    fun listOfDishes(id: UUID):List<Dish>
-}
-
 class DishQueries(
-    private val dishRepository: DishRepository
-):DishQuery {
-    override fun fetchDishViaId(id: UUID): Dish {
-        return dishRepository.fetch(id)!!
+    private val dishRepository: DishRepository,
+    private val store: Store
+) {
+    inner class FetchDishViaId{
+        operator fun invoke(id:UUID):Dish?{
+            return dishRepository.fetch(id)
+        }
     }
-
-    override fun fetchNameDishViaId(id: UUID): String {
-        return dishRepository.fetch(id)!!.nameDish
+    inner class FetchNameDishViaId{
+        operator fun invoke(id: UUID): String {
+            return dishRepository.fetch(id)?.nameDish ?: ""
+        }
     }
+    inner class ListOfDishes {
+        operator fun invoke(id: UUID):List<Dish>{
+            return dishRepository.list().filter {it.restaurantId==id}
+        }
+    }
+    inner class AddDishQuery{
+        operator fun invoke(restaurant: Restaurant, nameDish: String, ingredients: String, vegan: Boolean, description: String ){
+            dishRepository.add(
+                Dish(
+                    EMPTY_UUID,
+                    restaurant.id,
+                    ingredients,
+                    vegan,
+                    description,
+                    nameDish
+                )
+            )
+            store.save()
+        }
+    }
+     inner class DeleteDishQuery{
 
-    override fun listOfDishes(id: UUID): List<Dish> {
-        return dishRepository.list().filter {it.restaurant_id==id}
+         operator fun invoke(dish: Dish) {
+             store.dishRepository.delete(dish)
+             store.save()
+         }
+     }
+
+    inner class EditDishQuery{
+        operator fun invoke(nameDish: String, dish: Dish) {
+            dishRepository.changeDishName(nameDish, dish)
+            store.save()
+        }
     }
 }

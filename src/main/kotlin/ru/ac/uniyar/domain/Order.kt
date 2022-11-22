@@ -10,8 +10,8 @@ import java.util.*
 
 data class Order(
     val id: UUID,
-    val client_id: UUID,
-    val restaurant_id:UUID,
+    val clientId: UUID,
+    val restaurantId:UUID,
     val status: String,
     val timestamp:LocalDateTime,
     val dishes: List<String>,
@@ -21,8 +21,8 @@ data class Order(
             val jsonObject = node.asJsonObject()
             return Order(
                 UUID.fromString(jsonObject["id"].asText()),
-                UUID.fromString(jsonObject["client_id"].asText()),
-                UUID.fromString(jsonObject["restaurant_id"].asText()),
+                UUID.fromString(jsonObject["clientId"].asText()),
+                UUID.fromString(jsonObject["restaurantId"].asText()),
                 jsonObject["status"].asText(),
                 LocalDateTime.parse(jsonObject["timestamp"].asText(), DateTimeFormatter.ISO_LOCAL_DATE_TIME),
                 jsonObject["dishes"].asJsonArray().map { it.asText() },
@@ -33,8 +33,8 @@ data class Order(
     fun asJsonObject(): JsonNode {
         return listOf(
             "id" to id.toString().asJsonValue(),
-            "client_id" to client_id.toString().asJsonValue(),
-            "restaurant_id" to restaurant_id.toString().asJsonValue(),
+            "clientId" to clientId.toString().asJsonValue(),
+            "restaurantId" to restaurantId.toString().asJsonValue(),
             "status" to status.asJsonValue(),
             "timestamp" to timestamp.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).asJsonValue(),
             "dishes" to dishes.asJsonObject(),
