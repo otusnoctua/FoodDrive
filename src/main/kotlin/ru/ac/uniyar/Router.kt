@@ -5,10 +5,6 @@ import org.http4k.core.Method
 import org.http4k.routing.RoutingHttpHandler
 import org.http4k.routing.bind
 import org.http4k.routing.routes
-import ru.ac.uniyar.handlers.deleteOrder
-import ru.ac.uniyar.handlers.editRestaurant
-import ru.ac.uniyar.handlers.editStatusByUser
-import ru.ac.uniyar.handlers.showEditRestaurantForm
 
 @Suppress("LongParameterList")
 class Router (
