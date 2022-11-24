@@ -4,11 +4,15 @@ import com.fasterxml.jackson.databind.JsonNode
 import org.http4k.format.Jackson
 import org.http4k.format.Jackson.asJsonObject
 import org.http4k.format.Jackson.asPrettyJsonString
+import org.ktorm.database.Database
 import java.nio.file.Path
 import kotlin.concurrent.thread
 import kotlin.io.path.isReadable
 
-class Store(private val documentStoragePath: Path) {
+class Store(
+    private val documentStoragePath: Path,
+    database: Database
+    ) {
     val storeThread = thread(start = false, name = "Store file save") {
         save()
     }
@@ -27,11 +31,7 @@ class Store(private val documentStoragePath: Path) {
             Jackson.parse(jsonDocument)
         } else null
 
-        rolePermissionsRepository = if (node != null && node.has("rolePermissions")) {
-            RolePermissionsRepository.fromJson(node["rolePermissions"])
-        } else {
-            RolePermissionsRepository()
-        }
+        rolePermissionsRepository = RolePermissionsRepository(database)
 
         dishRepository = if (node != null && node.has("dish")) {
             DishRepository.fromJson(node["dish"])
@@ -39,11 +39,8 @@ class Store(private val documentStoragePath: Path) {
             DishRepository()
         }
 
-        restaurantRepository = if (node != null && node.has("restaurant")) {
-            RestaurantRepository.fromJson(node["restaurant"])
-        } else {
-            RestaurantRepository()
-        }
+        restaurantRepository = RestaurantRepository(database)
+
         orderRepository = if (node != null && node.has("order")) {
             OrderRepository.fromJson(node["order"])
         } else {

@@ -53,9 +53,8 @@ class ShowListOfDishes(
         val permissions = permissionsLens(request)
         if (!permissions.listDishes)
             return Response(Status.UNAUTHORIZED)
-        val id = UUID.fromString(request.path("restaurant").orEmpty()) ?: return Response(Status.BAD_REQUEST)
-        val restaurant =
-            restaurantQueries.FetchRestaurantViaId().invoke(id) ?: return Response(Status.BAD_REQUEST)
+        val id = request.path("restaurant")!!.toInt()
+        val restaurant = restaurantQueries.FetchRestaurantViaId().invoke(id)
         val model = ShowListOfDishesVM(dishQueries.ListOfDishes().invoke(restaurant.id), restaurant)
         return Response(Status.OK).with(htmlView(request) of model)
     }

@@ -11,10 +11,10 @@ import java.util.*
 data class Order(
     val id: UUID,
     val clientId: UUID,
-    val restaurantId:UUID,
+    val restaurantId: Int,
     val status: String,
     val timestamp:LocalDateTime,
-    val dishes: List<String>,
+    val dishes: List<UUID>,
 ){
     companion object{
         fun fromJson(node: JsonNode): Order {
@@ -22,10 +22,10 @@ data class Order(
             return Order(
                 UUID.fromString(jsonObject["id"].asText()),
                 UUID.fromString(jsonObject["clientId"].asText()),
-                UUID.fromString(jsonObject["restaurantId"].asText()),
+                jsonObject["restaurantId"].asInt(),
                 jsonObject["status"].asText(),
                 LocalDateTime.parse(jsonObject["timestamp"].asText(), DateTimeFormatter.ISO_LOCAL_DATE_TIME),
-                jsonObject["dishes"].asJsonArray().map { it.asText() },
+                jsonObject["dishes"].asJsonArray().map { UUID.fromString(it.asText()) },
 
                 )
         }
@@ -46,7 +46,7 @@ data class Order(
     }
     fun addElementToDishes(nameDish: String):Order{
         val mas= this.dishes.toMutableList()
-        mas.add(nameDish)
+        mas.add(UUID.fromString(nameDish))
         return this.copy(dishes = mas)
     }
     fun deleteElementFromDishes(index:Int):Order{

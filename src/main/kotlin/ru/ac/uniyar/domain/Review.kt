@@ -10,7 +10,7 @@ import java.util.*
 data class Review(
     val id: UUID,
     val userId: UUID,
-    val restaurantId: UUID,
+    val restaurantId: Int,
     val text: String,
     val rating: Int,
     val timestamp: LocalDateTime,
@@ -21,7 +21,7 @@ data class Review(
             return Review(
                 UUID.fromString(jsonObject["id"].asText()),
                 UUID.fromString(jsonObject["userId"].asText()),
-                UUID.fromString(jsonObject["restaurantId"].asText()),
+                jsonObject["restaurantId"].asInt(),
                 jsonObject["text"].asText(),
                 jsonObject["rating"].asInt(),
                 LocalDateTime.parse(jsonObject["timestamp"].asText(), DateTimeFormatter.ISO_LOCAL_DATE_TIME),

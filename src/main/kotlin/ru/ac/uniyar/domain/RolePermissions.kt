@@ -3,10 +3,9 @@ package ru.ac.uniyar.domain
 import com.fasterxml.jackson.databind.JsonNode
 import org.http4k.format.Jackson.asJsonObject
 import org.http4k.format.Jackson.asJsonValue
-import java.util.*
 
 data class RolePermissions(
-    val id: UUID,
+    val id: Int,
     val name: String,
     //Списки
     val listOrders: Boolean,
@@ -44,7 +43,7 @@ data class RolePermissions(
         fun fromJson(jsonNode: JsonNode): RolePermissions {
             val jsonObject = jsonNode.asJsonObject()
             return RolePermissions(
-                UUID.fromString(jsonObject["id"].asText()),
+                jsonObject["id"].asInt(),
                 jsonObject["name"].asText(),
                 //---------------------------------------
                 jsonObject["listOrders"].asBoolean(),
@@ -82,7 +81,7 @@ data class RolePermissions(
         }
 
         val ANONYMOUS_ROLE = RolePermissions(
-            id = UUID.fromString("a53f3b97-1dd2-4d67-9526-340b6dbb208a"),
+            id = 0,
             name = "Гость",
             //----------------------------------------
             listOrders = true,
@@ -156,7 +155,4 @@ data class RolePermissions(
 
     ).asJsonObject()
 
-    fun setUuid(uuid: UUID): RolePermissions {
-        return this.copy(id = uuid)
-    }
 }

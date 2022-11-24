@@ -19,7 +19,7 @@ class ShowDishForm(
         val permissions = permissionLens(request)
         if (!permissions.createDish)
             return Response(Status.UNAUTHORIZED)
-        val id = UUID.fromString(request.path("restaurant").orEmpty()) ?: return Response(Status.BAD_REQUEST)
+        val id = request.path("restaurant")!!.toInt()
         val restaurant =
             restaurantQueries.FetchRestaurantViaId().invoke(id) ?: return Response(Status.BAD_REQUEST)
         return Response(Status.OK).with(htmlView(request) of ShowDishFormVM(restaurant = restaurant))
@@ -46,7 +46,7 @@ class AddDish(
         val permissions = permissionLens(request)
         if (!permissions.createDish)
             Response(Status.UNAUTHORIZED)
-        val id = UUID.fromString(request.path("restaurant").orEmpty()) ?: return Response(Status.BAD_REQUEST)
+        val id = request.path("restaurant")!!.toInt()
         val restaurant = restaurantQueries.FetchRestaurantViaId().invoke(id) ?: return Response(Status.BAD_REQUEST)
         val webForm = BodyDishFormLens(request)
         if (webForm.errors.isEmpty()) {
@@ -82,7 +82,7 @@ class EditDish(
     override fun invoke(request: Request): Response {
         val dishId = UUID.fromString(request.path("dish").orEmpty()) ?: return Response(Status.BAD_REQUEST)
         val dish = dishQueries.FetchDishViaId().invoke(dishId) ?: return Response(Status.BAD_REQUEST)
-        val id = UUID.fromString(request.path("restaurant").orEmpty()) ?: return Response(Status.BAD_REQUEST)
+        val id = request.path("restaurant")!!.toInt()
         val restaurant = restaurantQueries.FetchRestaurantViaId().invoke(id) ?: return Response(Status.BAD_REQUEST)
         val permissions = permissionLens(request)
         if (!permissions.editDish)
@@ -106,7 +106,7 @@ class ShowEditDishForm(
         val permissions = permissionLens(request)
         if (!permissions.editDish)
             return Response(Status.UNAUTHORIZED)
-        val id = UUID.fromString(request.path("restaurant").orEmpty()) ?: return Response(Status.BAD_REQUEST)
+        val id = request.path("restaurant")!!.toInt()
         val restaurant =
             restaurantQueries.FetchRestaurantViaId().invoke(id) ?: return Response(Status.BAD_REQUEST)
         return Response(Status.OK).with(htmlView(request) of ShowEditDishFormVM(restaurant = restaurant))

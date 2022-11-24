@@ -6,6 +6,7 @@ import org.http4k.routing.path
 import ru.ac.uniyar.domain.EMPTY_UUID
 import ru.ac.uniyar.domain.Review
 import ru.ac.uniyar.domain.RolePermissions
+import ru.ac.uniyar.domain.User
 import ru.ac.uniyar.models.ShowListOfReviewsVM
 import ru.ac.uniyar.models.ShowReviewFormVM
 import ru.ac.uniyar.models.template.ContextAwareViewRender
@@ -22,13 +23,13 @@ class ShowReviewList(
     private val htmlView: ContextAwareViewRender,
     ):HttpHandler {
     override fun invoke(request: Request): Response {
-        val id = UUID.fromString(request.path("restaurant").orEmpty()) ?: return Response(Status.BAD_REQUEST)
+        val id = request.path("restaurant")!!.toInt()
         val restaurant =
-            restaurantQueries.FetchRestaurantViaId().invoke(id) ?: return Response(Status.BAD_REQUEST)
+            restaurantQueries.FetchRestaurantViaId().invoke(id)
         val permissions = permissionsLens(request)
         if (!permissions.listReviews)
             return Response(Status.UNAUTHORIZED)
-        val reviews = reviewQueries.ListOfReviews().invoke().filter { it.restaurantId == restaurant.id }
+        val reviews = reviewQueries.ListOfReviews().invoke().filter { it.restaurantId.toInt() == restaurant.id }
         return Response(Status.OK).with(
             htmlView(request) of ShowListOfReviewsVM(reviews, restaurant)
         )
@@ -55,6 +56,7 @@ class ShowReviewForm(
 }
 
 class AddReviewToList(
+    private val curUserLens: RequestContextLens<User?>,
     private val permissionsLens: RequestContextLens<RolePermissions>,
     private val reviewQueries: ReviewQueries,
     private val restaurantQueries: RestaurantQueries,
@@ -62,13 +64,12 @@ class AddReviewToList(
 ):HttpHandler {
     override fun invoke(request: Request): Response {
         val permissions = permissionsLens(request)
-        if (!permissions.createReview)
+        val curUser = curUserLens(request)
+        if (!permissions.createReview || curUser == null)
             return Response(Status.UNAUTHORIZED)
-        val userId = permissions.id
-        val restaurantId =
-            UUID.fromString(request.path("restaurant").orEmpty()) ?: return Response(Status.BAD_REQUEST)
-        val restaurant =
-            restaurantQueries.FetchRestaurantViaId().invoke(restaurantId) ?: return Response(Status.BAD_REQUEST)
+        val userId = curUser.id
+        val restaurantId = request.path("restaurant")!!.toInt()
+        val restaurant = restaurantQueries.FetchRestaurantViaId().invoke(restaurantId)
         val webForm = BodyReviewFormLens(request)
         if (webForm.errors.isEmpty()) {
             val review = Review(

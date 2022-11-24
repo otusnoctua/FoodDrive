@@ -60,9 +60,9 @@ class EditRestaurant(
         ).toLens()
     }
     override fun invoke(request: Request): Response {
-        val id = UUID.fromString(request.path("restaurant").orEmpty()) ?: return Response(Status.BAD_REQUEST)
+        val id = request.path("restaurant")!!.toInt()
         val restaurant =
-            restaurantQueries.FetchRestaurantViaId().invoke(id) ?: return Response(Status.BAD_REQUEST)
+            restaurantQueries.FetchRestaurantViaId().invoke(id)
         val permissions = permissionLens(request)
         if (!permissions.editRestaurant)
             return Response(Status.UNAUTHORIZED)

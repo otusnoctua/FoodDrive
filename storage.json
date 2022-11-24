@@ -1,174 +1,106 @@
 {
-  "rolePermissions" : [ {
-    "id" : "26b9e5e7-1c8a-40e5-aece-2345f6b8afd9",
-    "name" : "Заказчик",
-    "listOrders" : false,
-    "listUsers" : false,
-    "listRestaurants" : true,
-    "listDishes" : true,
-    "listReviews" : true,
-    "createOrder" : true,
-    "createUser" : false,
-    "createRestaurant" : false,
-    "createDish" : false,
-    "createReview" : true,
-    "viewOrder" : true,
-    "viewUser" : true,
-    "viewRestaurant" : true,
-    "viewDish" : true,
-    "viewReview" : true,
-    "editOrder" : true,
-    "editUser" : true,
-    "editRestaurant" : false,
-    "editDish" : false,
-    "editReview" : true,
-    "deleteOrder" : false,
-    "deleteUser" : false,
-    "deleteRestaurant" : false,
-    "deleteDish" : false,
-    "deleteReview" : false
-  }, {
-    "id" : "ca3c1157-29d4-4de4-b258-7011c3e7a426",
-    "name" : "Оператор",
-    "listOrders" : true,
-    "listUsers" : true,
-    "listRestaurants" : true,
-    "listDishes" : true,
-    "listReviews" : true,
-    "createOrder" : false,
-    "createUser" : false,
-    "createRestaurant" : false,
-    "createDish" : false,
-    "createReview" : false,
-    "viewOrder" : true,
-    "viewUser" : true,
-    "viewRestaurant" : true,
-    "viewDish" : true,
-    "viewReview" : true,
-    "editOrder" : false,
-    "editUser" : false,
-    "editRestaurant" : false,
-    "editDish" : false,
-    "editReview" : false,
-    "deleteOrder" : true,
-    "deleteUser" : false,
-    "deleteRestaurant" : false,
-    "deleteDish" : false,
-    "deleteReview" : false
-  }, {
-    "id" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9",
-    "name" : "Администратор",
-    "listOrders" : true,
-    "listUsers" : true,
-    "listRestaurants" : true,
-    "listDishes" : true,
-    "listReviews" : true,
-    "createOrder" : true,
-    "createUser" : true,
-    "createRestaurant" : true,
-    "createDish" : true,
-    "createReview" : true,
-    "viewOrder" : true,
-    "viewUser" : true,
-    "viewRestaurant" : true,
-    "viewDish" : true,
-    "viewReview" : true,
-    "editOrder" : true,
-    "editUser" : true,
-    "editRestaurant" : true,
-    "editDish" : true,
-    "editReview" : true,
-    "deleteOrder" : true,
-    "deleteUser" : true,
-    "deleteRestaurant" : true,
-    "deleteDish" : true,
-    "deleteReview" : true
-  } ],
+  "rolePermissions" : { },
   "dish" : [ {
     "id" : "b129984d-db73-417b-bc8f-facbd63eba68",
-    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
+    "restaurantId" : "1",
     "ingredients" : "Булка, курица и т.д.",
     "vegan" : false,
     "description" : "Вкусно",
     "nameDish" : "Шефбургер"
   }, {
     "id" : "1a9fb169-0666-4fe0-ae4d-8099ee3f851a",
-    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
+    "restaurantId" : "1",
     "ingredients" : "1123",
     "vegan" : true,
     "description" : "213",
     "nameDish" : "Салат"
+  }, {
+    "id" : "843b4508-eadb-4cff-a8d7-67062e93d069",
+    "restaurantId" : "3",
+    "ingredients" : "Хлеб",
+    "vegan" : true,
+    "description" : "Вкусно",
+    "nameDish" : "Блюдо"
+  }, {
+    "id" : "770d34ef-6081-4be5-b1a1-21c7d38c7b54",
+    "restaurantId" : "19",
+    "ingredients" : "jhkjhj",
+    "vegan" : false,
+    "description" : "nbmnb",
+    "nameDish" : "Блюдо"
   } ],
-  "restaurant" : [ {
-    "id" : "06badb58-9b86-4485-84a5-6caf91661b4b",
-    "nameRestaurant" : "KFC"
-  }, {
-    "id" : "c5a5a16b-7cbc-41ed-823b-dbe05ad0e943",
-    "nameRestaurant" : "Вкусно и точка"
-  }, {
-    "id" : "9f72fe8c-28a2-4793-ac7d-1deb71e48e6d",
-    "nameRestaurant" : "Burger King"
-  }, {
-    "id" : "65d117a4-72d8-4a3f-92c3-94d05f86a9dc",
-    "nameRestaurant" : "Краснодарский парень"
-  } ],
+  "restaurant" : { },
   "order" : [ {
     "id" : "0cc4db3e-7366-4039-9ba0-06a14e972a37",
     "clientId" : "a53f3b97-1dd2-4d67-9526-340b6dbb208a",
-    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
+    "restaurantId" : "1",
     "status" : "В обработке",
     "timestamp" : "2022-11-11T22:01:54.6158677",
-    "dishes" : [ "Салат", "Шефбургер", "Шефбургер", "Салат" ]
+    "dishes" : [ ]
   }, {
     "id" : "a48efe00-6f7c-4be6-8808-363e3d8b784b",
     "clientId" : "a53f3b97-1dd2-4d67-9526-340b6dbb208a",
-    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
+    "restaurantId" : "2",
     "status" : "В ожидании",
     "timestamp" : "2022-11-11T22:03:39.2662139",
-    "dishes" : [ "Шефбургер", "Шефбургер" ]
-  }, {
-    "id" : "bfe7e9d5-23e8-4bf0-a268-f5baa1b9ce0d",
-    "clientId" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9",
-    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
-    "status" : "В обработке",
-    "timestamp" : "2022-11-12T13:30:38.9917814",
-    "dishes" : [ "Шефбургер", "Шефбургер", "Шефбургер", "Салат" ]
+    "dishes" : [ ]
   }, {
     "id" : "3502fd6b-a967-4728-a0e6-3d93ddc179f6",
     "clientId" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9",
-    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
+    "restaurantId" : "3",
     "status" : "В ожидании",
     "timestamp" : "2022-11-12T13:31:00.7359844",
-    "dishes" : [ "Салат", "Салат" ]
+    "dishes" : [ "843b4508-eadb-4cff-a8d7-67062e93d069", "843b4508-eadb-4cff-a8d7-67062e93d069", "843b4508-eadb-4cff-a8d7-67062e93d069", "843b4508-eadb-4cff-a8d7-67062e93d069", "843b4508-eadb-4cff-a8d7-67062e93d069", "843b4508-eadb-4cff-a8d7-67062e93d069" ]
+  }, {
+    "id" : "b1643c4d-330d-46bb-9345-0344ffed9023",
+    "clientId" : "a1f86cfa-e58f-446c-8aa3-a2a6ad68fa86",
+    "restaurantId" : "1",
+    "status" : "В ожидании",
+    "timestamp" : "2022-11-24T22:22:19.3111659",
+    "dishes" : [ "b129984d-db73-417b-bc8f-facbd63eba68" ]
   } ],
   "review" : [ {
     "id" : "1e4442e6-cef6-4be7-b40d-3ada1e743b05",
     "userId" : "a53f3b97-1dd2-4d67-9526-340b6dbb208a",
-    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
+    "restaurantId" : "1",
     "text" : " Муж купает ребёнка, кричит из ванной:\r\n — Кать, он ест пену! Через пару минут:..\r\n — Кать, она реально вкусная! ",
     "rating" : "5",
     "timestamp" : "2022-11-11T22:21:45.6091551"
   }, {
     "id" : "de65365e-ef51-4c1d-9e9c-15f825950884",
     "userId" : "a53f3b97-1dd2-4d67-9526-340b6dbb208a",
-    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
+    "restaurantId" : "1",
     "text" : " Тестовый отзыв ",
     "rating" : "3",
     "timestamp" : "2022-11-11T22:31:36.5015981"
   }, {
     "id" : "0f16e679-9b29-4aba-beee-4d78c5f728dc",
     "userId" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9",
-    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
+    "restaurantId" : "2",
     "text" : " 1111",
     "rating" : "1",
     "timestamp" : "2022-11-12T13:31:17.2017213"
+  }, {
+    "id" : "b5f934c9-963f-4527-9341-a5426abdbc2e",
+    "userId" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9",
+    "restaurantId" : "1",
+    "text" : " да",
+    "rating" : "5",
+    "timestamp" : "2022-11-24T19:00:44.3059079"
+  }, {
+    "id" : "10f25db7-d704-4441-bebd-2c620a630c0c",
+    "userId" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9",
+    "restaurantId" : "19",
+    "text" : " ytuyjtyj",
+    "rating" : "1",
+    "timestamp" : "2022-11-24T20:25:28.1858673"
   } ],
   "user" : [ {
-    "id" : "5416a740-4c8b-4491-9c3a-8593f4b27e9b",
+    "id" : "a1f86cfa-e58f-446c-8aa3-a2a6ad68fa86",
     "name" : "Евгений",
     "phone" : "89108236375",
     "email" : "oreshnikov@mail.ru",
     "password" : "d093867118da21af4af2ee88198d85f7b1fb2ddf25bcb227c3f0baac31808e6714a9453a22166b2c11f2d88639f3765cb8833dc106cd15e5ac2d80fe69039662",
-    "roleId" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9"
+    "roleId" : 3
   } ]
 }

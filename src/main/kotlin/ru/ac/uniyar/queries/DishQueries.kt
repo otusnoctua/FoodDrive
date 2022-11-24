@@ -9,7 +9,7 @@ class DishQueries(
     private val store: Store
 ) {
     inner class FetchDishViaId{
-        operator fun invoke(id:UUID):Dish?{
+        operator fun invoke(id: UUID):Dish?{
             return dishRepository.fetch(id)
         }
     }
@@ -19,7 +19,7 @@ class DishQueries(
         }
     }
     inner class ListOfDishes {
-        operator fun invoke(id: UUID):List<Dish>{
+        operator fun invoke(id: Int):List<Dish>{
             return dishRepository.list().filter {it.restaurantId==id}
         }
     }

@@ -7,7 +7,7 @@ import java.util.*
 
 data class Dish(
     val id: UUID,
-    val restaurantId : UUID,
+    val restaurantId : Int,
     val ingredients: String,
     val vegan: Boolean,
     val description: String,
@@ -19,7 +19,7 @@ data class Dish(
             val jsonObject = node.asJsonObject()
             return Dish(
                 UUID.fromString(jsonObject["id"].asText()),
-                UUID.fromString(jsonObject["restaurantId"].asText()),
+                jsonObject["restaurantId"].asInt(),
                 jsonObject["ingredients"].asText(),
                 jsonObject["vegan"].asBoolean(),
                 jsonObject["description"].asText(),

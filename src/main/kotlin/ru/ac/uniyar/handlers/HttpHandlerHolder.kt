@@ -4,15 +4,17 @@ import org.http4k.lens.RequestContextLens
 import ru.ac.uniyar.domain.JwtTools
 import ru.ac.uniyar.domain.RolePermissions
 import ru.ac.uniyar.domain.StoreHolder
+import ru.ac.uniyar.domain.User
 import ru.ac.uniyar.models.template.ContextAwareViewRender
 
 class HttpHandlerHolder(
     jwtTools: JwtTools,
+    curUserLens: RequestContextLens<User?>,
     permissionLens: RequestContextLens<RolePermissions>,
     htmlView: ContextAwareViewRender,
     storeHolder: StoreHolder,
 
-) {
+    ) {
     val pingHandler = PingHandler()
     val redirectToRestaurants = RedirectToRestaurants()
     val showListOfRestaurants = ShowListOfRestaurants(
@@ -79,11 +81,13 @@ class HttpHandlerHolder(
         storeHolder.restaurantQueries,
         htmlView)
     val showBasket = ShowBasket(
+        curUserLens,
         permissionLens,
         storeHolder.orderQueries,
         htmlView,
     )
     val addDishToOrder = AddDishToOrder(
+        curUserLens,
         permissionLens,
         htmlView,
         storeHolder.orderQueries,
@@ -96,16 +100,19 @@ class HttpHandlerHolder(
         htmlView,
     )
     val deleteOrder = DeleteOrder(
+        curUserLens,
         permissionLens,
         storeHolder.orderQueries,
         htmlView,
     )
     val deleteDishFromOrder = DeleteDishFromOrder(
+        curUserLens,
         permissionLens,
         storeHolder.orderQueries,
         htmlView,
     )
     val editStatusByUser = EditStatusByUser(
+        curUserLens,
         permissionLens,
         storeHolder.orderQueries,
         htmlView,
@@ -123,6 +130,7 @@ class HttpHandlerHolder(
     )
 
     val addReviewToList = AddReviewToList(
+        curUserLens,
         permissionLens,
         storeHolder.reviewQueries,
         storeHolder.restaurantQueries,

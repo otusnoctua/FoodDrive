@@ -1,13 +1,15 @@
 package ru.ac.uniyar.domain
 
+import org.ktorm.database.Database
 import ru.ac.uniyar.queries.*
 import java.nio.file.Path
 
 class StoreHolder(
     documentStorePath: Path,
     settingsPath: Path,
+    database: Database
 ) {
-    val store = Store(documentStorePath)
+    val store = Store(documentStorePath, database)
     val settings = Settings(settingsPath)
     val fetchUserViaUserId = FetchUserViaUserId(store.userRepository)
     val addUserQuery = AddUserQuery(store, settings, store.userRepository)

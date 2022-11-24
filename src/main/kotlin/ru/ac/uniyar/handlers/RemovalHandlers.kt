@@ -16,7 +16,7 @@ class DeleteRestaurant(
     private val dishQueries: DishQueries,
 ): HttpHandler {
     override fun invoke(request: Request): Response {
-        val restaurantId = UUID.fromString(request.path("restaurant").orEmpty()) ?: return Response(Status.BAD_REQUEST)
+        val restaurantId = request.path("restaurant")!!.toInt()
         val restaurant =
             restaurantQueries.FetchRestaurantViaId().invoke(restaurantId) ?: return Response(Status.BAD_REQUEST)
         val permissionsDelete = permissionLens(request)

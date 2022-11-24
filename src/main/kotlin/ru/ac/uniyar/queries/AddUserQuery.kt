@@ -11,7 +11,6 @@ class AddUserQuery (
 ) {
     operator fun invoke(name: String, phone: String, email: String, password: String): UUID {
         val hashedPassword = hashPassword(password, settings.salt)
-        val id = UUID.fromString("26b9e5e7-1c8a-40e5-aece-2345f6b8afd9")
         return userRepository.add(
             User(
                 EMPTY_UUID,
@@ -19,7 +18,7 @@ class AddUserQuery (
                 phone,
                 email,
                 hashedPassword,
-                id,
+                1,
             )
         )
         store.save()
