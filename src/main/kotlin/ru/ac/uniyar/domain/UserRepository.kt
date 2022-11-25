@@ -1,12 +1,8 @@
 package ru.ac.uniyar.domain
 
-import com.fasterxml.jackson.databind.JsonNode
-import org.http4k.format.Jackson.asJsonArray
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
-import ru.ac.uniyar.database.Restaurants
 import ru.ac.uniyar.database.Users
-import java.util.*
 
 class UserRepository(
     database: Database

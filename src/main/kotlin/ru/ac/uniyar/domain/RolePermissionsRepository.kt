@@ -1,6 +1,5 @@
 package ru.ac.uniyar.domain
 
-
 class RolePermissionsRepository(
     rolePermissionsRepository: List<RolePermissions> = emptyList()
 ){

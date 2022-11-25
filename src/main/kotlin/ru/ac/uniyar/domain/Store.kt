@@ -57,7 +57,6 @@ class Store(
 
     }
 
-
     fun save() {
         val document: JsonNode =
             listOf(

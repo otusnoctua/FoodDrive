@@ -15,14 +15,14 @@ fun authenticationFilter(
         val requestWithUser = request.cookie("token")?.value?.let { token ->
             jwtTools.subject(token)
         }?.let { userId ->
-            fetchUserViaUserId(userId.toInt())
-            //fetchUserViaUserId(userId)
+            fetchUserViaUserId(userId)
         }?.let { user ->
             request.with( currentUser of user)
         }?: request
         next(requestWithUser)
     }
 }
+
 fun authorizationFilter(
     currentUser: RequestContextLens<User?>,
     permissionsLens: RequestContextLens<RolePermissions>,

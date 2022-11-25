@@ -59,17 +59,11 @@
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/local-state/build-history.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/local-state/build-history.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/libs/FoodDrive.jar" beforeDir="false" afterPath="$PROJECT_DIR$/build/libs/FoodDrive.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/database/Schema.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/database/Schema.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/Filters.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/Filters.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/Order.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/Order.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/Review.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/Review.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/Store.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/Store.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/User.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/User.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/UserRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/UserRepository.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/handlers/UserCreationHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/handlers/UserCreationHandler.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/queries/AddUserQuery.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/queries/AddUserQuery.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/queries/FetchUserViaUserId.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/queries/FetchUserViaUserId.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/queries/OrderQueries.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/queries/OrderQueries.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage.json" beforeDir="false" afterPath="$PROJECT_DIR$/storage.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
