@@ -31,7 +31,7 @@ class Store(
             Jackson.parse(jsonDocument)
         } else null
 
-        rolePermissionsRepository = RolePermissionsRepository(database)
+        rolePermissionsRepository = RolePermissionsRepository(emptyList())
 
         dishRepository = if (node != null && node.has("dish")) {
             DishRepository.fromJson(node["dish"])
