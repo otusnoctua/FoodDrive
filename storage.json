@@ -32,28 +32,28 @@
   "restaurant" : { },
   "order" : [ {
     "id" : "0cc4db3e-7366-4039-9ba0-06a14e972a37",
-    "clientId" : "a53f3b97-1dd2-4d67-9526-340b6dbb208a",
+    "clientId" : 1,
     "restaurantId" : "1",
     "status" : "В обработке",
     "timestamp" : "2022-11-11T22:01:54.6158677",
     "dishes" : [ ]
   }, {
     "id" : "a48efe00-6f7c-4be6-8808-363e3d8b784b",
-    "clientId" : "a53f3b97-1dd2-4d67-9526-340b6dbb208a",
+    "clientId" : 1,
     "restaurantId" : "2",
     "status" : "В ожидании",
     "timestamp" : "2022-11-11T22:03:39.2662139",
     "dishes" : [ ]
   }, {
     "id" : "3502fd6b-a967-4728-a0e6-3d93ddc179f6",
-    "clientId" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9",
+    "clientId" : 1,
     "restaurantId" : "3",
     "status" : "В ожидании",
     "timestamp" : "2022-11-12T13:31:00.7359844",
     "dishes" : [ "843b4508-eadb-4cff-a8d7-67062e93d069", "843b4508-eadb-4cff-a8d7-67062e93d069", "843b4508-eadb-4cff-a8d7-67062e93d069", "843b4508-eadb-4cff-a8d7-67062e93d069", "843b4508-eadb-4cff-a8d7-67062e93d069", "843b4508-eadb-4cff-a8d7-67062e93d069" ]
   }, {
     "id" : "b1643c4d-330d-46bb-9345-0344ffed9023",
-    "clientId" : "a1f86cfa-e58f-446c-8aa3-a2a6ad68fa86",
+    "clientId" : 1,
     "restaurantId" : "1",
     "status" : "В ожидании",
     "timestamp" : "2022-11-24T22:22:19.3111659",
@@ -61,42 +61,42 @@
   } ],
   "review" : [ {
     "id" : "1e4442e6-cef6-4be7-b40d-3ada1e743b05",
-    "userId" : "a53f3b97-1dd2-4d67-9526-340b6dbb208a",
+    "userId" : 1,
     "restaurantId" : "1",
     "text" : " Муж купает ребёнка, кричит из ванной:\r\n — Кать, он ест пену! Через пару минут:..\r\n — Кать, она реально вкусная! ",
     "rating" : "5",
     "timestamp" : "2022-11-11T22:21:45.6091551"
   }, {
     "id" : "de65365e-ef51-4c1d-9e9c-15f825950884",
-    "userId" : "a53f3b97-1dd2-4d67-9526-340b6dbb208a",
+    "userId" : 1,
     "restaurantId" : "1",
     "text" : " Тестовый отзыв ",
     "rating" : "3",
     "timestamp" : "2022-11-11T22:31:36.5015981"
   }, {
     "id" : "0f16e679-9b29-4aba-beee-4d78c5f728dc",
-    "userId" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9",
+    "userId" : 1,
     "restaurantId" : "2",
     "text" : " 1111",
     "rating" : "1",
     "timestamp" : "2022-11-12T13:31:17.2017213"
   }, {
     "id" : "b5f934c9-963f-4527-9341-a5426abdbc2e",
-    "userId" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9",
+    "userId" : 1,
     "restaurantId" : "1",
     "text" : " да",
     "rating" : "5",
     "timestamp" : "2022-11-24T19:00:44.3059079"
   }, {
     "id" : "10f25db7-d704-4441-bebd-2c620a630c0c",
-    "userId" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9",
+    "userId" : 1,
     "restaurantId" : "19",
     "text" : " ytuyjtyj",
     "rating" : "1",
     "timestamp" : "2022-11-24T20:25:28.1858673"
   } ],
   "user" : [ {
-    "id" : "a1f86cfa-e58f-446c-8aa3-a2a6ad68fa86",
+    "id" : 1,
     "name" : "Евгений",
     "phone" : "89108236375",
     "email" : "oreshnikov@mail.ru",

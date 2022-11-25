@@ -51,11 +51,8 @@ class Store(
         }else{
             ReviewRepository()
         }
-        userRepository= if(node!=null && node.has("user")){
-            UserRepository.fromJson(node["user"])
-        }else{
-            UserRepository()
-        }
+        userRepository = UserRepository(database)
+
 
 
     }

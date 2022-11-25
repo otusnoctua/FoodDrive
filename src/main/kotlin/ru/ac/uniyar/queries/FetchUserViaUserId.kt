@@ -7,13 +7,7 @@ import java.util.*
 
 class FetchUserViaUserId (private val userRepository: UserRepository) {
 
-
-    operator fun invoke(userId: String): User? {
-        val uuid = try {
-            UUID.fromString(userId)
-        } catch (_: IllegalArgumentException) {
-            return null
-        }
-        return userRepository.fetch(uuid)
+    operator fun invoke(userId: Int): User {
+        return userRepository.fetch(userId)
     }
 }

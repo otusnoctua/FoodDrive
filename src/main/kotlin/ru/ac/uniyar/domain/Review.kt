@@ -9,7 +9,7 @@ import java.util.*
 
 data class Review(
     val id: UUID,
-    val userId: UUID,
+    val userId: Int,
     val restaurantId: Int,
     val text: String,
     val rating: Int,
@@ -20,7 +20,7 @@ data class Review(
             val jsonObject = node.asJsonObject()
             return Review(
                 UUID.fromString(jsonObject["id"].asText()),
-                UUID.fromString(jsonObject["userId"].asText()),
+                jsonObject["userId"].asInt(),
                 jsonObject["restaurantId"].asInt(),
                 jsonObject["text"].asText(),
                 jsonObject["rating"].asInt(),

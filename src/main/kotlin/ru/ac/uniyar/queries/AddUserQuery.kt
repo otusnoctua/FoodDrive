@@ -9,11 +9,11 @@ class AddUserQuery (
     private val settings: Settings,
     private val userRepository : UserRepository
 ) {
-    operator fun invoke(name: String, phone: String, email: String, password: String): UUID {
+    operator fun invoke(name: String, phone: Long, email: String, password: String): Int {
         val hashedPassword = hashPassword(password, settings.salt)
         return userRepository.add(
             User(
-                EMPTY_UUID,
+                0,
                 name,
                 phone,
                 email,

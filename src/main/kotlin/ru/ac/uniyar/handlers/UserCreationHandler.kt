@@ -27,7 +27,7 @@ class AddUser(
 ): HttpHandler {
     companion object {
         val userNameFormLens = FormField.nonEmptyString().required("name")
-        val userPhoneFormLens = FormField.nonEmptyString().required("phone")
+        val userPhoneFormLens = FormField.long().required("phone")
         val userEmailFormLens = FormField.nonEmptyString().required("email")
         val passwordOneFormLens = FormField.nonEmptyString().required("passwordOne")
         val passwordTwoFormLens = FormField.nonEmptyString().required("passwordTwo")

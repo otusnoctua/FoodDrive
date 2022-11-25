@@ -10,7 +10,7 @@ import java.util.*
 
 data class Order(
     val id: UUID,
-    val clientId: UUID,
+    val clientId: Int,
     val restaurantId: Int,
     val status: String,
     val timestamp:LocalDateTime,
@@ -21,7 +21,7 @@ data class Order(
             val jsonObject = node.asJsonObject()
             return Order(
                 UUID.fromString(jsonObject["id"].asText()),
-                UUID.fromString(jsonObject["clientId"].asText()),
+                jsonObject["clientId"].asInt(),
                 jsonObject["restaurantId"].asInt(),
                 jsonObject["status"].asText(),
                 LocalDateTime.parse(jsonObject["timestamp"].asText(), DateTimeFormatter.ISO_LOCAL_DATE_TIME),

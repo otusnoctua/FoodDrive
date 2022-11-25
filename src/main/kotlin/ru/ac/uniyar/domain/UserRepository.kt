@@ -2,38 +2,57 @@ package ru.ac.uniyar.domain
 
 import com.fasterxml.jackson.databind.JsonNode
 import org.http4k.format.Jackson.asJsonArray
+import org.ktorm.database.Database
+import org.ktorm.dsl.*
+import ru.ac.uniyar.database.Restaurants
+import ru.ac.uniyar.database.Users
 import java.util.*
 
-class UserRepository(user: Iterable<User> = emptyList()) {
-    private val allUsers = user.associateBy { it.id }.toMutableMap()
+class UserRepository(
+    database: Database
+) {
+    private val db = database
 
-    companion object{
+    fun fetch(id: Int): User {
+        return db
+            .from(Users)
+            .select()
+            .where{Users.id.toInt() eq id }
+            .map { User(
+                it.getInt(1),
+                it.getString(2)!!,
+                it.getLong(3),
+                it.getString(4)!!,
+                it.getString(5)!!,
+                it.getInt(6)
+            ) }.first()
+    }
 
-        fun fromJson(node: JsonNode) : UserRepository {
-            val allUsers = node.map{
-                User.fromJson(it)
-            }
-            return UserRepository(allUsers)
+    fun delete(id: Int){
+        db.delete(Users) { it.id eq id }
+    }
+
+    fun add(user: User): Int {
+        return db.insertAndGenerateKey(Users) {
+            set(it.name, user.name)
+            set(it.phone, user.phone)
+            set(it.email, user.email)
+            set(it.password, user.password)
+            set(it.role_id, user.roleId)
+        }.toString().toInt()
+    }
+
+    fun list() : List<User> {
+        return db.from(Users).select().map {
+            User(
+                it.getInt(1),
+                it.getString(2)!!,
+                it.getLong(3),
+                it.getString(4)!!,
+                it.getString(5)!!,
+                it.getInt(6)
+            )
         }
     }
-
-    fun asJsonObject(): JsonNode {
-        return allUsers.values
-            .map{ it.asJsonObject() }
-            .asJsonArray()
-    }
-
-    fun fetch(id: UUID): User? = allUsers[id]
-
-    fun add(user: User): UUID {
-        var newId = user.id
-        while (allUsers.containsKey(newId) || newId == EMPTY_UUID){
-            newId = UUID.randomUUID()
-        }
-        allUsers[newId] = user.setUuid(newId)
-        return newId
-    }
-
-    fun list() = allUsers.values.toList()
 
 }

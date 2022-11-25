@@ -6,9 +6,9 @@ import org.http4k.format.Jackson.asJsonValue
 import java.util.*
 
 data class User(
-    val id: UUID,
+    val id: Int,
     val name: String,
-    val phone: String,
+    val phone: Long,
     val email: String,
     val password: String,
     val roleId: Int,
@@ -18,9 +18,9 @@ data class User(
         fun fromJson(node: JsonNode): User {
             val user = node.asJsonObject()
             return User(
-                UUID.fromString(user["id"].asText()),
+                user["id"].asInt(),
                 user["name"].asText(),
-                user["phone"].asText(),
+                user["phone"].asLong(),
                 user["email"].asText(),
                 user["password"].asText(),
                 user["roleId"].asInt(),
@@ -39,9 +39,5 @@ data class User(
             "roleId" to roleId.asJsonValue(),
 
         ).asJsonObject()
-    }
-
-    fun setUuid(uuid: UUID): User {
-        return this.copy(id = uuid)
     }
 }

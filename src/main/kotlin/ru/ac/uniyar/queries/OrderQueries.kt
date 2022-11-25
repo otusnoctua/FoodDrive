@@ -4,7 +4,6 @@ import ru.ac.uniyar.domain.*
 import java.time.LocalDateTime
 import java.util.*
 
-
 class OrderQueries(
     private val orderRepository: OrderRepository,
     private val dishQueries: DishQueries,
@@ -30,7 +29,7 @@ class OrderQueries(
     }
 
     inner class CreateOrder{
-        operator fun invoke(userId: UUID, dish: Dish):Order{
+        operator fun invoke(userId: Int, dish: Dish):Order{
             val listOfDishes= mutableListOf<UUID>()
             listOfDishes.add(dish.id)
             val order: Order = Order(
@@ -46,19 +45,19 @@ class OrderQueries(
         }
     }
     inner class CheckOrder{
-        operator fun invoke(userId: UUID):Boolean{
+        operator fun invoke(userId: Int):Boolean{
             return orderRepository.list().any {it.clientId==userId && it.status=="В ожидании"}
         }
     }
     inner class AddDish{
-        operator fun invoke(userId: UUID, dishId: UUID):Order{
+        operator fun invoke(userId: Int, dishId: UUID):Order{
             val order: Order = orderRepository.list().filter { order -> order.clientId == userId && order.status=="В ожидании" }.first()
             return order.addElementToDishes(dishId.toString())
         }
     }
 
     inner class FetchOrdersViaUserId{
-        operator fun invoke(userId: UUID):List<Order>{
+        operator fun invoke(userId: Int):List<Order>{
             return orderRepository.list().filter {it.clientId==userId}
         }
     }
@@ -81,7 +80,7 @@ class OrderQueries(
    }
 
     inner class EditStatus{
-        operator fun invoke(index: Int,string: String,userId: UUID){
+        operator fun invoke(index: Int,string: String,userId: Int){
             val mas = FetchOrdersViaUserId().invoke(userId).toMutableList()
             orderRepository.update(mas[index].editStatus(string))
         }

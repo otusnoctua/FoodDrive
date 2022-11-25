@@ -6,8 +6,6 @@ import org.http4k.lens.RequestContextLens
 import ru.ac.uniyar.queries.FetchPermissionsViaIdQuery
 import ru.ac.uniyar.queries.FetchUserViaUserId
 
-
-
 fun authenticationFilter(
     currentUser: RequestContextLens<User?>,
     fetchUserViaUserId: FetchUserViaUserId,
@@ -17,7 +15,8 @@ fun authenticationFilter(
         val requestWithUser = request.cookie("token")?.value?.let { token ->
             jwtTools.subject(token)
         }?.let { userId ->
-            fetchUserViaUserId(userId)
+            fetchUserViaUserId(userId.toInt())
+            //fetchUserViaUserId(userId)
         }?.let { user ->
             request.with( currentUser of user)
         }?: request

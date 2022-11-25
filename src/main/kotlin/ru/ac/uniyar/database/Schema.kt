@@ -66,7 +66,7 @@ object Roles : Table<Nothing>("roles"){
 object Users : Table<Nothing>("users"){
     val id = int("id").primaryKey()
     val name = varchar("name")
-    val phone = int("phone")
+    val phone = long("phone")
     val email = varchar("email")
     val password = text("password")
     val role_id = int("role_id")
