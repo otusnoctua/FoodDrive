@@ -1,5 +1,6 @@
 package ru.ac.uniyar.domain
 
+import com.fasterxml.jackson.databind.BeanDescription
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
 import ru.ac.uniyar.database.Dishes
@@ -40,9 +41,18 @@ class DishRepository(
         db.delete(Dishes) { it.id eq id }
     }
 
-    fun changeDishName(nameDish: String, dish: Dish){
+    fun edit(
+        name: String,
+        ingredients: String,
+        vegan: Boolean,
+        description: String,
+        dish: Dish)
+    {
         db.update(Dishes){
-            set(it.name, nameDish)
+            set(it.name, name)
+            set(it.ingredients, ingredients)
+            set(it.vegan, vegan)
+            set(it.description, description)
             where {
                 it.id eq dish.id
             }

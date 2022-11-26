@@ -21,6 +21,5 @@ class AddUserQuery (
                 1,
             )
         )
-        store.save()
     }
 }

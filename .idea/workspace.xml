@@ -4,34 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="43b4130d-75c7-4252-b650-8f23e8024b9b" name="Changes" comment="перенос пользователей в БД + рефакторинг пакета domain">
+    <list default="true" id="43b4130d-75c7-4252-b650-8f23e8024b9b" name="Changes" comment="перенос блюд и отзывов в БД (починить редактировние блюда!)">
       <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/Dish$Companion.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/Dish.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/Dish.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/DishRepository$Companion.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/DishRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/DishRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/FiltersKt$authorizationFilter$1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/FiltersKt$authorizationFilter$1$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/FiltersKt.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/FiltersKt.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/Order$Companion.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/Order$Companion.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/Order$Companion.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/Order.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/Order.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/Restaurant$Companion.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/Restaurant.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/Restaurant.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/RestaurantRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/RestaurantRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/RolePermissions$Companion.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/RolePermissions$Companion.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/RolePermissions.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/RolePermissions.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/RolePermissionsRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/RolePermissionsRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/Review$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/Review.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/Review.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/ReviewRepository$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/ReviewRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/ReviewRepository.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/Store.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/Store.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/User$Companion.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/UserRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/ru/ac/uniyar/domain/UserRepository.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/kotlin/FoodDrivejar-classes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/FoodDrivejar-classes.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/inputs/source-to-output.tab" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/inputs/source-to-output.tab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.values.at" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.values.at" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.values.at" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.values.at" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab" afterDir="false" />
@@ -72,22 +62,24 @@
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/lookups/lookups.tab.values.s" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/lookups/lookups.tab.values.s" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/lookups/lookups.tab_i" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/caches-jvm/lookups/lookups.tab_i" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/last-build.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/cacheable/last-build.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/local-state/build-history.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/local-state/build-history.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/libs/FoodDrive.jar" beforeDir="false" afterPath="$PROJECT_DIR$/build/libs/FoodDrive.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/Dish.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/Dish.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/FoodDrive.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/FoodDrive.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/database/Schema.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/database/Schema.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/DishRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/DishRepository.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/Order.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/Order.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/Review.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/Review.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/ReviewRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/ReviewRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/OrderRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/OrderRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/Restaurant.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/Restaurant.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/Store.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/Store.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/UserRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/UserRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/StoreHolder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/StoreHolder.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/handlers/DishCreationHandlers.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/handlers/DishCreationHandlers.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/handlers/OrderHandlers.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/handlers/OrderHandlers.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/handlers/RemovalHandlers.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/handlers/RemovalHandlers.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/handlers/ReviewHandlers.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/handlers/ReviewHandlers.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/queries/AddUserQuery.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/queries/AddUserQuery.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/queries/DishQueries.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/queries/DishQueries.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/queries/OrderQueries.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/queries/OrderQueries.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/queries/RestaurantQueries.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/queries/RestaurantQueries.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ru/ac/uniyar/models/ShowListOfDishesVM.peb" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ru/ac/uniyar/models/ShowListOfDishesVM.peb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ru/ac/uniyar/models/ShowListOfRestaurantsVM.peb" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ru/ac/uniyar/models/ShowListOfRestaurantsVM.peb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ru/ac/uniyar/models/ShowOrderVM.peb" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ru/ac/uniyar/models/ShowOrderVM.peb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage.json" beforeDir="false" afterPath="$PROJECT_DIR$/storage.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -298,7 +290,7 @@
       <updated>1668178446564</updated>
       <workItem from="1669288041406" duration="22826000" />
       <workItem from="1669389506729" duration="6640000" />
-      <workItem from="1669454427895" duration="2601000" />
+      <workItem from="1669454427895" duration="19919000" />
     </task>
     <task id="LOCAL-00001" summary="коннектор + частичный перенос данных из json-документа в БД">
       <created>1669317879864</created>
@@ -321,7 +313,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669403419995</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="перенос блюд и отзывов в БД (починить редактировние блюда!)">
+      <created>1669460636751</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1669460636751</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -354,7 +353,8 @@
     <MESSAGE value="коннектор + частичный перенос данных из json-документа в БД" />
     <MESSAGE value="логика ролей вынесена в приложение из БД" />
     <MESSAGE value="перенос пользователей в БД + рефакторинг пакета domain" />
-    <option name="LAST_COMMIT_MESSAGE" value="перенос пользователей в БД + рефакторинг пакета domain" />
+    <MESSAGE value="перенос блюд и отзывов в БД (починить редактировние блюда!)" />
+    <option name="LAST_COMMIT_MESSAGE" value="перенос блюд и отзывов в БД (починить редактировние блюда!)" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

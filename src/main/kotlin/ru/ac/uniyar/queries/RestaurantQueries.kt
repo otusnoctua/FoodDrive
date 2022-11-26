@@ -21,13 +21,11 @@ class RestaurantQueries(
     inner class DeleteRestaurantQuery {
         operator fun invoke(id: Int){
             store.restaurantRepository.delete(id)
-            store.save()
         }
     }
     inner class EditRestaurantQuery {
         operator fun invoke(nameRestaurant: String, restaurant: Restaurant) {
             restaurantRepository.changeRestaurantName(nameRestaurant, restaurant)
-            store.save()
         }
     }
     inner class AddRestaurantQuery{
@@ -35,7 +33,6 @@ class RestaurantQueries(
             restaurantRepository.add(
                 nameRestaurant
             )
-            store.save()
         }
     }
 

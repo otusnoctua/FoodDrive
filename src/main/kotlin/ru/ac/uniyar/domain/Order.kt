@@ -1,49 +1,16 @@
 package ru.ac.uniyar.domain
 
-import com.fasterxml.jackson.databind.JsonNode
-import org.http4k.format.Jackson.asJsonArray
-import org.http4k.format.Jackson.asJsonObject
-import org.http4k.format.Jackson.asJsonValue
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.*
 
 data class Order(
-    val id: UUID,
+    val id: Int,
     val clientId: Int,
     val restaurantId: Int,
     val status: String,
-    val timestamp:LocalDateTime,
+    val datetime: LocalDateTime,
     val dishes: List<Int>,
 ){
-    companion object{
-        fun fromJson(node: JsonNode): Order {
-            val jsonObject = node.asJsonObject()
-            return Order(
-                UUID.fromString(jsonObject["id"].asText()),
-                jsonObject["clientId"].asInt(),
-                jsonObject["restaurantId"].asInt(),
-                jsonObject["status"].asText(),
-                LocalDateTime.parse(jsonObject["timestamp"].asText(), DateTimeFormatter.ISO_LOCAL_DATE_TIME),
-                jsonObject["dishes"].asJsonArray().map { it.asInt() },
 
-                )
-        }
-    }
-    fun asJsonObject(): JsonNode {
-        return listOf(
-            "id" to id.toString().asJsonValue(),
-            "clientId" to clientId.toString().asJsonValue(),
-            "restaurantId" to restaurantId.toString().asJsonValue(),
-            "status" to status.asJsonValue(),
-            "timestamp" to timestamp.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).asJsonValue(),
-            "dishes" to dishes.asJsonObject(),
-        ).asJsonObject()
-    }
-
-    fun setUuid(uuid: UUID): Order {
-        return this.copy(id = uuid)
-    }
     fun addElementToDishes(nameDish: String):Order{
         val mas = this.dishes.toMutableList()
         mas.add(nameDish.toInt())

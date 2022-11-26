@@ -2,8 +2,6 @@ package ru.ac.uniyar.queries
 
 import ru.ac.uniyar.domain.*
 
-import java.util.*
-
 class DishQueries(
     private val dishRepository: DishRepository,
     private val store: Store
@@ -35,21 +33,23 @@ class DishQueries(
                     description,
                 )
             )
-            store.save()
         }
     }
      inner class DeleteDishQuery{
 
          operator fun invoke(dish: Dish) {
              store.dishRepository.delete(dish.id)
-             store.save()
          }
      }
 
     inner class EditDishQuery{
-        operator fun invoke(nameDish: String, dish: Dish) {
-            dishRepository.changeDishName(nameDish, dish)
-            store.save()
+        operator fun invoke(
+            name: String,
+            ingredients: String,
+            vegan: Boolean,
+            description: String,
+            dish: Dish) {
+            dishRepository.edit(name, ingredients, vegan, description, dish)
         }
     }
 }

@@ -5,7 +5,7 @@
           {% for dish in model.order.dishes %}
               <div>
              {{ dish }}
-                  <a href="/basket/{{model.order.id}}/delete/{{ loop.index }}" class="button">Удалить блюдо</a>
+                  <a href="/basket/{{model.order.id}}/delete/{{ dish }}" class="button">Удалить блюдо</a>
 
 
               </div>

@@ -1,8 +1,8 @@
 package ru.ac.uniyar.queries
 
 import ru.ac.uniyar.domain.*
+import java.sql.SQLException
 import java.time.LocalDateTime
-import java.util.*
 
 class OrderQueries(
     private val orderRepository: OrderRepository,
@@ -24,7 +24,7 @@ class OrderQueries(
 
     inner class UpdateOrder{
         operator fun invoke(order: Order){
-            orderRepository.update(order)
+            orderRepository.updateStatus(order)
         }
     }
 
@@ -33,7 +33,7 @@ class OrderQueries(
             val listOfDishes= mutableListOf<Int>()
             listOfDishes.add(dish.id)
             val order: Order = Order(
-                UUID.randomUUID(),
+                0,
                 userId,
                 dish.restaurantId,
                 "В ожидании",
@@ -45,14 +45,15 @@ class OrderQueries(
         }
     }
     inner class CheckOrder{
-        operator fun invoke(userId: Int):Boolean{
-            return orderRepository.list().any {it.clientId==userId && it.status=="В ожидании"}
+        operator fun invoke(userId: Int) : Boolean{
+            return orderRepository.getUserOrders(userId).any { it.status == "В ожидании" }
         }
     }
+
     inner class AddDish{
-        operator fun invoke(userId: Int, dishId: Int):Order{
-            val order: Order = orderRepository.list().filter { order -> order.clientId == userId && order.status=="В ожидании" }.first()
-            return order.addElementToDishes(dishId.toString())
+        operator fun invoke(userId: Int, dishId: Int){
+            val order: Order = orderRepository.getUserOrders(userId).find { it.status == "В ожидании" }!!
+            return orderRepository.addDishToOrder(dishId, order.id)
         }
     }
 
@@ -62,27 +63,30 @@ class OrderQueries(
         }
     }
     inner class FetchOrderViaId{
-        operator fun invoke(id: UUID):Order?{
+        operator fun invoke(id: Int):Order?{
             return orderRepository.fetch(id)
         }
     }
     inner class DeleteOrder{
-        operator fun invoke(id: UUID){
+        operator fun invoke(id: Int){
             return orderRepository.delete(id)
         }
     }
    inner class DeleteDish{
-       operator fun invoke(order: Order,index: Int):Order{
-           val newOrder = order.deleteElementFromDishes(index)
-           store.save()
-           return newOrder
+       operator fun invoke(order: Order, dishId: Int) : Int? {
+           return try {
+               orderRepository.deleteDishFromOrder(order, dishId)
+               1
+           } catch (e: NoSuchElementException) {
+               null
+           }
        }
    }
 
     inner class EditStatus{
         operator fun invoke(index: Int,string: String,userId: Int){
             val mas = FetchOrdersViaUserId().invoke(userId).toMutableList()
-            orderRepository.update(mas[index].editStatus(string))
+            orderRepository.updateStatus(mas[index].editStatus(string))
         }
     }
 

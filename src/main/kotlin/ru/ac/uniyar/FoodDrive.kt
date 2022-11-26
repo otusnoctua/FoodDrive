@@ -4,7 +4,6 @@ import org.http4k.core.ContentType
 import org.http4k.core.HttpHandler
 import org.http4k.core.RequestContexts
 import org.http4k.core.then
-import org.http4k.filter.DebuggingFilters.PrintRequest
 import org.http4k.filter.ServerFilters
 import org.http4k.lens.RequestContextKey
 import org.http4k.lens.RequestContextLens
@@ -20,8 +19,8 @@ import ru.ac.uniyar.models.template.ContextAwarePebbleTemplates
 import ru.ac.uniyar.models.template.ContextAwareViewRender
 import java.nio.file.Path
 
-
 fun main() {
+
     val database = Database.connect(
         url = "jdbc:mysql://127.0.0.1:3306/fooddrive",
         driver = "com.mysql.jdbc.Driver",
@@ -30,12 +29,11 @@ fun main() {
     )
 
     val storeHolder = try {
-        StoreHolder(Path.of("storage.json"), Path.of("settings.json"), database)
+        StoreHolder(Path.of("settings.json"), database)
     }catch (error: SettingsFileError) {
         println(error.message)
         return
     }
-    Runtime.getRuntime().addShutdownHook(storeHolder.store.storeThread)
 
     val renderer = ContextAwarePebbleTemplates().HotReload("src/main/resources")
     val htmlView = ContextAwareViewRender(renderer, ContentType.TEXT_HTML)
@@ -45,7 +43,7 @@ fun main() {
     val permissionsLens: RequestContextLens<RolePermissions> =
         RequestContextKey.required(contexts, name = "permissions")
     val htmlViewWithContext = htmlView.associateContextLens("currentUser", currentUserLens)
-    val htmlViewPermissions= htmlView.associateContextLens("permissions", permissionsLens)
+    val htmlViewPermissions = htmlView.associateContextLens("permissions", permissionsLens)
 
     val jwtTools = JwtTools(storeHolder.settings.salt, "ru.ac.uniyar.AnimalsList2")
 
