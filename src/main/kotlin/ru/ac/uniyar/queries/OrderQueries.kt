@@ -30,7 +30,7 @@ class OrderQueries(
 
     inner class CreateOrder{
         operator fun invoke(userId: Int, dish: Dish):Order{
-            val listOfDishes= mutableListOf<UUID>()
+            val listOfDishes= mutableListOf<Int>()
             listOfDishes.add(dish.id)
             val order: Order = Order(
                 UUID.randomUUID(),
@@ -50,7 +50,7 @@ class OrderQueries(
         }
     }
     inner class AddDish{
-        operator fun invoke(userId: Int, dishId: UUID):Order{
+        operator fun invoke(userId: Int, dishId: Int):Order{
             val order: Order = orderRepository.list().filter { order -> order.clientId == userId && order.status=="В ожидании" }.first()
             return order.addElementToDishes(dishId.toString())
         }

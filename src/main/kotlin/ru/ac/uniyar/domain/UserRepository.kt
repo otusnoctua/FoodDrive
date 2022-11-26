@@ -13,7 +13,7 @@ class UserRepository(
         return db
             .from(Users)
             .select()
-            .where{Users.id.toInt() eq id }
+            .where{ Users.id.toInt() eq id }
             .map { User(
                 it.getInt(1),
                 it.getString(2)!!,

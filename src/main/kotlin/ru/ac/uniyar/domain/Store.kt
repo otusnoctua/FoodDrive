@@ -33,11 +33,7 @@ class Store(
 
         rolePermissionsRepository = RolePermissionsRepository(emptyList())
 
-        dishRepository = if (node != null && node.has("dish")) {
-            DishRepository.fromJson(node["dish"])
-        } else {
-            DishRepository()
-        }
+        dishRepository = DishRepository(database)
 
         restaurantRepository = RestaurantRepository(database)
 
@@ -46,11 +42,8 @@ class Store(
         } else {
             OrderRepository()
         }
-        reviewRepository = if (node!= null && node.has("review")){
-            ReviewRepository.fromJson(node["review"])
-        }else{
-            ReviewRepository()
-        }
+        reviewRepository = ReviewRepository(database)
+
         userRepository = UserRepository(database)
 
 

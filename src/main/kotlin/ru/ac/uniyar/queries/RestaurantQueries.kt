@@ -1,10 +1,8 @@
 package ru.ac.uniyar.queries
 
-import ru.ac.uniyar.domain.EMPTY_UUID
 import ru.ac.uniyar.domain.Restaurant
 import ru.ac.uniyar.domain.RestaurantRepository
 import ru.ac.uniyar.domain.Store
-import java.util.*
 
 class RestaurantQueries(
     private val restaurantRepository: RestaurantRepository,

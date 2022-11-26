@@ -73,7 +73,7 @@ class AddReviewToList(
         val webForm = BodyReviewFormLens(request)
         if (webForm.errors.isEmpty()) {
             val review = Review(
-                EMPTY_UUID,
+                0,
                 userId,
                 restaurant.id,
                 textReviewFormLens(webForm),

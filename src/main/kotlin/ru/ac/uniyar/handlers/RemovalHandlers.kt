@@ -39,16 +39,22 @@ class DeleteDish(
     private val dishQueries: DishQueries,
 ): HttpHandler {
     override fun invoke(request: Request): Response {
-        val dishId = UUID.fromString(request.path("dish").orEmpty()) ?: return Response(Status.BAD_REQUEST)
+
+        val dishId = request.path("dish")!!.toInt()
         val dish = dishQueries.FetchDishViaId().invoke(dishId) ?: return Response(Status.BAD_REQUEST)
-        val restaurantId = UUID.fromString(request.path("restaurant").orEmpty()) ?: return Response(Status.BAD_REQUEST)
+        val restaurantId = request.path("restaurant")!!.toInt()
+
         val permissionsDelete = permissionLens(request)
         if (!permissionsDelete.deleteDish)
             return Response(Status.UNAUTHORIZED)
+
         val permissions = permissionLens(request)
         if (!permissions.listDishes)
             return Response(Status.UNAUTHORIZED)
+
         dishQueries.DeleteDishQuery().invoke(dish)
         return Response(Status.FOUND).header("Location", "/${restaurantId}/ListOfDishes")
+
     }
+
 }

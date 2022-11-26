@@ -1,45 +1,64 @@
 package ru.ac.uniyar.domain
 
-import com.fasterxml.jackson.databind.JsonNode
-import org.http4k.format.Jackson.asJsonArray
-import java.util.*
+import org.ktorm.database.Database
+import org.ktorm.dsl.*
+import ru.ac.uniyar.database.Dishes
 
-class DishRepository(dish: Iterable<Dish> = emptyList()) {
-    private val allDishes = dish.associateBy { it.id }.toMutableMap()
+class DishRepository(
+    database: Database
+) {
+    private val db = database
 
-    companion object{
-        fun fromJson(node: JsonNode) : DishRepository {
-            val allDishes = node.map{
-                Dish.fromJson(it)
-            }
-            return DishRepository(allDishes)
-        }
+
+    fun fetch(id: Int) : Dish {
+        return db
+            .from(Dishes)
+            .select()
+            .where{ Dishes.id.toInt() eq id }
+            .map {  Dish(
+                it.getInt(1),
+                it.getString(2)!!,
+                it.getInt(3),
+                it.getString(4)!!,
+                it.getBoolean(5),
+                it.getString(6)!!,
+            ) }.first()
+
     }
 
-    fun asJsonObject(): JsonNode {
-        return allDishes.values
-            .map{ it.asJsonObject() }
-            .asJsonArray()
+    fun add(dish: Dish) : Int {
+        return db.insertAndGenerateKey(Dishes){
+            set(it.name, dish.name)
+            set(it.restaurant_id, dish.restaurantId)
+            set(it.ingredients, dish.ingredients)
+            set(it.vegan, dish.vegan)
+            set(it.description, dish.description)
+        }.toString().toInt()
     }
 
-    fun fetch(id: UUID): Dish? = allDishes[id]
-
-    fun add(dish: Dish): UUID {
-        var newId = dish.id
-        while (allDishes.containsKey(newId) || newId == EMPTY_UUID){
-            newId = UUID.randomUUID()
-        }
-        allDishes[newId] = dish.setUuid(newId)
-        return newId
-    }
-
-    fun delete(dish: Dish) {
-        allDishes.remove(dish.id)
+    fun delete(id: Int) {
+        db.delete(Dishes) { it.id eq id }
     }
 
     fun changeDishName(nameDish: String, dish: Dish){
-        allDishes[dish.id] = dish.copy(nameDish = nameDish)
+        db.update(Dishes){
+            set(it.name, nameDish)
+            where {
+                it.id eq dish.id
+            }
+        }
     }
 
-    fun list() = allDishes.values.toList()
+    fun list() : List<Dish> {
+        return db.from(Dishes).select().map {
+            Dish(
+                it.getInt(1),
+                it.getString(2)!!,
+                it.getInt(3),
+                it.getString(4)!!,
+                it.getBoolean(5),
+                it.getString(6)!!,
+            )
+        }
+    }
 }

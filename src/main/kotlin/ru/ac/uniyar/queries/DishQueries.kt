@@ -9,13 +9,13 @@ class DishQueries(
     private val store: Store
 ) {
     inner class FetchDishViaId{
-        operator fun invoke(id: UUID):Dish?{
+        operator fun invoke(id: Int) : Dish?{
             return dishRepository.fetch(id)
         }
     }
     inner class FetchNameDishViaId{
-        operator fun invoke(id: UUID): String {
-            return dishRepository.fetch(id)?.nameDish ?: ""
+        operator fun invoke(id: Int): String {
+            return dishRepository.fetch(id)?.name ?: ""
         }
     }
     inner class ListOfDishes {
@@ -27,12 +27,12 @@ class DishQueries(
         operator fun invoke(restaurant: Restaurant, nameDish: String, ingredients: String, vegan: Boolean, description: String ){
             dishRepository.add(
                 Dish(
-                    EMPTY_UUID,
+                    0,
+                    nameDish,
                     restaurant.id,
                     ingredients,
                     vegan,
                     description,
-                    nameDish
                 )
             )
             store.save()
@@ -41,7 +41,7 @@ class DishQueries(
      inner class DeleteDishQuery{
 
          operator fun invoke(dish: Dish) {
-             store.dishRepository.delete(dish)
+             store.dishRepository.delete(dish.id)
              store.save()
          }
      }

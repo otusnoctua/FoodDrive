@@ -1,45 +1,66 @@
 package ru.ac.uniyar.domain
 
-import com.fasterxml.jackson.databind.JsonNode
-import org.http4k.format.Jackson.asJsonArray
-import java.util.*
+import org.ktorm.database.Database
+import org.ktorm.dsl.*
+import ru.ac.uniyar.database.Reviews
 
-class ReviewRepository(review: Iterable<Review> = emptyList()) {
-    private val reviews = review.associateBy { it.id }.toMutableMap()
+class ReviewRepository(
+    database: Database
+) {
+    private val db = database
 
-    companion object{
-        fun fromJson(node: JsonNode) : ReviewRepository {
-            val reviews = node.map{
-                Review.fromJson(it)
-            }
-            return ReviewRepository(reviews)
-        }
+    fun fetch(id: Int): Review {
+        return db
+            .from(Reviews)
+            .select()
+            .where{ Reviews.id.toInt() eq id }
+            .map { Review(
+                it.getInt(1),
+                it.getInt(2),
+                it.getInt(3),
+                it.getString(4)!!,
+                it.getInt(5),
+                it.getLocalDateTime(6)!!
+            ) }.first()
     }
 
-    fun asJsonObject(): JsonNode {
-        return reviews.values
-            .map{ it.asJsonObject() }
-            .asJsonArray()
+    fun add(review: Review): Int {
+        return db.insertAndGenerateKey(Reviews) {
+            set(it.user_id, review.userId)
+            set(it.restaurant_id, review.restaurantId)
+            set(it.text, review.text)
+            set(it.rating, review.rating)
+            set(it.datetime, review.datetime)
+        }.toString().toInt()
     }
 
-    fun fetch(id: UUID): Review? = reviews[id]
-
-    fun add(review: Review): UUID {
-        var newId = review.id
-        while (reviews.containsKey(newId) || newId == EMPTY_UUID){
-            newId = UUID.randomUUID()
-        }
-        reviews[newId] = review.setUuid(newId)
-        return newId
-    }
-
-    fun delete(id: UUID) {
-        reviews.remove(id)
+    fun delete(id: Int) {
+        db.delete(Reviews) { it.id eq id }
     }
 
     fun edit(review: Review){
-        reviews[review.id] = review
+        db.update(Reviews){
+            set(it.user_id, review.userId)
+            set(it.restaurant_id, review.restaurantId)
+            set(it.text, review.text)
+            set(it.rating, review.rating)
+            set(it.datetime, review.datetime)
+            where {
+                it.id eq review.id
+            }
+        }
     }
 
-    fun list() = reviews.values.toList()
+    fun list() : List<Review> {
+        return  db.from(Reviews).select().map {
+            Review(
+                it.getInt(1),
+                it.getInt(2),
+                it.getInt(3),
+                it.getString(4)!!,
+                it.getInt(5),
+                it.getLocalDateTime(6)!!
+            )
+        }
+    }
 }

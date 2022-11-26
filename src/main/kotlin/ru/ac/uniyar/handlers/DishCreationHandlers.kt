@@ -80,7 +80,7 @@ class EditDish(
         ).toLens()
     }
     override fun invoke(request: Request): Response {
-        val dishId = UUID.fromString(request.path("dish").orEmpty()) ?: return Response(Status.BAD_REQUEST)
+        val dishId = request.path("dish")!!.toInt()
         val dish = dishQueries.FetchDishViaId().invoke(dishId) ?: return Response(Status.BAD_REQUEST)
         val id = request.path("restaurant")!!.toInt()
         val restaurant = restaurantQueries.FetchRestaurantViaId().invoke(id) ?: return Response(Status.BAD_REQUEST)
@@ -108,7 +108,7 @@ class ShowEditDishForm(
             return Response(Status.UNAUTHORIZED)
         val id = request.path("restaurant")!!.toInt()
         val restaurant =
-            restaurantQueries.FetchRestaurantViaId().invoke(id) ?: return Response(Status.BAD_REQUEST)
+            restaurantQueries.FetchRestaurantViaId().invoke(id)
         return Response(Status.OK).with(htmlView(request) of ShowEditDishFormVM(restaurant = restaurant))
     }
 }

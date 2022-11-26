@@ -52,11 +52,11 @@ class AddDishToOrder(
         val userId = curUser.id
         val params = request.form()
         val idString = params.findSingle("id").orEmpty()
-        val id = UUID.fromString(idString)
+        val id = idString.toInt()
         val restaurantId = request.path("restaurant")!!.toInt()
 
         if (!orderQueries.CheckOrder().invoke(userId)) {
-            val dishes = mutableListOf<UUID>()
+            val dishes = mutableListOf<Int>()
             dishes.add(id)
             val order = Order(
                 EMPTY_UUID,
