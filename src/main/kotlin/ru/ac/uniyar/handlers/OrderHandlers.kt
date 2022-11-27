@@ -7,6 +7,7 @@ import org.http4k.routing.path
 import ru.ac.uniyar.domain.EMPTY_UUID
 import ru.ac.uniyar.domain.Order
 import ru.ac.uniyar.domain.RolePermissions
+import ru.ac.uniyar.domain.User
 import ru.ac.uniyar.models.ShowBasketVM
 import ru.ac.uniyar.models.ShowListOfDishesVM
 import ru.ac.uniyar.models.ShowOrderVM
@@ -20,6 +21,7 @@ import java.util.*
 
 class ShowBasket(
     private val permissionsLens: RequestContextLens<RolePermissions>,
+    private val currentUserLens: RequestContextLens<User?>,
     private val orderQueries: OrderQueries,
     private val htmlView: ContextAwareViewRender,
 ): HttpHandler {
@@ -27,7 +29,7 @@ class ShowBasket(
         val permissions = permissionsLens(request)
         if (!permissions.listOrders)
             return Response(Status.UNAUTHORIZED)
-        val userId = permissions.id
+        val userId= currentUserLens(request)!!.id
         return Response(Status.OK).with(htmlView(request) of ShowBasketVM(orderQueries.FetchOrdersViaUserId().invoke(userId)))
     }
 }
@@ -35,6 +37,7 @@ class ShowBasket(
 
 class AddDishToOrder(
     private val permissionsLens: RequestContextLens<RolePermissions>,
+    private val currentUserLens: RequestContextLens<User?>,
     private val htmlView: ContextAwareViewRender,
     private val orderQueries: OrderQueries,
     private val dishQueries: DishQueries,
@@ -44,7 +47,7 @@ class AddDishToOrder(
         val permissions = permissionsLens(request)
         if (!permissions.createOrder)
             return Response(Status.UNAUTHORIZED)
-        val userId = permissions.id
+        val userId = currentUserLens(request)!!.id
         val params = request.form()
         val idString = params.findSingle("id").orEmpty()
         val id = UUID.fromString(idString)
@@ -90,6 +93,7 @@ class ShowOrder(
 
 class DeleteOrder(
     private val permissionsLens: RequestContextLens<RolePermissions>,
+    private val currentUserLens: RequestContextLens<User?>,
     private val orderQueries: OrderQueries,
     private val htmlView: ContextAwareViewRender,
 ): HttpHandler {
@@ -103,7 +107,7 @@ class DeleteOrder(
         if (!permissions.listOrders)
             return Response(Status.UNAUTHORIZED)
         orderQueries.DeleteOrder().invoke(id)
-        val userId = permissions.id
+        val userId = currentUserLens(request)!!.id
         return Response(Status.OK).with(htmlView(request) of ShowBasketVM(orderQueries.FetchOrdersViaUserId().invoke(userId)))
     }
 }
@@ -129,6 +133,7 @@ class DeleteDishFromOrder(
 
 class EditStatusByUser(
     private val permissionsLens: RequestContextLens<RolePermissions>,
+    private val currentUserLens: RequestContextLens<User?>,
     private val orderQueries: OrderQueries,
     private val htmlView: ContextAwareViewRender,
 ):HttpHandler {
@@ -136,7 +141,7 @@ class EditStatusByUser(
         val permissions = permissionsLens(request)
         if (!permissions.listOrders)
             return Response(Status.UNAUTHORIZED)
-        val userId = permissions.id
+        val userId = currentUserLens(request)!!.id
         val idString = request.form().findSingle("index").orEmpty()
         val index = idString.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
         orderQueries.EditStatus().invoke(index, "В обработке", userId)

@@ -2,7 +2,7 @@
   "rolePermissions" : [ {
     "id" : "26b9e5e7-1c8a-40e5-aece-2345f6b8afd9",
     "name" : "Заказчик",
-    "listOrders" : false,
+    "listOrders" : true,
     "listUsers" : false,
     "listRestaurants" : true,
     "listDishes" : true,
@@ -113,56 +113,14 @@
     "nameRestaurant" : "Краснодарский парень"
   } ],
   "order" : [ {
-    "id" : "0cc4db3e-7366-4039-9ba0-06a14e972a37",
-    "clientId" : "a53f3b97-1dd2-4d67-9526-340b6dbb208a",
+    "id" : "56ef2ff3-cb2e-460a-9bc2-c2cbacf972b3",
+    "clientId" : "5416a740-4c8b-4491-9c3a-8593f4b27e9b",
     "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
     "status" : "В обработке",
-    "timestamp" : "2022-11-11T22:01:54.6158677",
-    "dishes" : [ "Салат", "Шефбургер", "Шефбургер", "Салат" ]
-  }, {
-    "id" : "a48efe00-6f7c-4be6-8808-363e3d8b784b",
-    "clientId" : "a53f3b97-1dd2-4d67-9526-340b6dbb208a",
-    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
-    "status" : "В ожидании",
-    "timestamp" : "2022-11-11T22:03:39.2662139",
-    "dishes" : [ "Шефбургер", "Шефбургер" ]
-  }, {
-    "id" : "bfe7e9d5-23e8-4bf0-a268-f5baa1b9ce0d",
-    "clientId" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9",
-    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
-    "status" : "В обработке",
-    "timestamp" : "2022-11-12T13:30:38.9917814",
-    "dishes" : [ "Шефбургер", "Шефбургер", "Шефбургер", "Салат" ]
-  }, {
-    "id" : "3502fd6b-a967-4728-a0e6-3d93ddc179f6",
-    "clientId" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9",
-    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
-    "status" : "В ожидании",
-    "timestamp" : "2022-11-12T13:31:00.7359844",
+    "timestamp" : "2022-11-27T19:38:06.5030071",
     "dishes" : [ "Салат", "Салат" ]
   } ],
-  "review" : [ {
-    "id" : "1e4442e6-cef6-4be7-b40d-3ada1e743b05",
-    "userId" : "a53f3b97-1dd2-4d67-9526-340b6dbb208a",
-    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
-    "text" : " Муж купает ребёнка, кричит из ванной:\r\n — Кать, он ест пену! Через пару минут:..\r\n — Кать, она реально вкусная! ",
-    "rating" : "5",
-    "timestamp" : "2022-11-11T22:21:45.6091551"
-  }, {
-    "id" : "de65365e-ef51-4c1d-9e9c-15f825950884",
-    "userId" : "a53f3b97-1dd2-4d67-9526-340b6dbb208a",
-    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
-    "text" : " Тестовый отзыв ",
-    "rating" : "3",
-    "timestamp" : "2022-11-11T22:31:36.5015981"
-  }, {
-    "id" : "0f16e679-9b29-4aba-beee-4d78c5f728dc",
-    "userId" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9",
-    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
-    "text" : " 1111",
-    "rating" : "1",
-    "timestamp" : "2022-11-12T13:31:17.2017213"
-  } ],
+  "review" : [ ],
   "user" : [ {
     "id" : "5416a740-4c8b-4491-9c3a-8593f4b27e9b",
     "name" : "Евгений",

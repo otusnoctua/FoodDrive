@@ -4,11 +4,13 @@ import org.http4k.lens.RequestContextLens
 import ru.ac.uniyar.domain.JwtTools
 import ru.ac.uniyar.domain.RolePermissions
 import ru.ac.uniyar.domain.StoreHolder
+import ru.ac.uniyar.domain.User
 import ru.ac.uniyar.models.template.ContextAwareViewRender
 
 class HttpHandlerHolder(
     jwtTools: JwtTools,
     permissionLens: RequestContextLens<RolePermissions>,
+    currentUserLens: RequestContextLens<User?>,
     htmlView: ContextAwareViewRender,
     storeHolder: StoreHolder,
 
@@ -80,11 +82,13 @@ class HttpHandlerHolder(
         htmlView)
     val showBasket = ShowBasket(
         permissionLens,
+        currentUserLens,
         storeHolder.orderQueries,
         htmlView,
     )
     val addDishToOrder = AddDishToOrder(
         permissionLens,
+        currentUserLens,
         htmlView,
         storeHolder.orderQueries,
         storeHolder.dishQueries,
@@ -97,6 +101,7 @@ class HttpHandlerHolder(
     )
     val deleteOrder = DeleteOrder(
         permissionLens,
+        currentUserLens,
         storeHolder.orderQueries,
         htmlView,
     )
@@ -107,6 +112,7 @@ class HttpHandlerHolder(
     )
     val editStatusByUser = EditStatusByUser(
         permissionLens,
+        currentUserLens,
         storeHolder.orderQueries,
         htmlView,
     )
@@ -124,6 +130,7 @@ class HttpHandlerHolder(
 
     val addReviewToList = AddReviewToList(
         permissionLens,
+        currentUserLens,
         storeHolder.reviewQueries,
         storeHolder.restaurantQueries,
         htmlView

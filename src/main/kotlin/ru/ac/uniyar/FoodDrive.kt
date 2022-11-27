@@ -6,6 +6,7 @@ import org.http4k.core.RequestContexts
 import org.http4k.core.then
 import org.http4k.filter.DebuggingFilters.PrintRequest
 import org.http4k.filter.ServerFilters
+
 import org.http4k.lens.RequestContextKey
 import org.http4k.lens.RequestContextLens
 import org.http4k.routing.ResourceLoader
@@ -44,8 +45,10 @@ fun main() {
     val handlerHolder = HttpHandlerHolder(
         jwtTools,
         permissionsLens,
+        currentUserLens,
         htmlView,
         storeHolder,
+
     )
     val routingHttpHandler = static(ResourceLoader.Classpath("/ru/ac/uniyar/public/"))
 

@@ -20,12 +20,14 @@ class OrderQueries(
    inner class AddOrder{
        operator fun invoke(order: Order){
            orderRepository.add(order)
+           store.save()
        }
    }
 
     inner class UpdateOrder{
         operator fun invoke(order: Order){
             orderRepository.update(order)
+            store.save()
         }
     }
 
@@ -69,7 +71,8 @@ class OrderQueries(
     }
     inner class DeleteOrder{
         operator fun invoke(id: UUID){
-            return orderRepository.delete(id)
+            orderRepository.delete(id)
+            store.save()
         }
     }
    inner class DeleteDish{
@@ -84,6 +87,7 @@ class OrderQueries(
         operator fun invoke(index: Int,string: String,userId: UUID){
             val mas = FetchOrdersViaUserId().invoke(userId).toMutableList()
             orderRepository.update(mas[index].editStatus(string))
+            store.save()
         }
     }
 

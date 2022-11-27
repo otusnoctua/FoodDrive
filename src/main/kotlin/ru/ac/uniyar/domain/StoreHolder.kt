@@ -15,7 +15,7 @@ class StoreHolder(
     val fetchPermissionsViaQuery = FetchPermissionsViaIdQuery(store.rolePermissionsRepository)
     val dishQueries = DishQueries(store.dishRepository,store)
     val orderQueries = OrderQueries(store.orderRepository,dishQueries,store)
-    val reviewQueries = ReviewQueries(store.reviewRepository)
+    val reviewQueries = ReviewQueries(store.reviewRepository,store)
     val restaurantQueries = RestaurantQueries(store.restaurantRepository,store)
 
 
