@@ -20,12 +20,14 @@ class OrderQueries(
    inner class AddOrderQ{
        operator fun invoke(order: Order){
            orderRepository.add(order)
+           store.save()
        }
    }
 
     inner class UpdateOrderQ{
         operator fun invoke(order: Order){
             orderRepository.update(order)
+            store.save()
         }
     }
 
@@ -58,10 +60,16 @@ class OrderQueries(
         }
     }
 
-    inner class OrdersByUserQ{
+    inner class OrdersForUserQ{
         operator fun invoke(userId: UUID):List<Order>{
             return orderRepository.list().filter {it.clientId==userId}
         }
+    }
+    inner class OrdersForOrdersQ{
+        operator fun invoke():List<Order>{
+            return orderRepository.list().filter { it.status!="В ожидании"}
+        }
+
     }
     inner class FetchOrderQ{
         operator fun invoke(id: UUID):Order?{
@@ -70,7 +78,8 @@ class OrderQueries(
     }
     inner class DeleteOrderQ{
         operator fun invoke(id: UUID){
-            return orderRepository.delete(id)
+             orderRepository.delete(id)
+            store.save()
         }
     }
    inner class DeleteDishQ{
@@ -83,8 +92,9 @@ class OrderQueries(
 
     inner class EditStatusQ{
         operator fun invoke(index: Int,string: String,userId: UUID){
-            val mas = OrdersByUserQ().invoke(userId).toMutableList()
+            val mas = OrdersForUserQ().invoke(userId).toMutableList()
             orderRepository.update(mas[index].editStatus(string))
+            store.save()
         }
     }
 

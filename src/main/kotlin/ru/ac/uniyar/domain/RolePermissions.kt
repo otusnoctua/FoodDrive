@@ -38,6 +38,8 @@ data class RolePermissions(
     val deleteRestaurant: Boolean,
     val deleteDish: Boolean,
     val deleteReview: Boolean,
+    //
+    val viewBasket:Boolean
 
     ) {
     companion object {
@@ -77,7 +79,7 @@ data class RolePermissions(
                 jsonObject["deleteDish"].asBoolean(),
                 jsonObject["deleteReview"].asBoolean(),
                 //----------------------------------------
-
+                jsonObject["viewBasket"].asBoolean(),
             )
         }
 
@@ -85,7 +87,7 @@ data class RolePermissions(
             id = UUID.fromString("a53f3b97-1dd2-4d67-9526-340b6dbb208a"),
             name = "Гость",
             //----------------------------------------
-            listOrders = true,
+            listOrders = false,
             listUsers = false,
             listRestaurants = true,
             listDishes = true,
@@ -109,13 +111,13 @@ data class RolePermissions(
             editDish = false,
             editReview = false,
             //----------------------------------------
-            deleteOrder = true,
+            deleteOrder = false,
             deleteUser = false,
             deleteRestaurant = false,
             deleteDish = false,
             deleteReview = false,
             //----------------------------------------
-
+            viewBasket = false
         )
     }
 
@@ -153,7 +155,7 @@ data class RolePermissions(
         "deleteDish" to deleteDish.asJsonValue(),
         "deleteReview" to deleteReview.asJsonValue(),
         //----------------------------------------
-
+        "viewBasket" to viewBasket.asJsonValue(),
     ).asJsonObject()
 
     fun setUuid(uuid: UUID): RolePermissions {

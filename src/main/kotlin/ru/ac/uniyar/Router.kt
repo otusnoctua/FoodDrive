@@ -36,7 +36,8 @@ class Router (
     private val reviewsH:HttpHandler,
     private val reviewFormH:HttpHandler,
     private val addReviewH:HttpHandler,
-
+    private val ordersH:HttpHandler,
+    private val orderForOperatorH:HttpHandler,
 
     private val staticFilesHandler: RoutingHttpHandler,
 ) {
@@ -78,6 +79,9 @@ class Router (
         "/basket/delete/{order}" bind Method.GET to deleteOrderH,
 
         "/reviews/{restaurant}" bind Method.GET to reviewsH,
+
+        "/orders" bind Method.GET to ordersH,
+        "/orders/{order}" bind Method.GET to orderForOperatorH,
 
         staticFilesHandler,
     )

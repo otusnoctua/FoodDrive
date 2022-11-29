@@ -1,16 +1,23 @@
     {% extends "./layout.peb" %}
     {% block content %}
+        {% if model.ThisIsBasket ==true %}
+            {% for dish in model.order.dishes %}
+            <div>
+                {{ dish }}
+                <a href="/basket/{{model.order.id}}/delete/{{ loop.index }}" class="button">Удалить блюдо</a>
 
 
-          {% for dish in model.order.dishes %}
-              <div>
-             {{ dish }}
-                  <a href="/basket/{{model.order.id}}/delete/{{ loop.index }}" class="button">Удалить блюдо</a>
+            </div>
+
+            {% endfor %}
+
+        <a href="/basket/delete/{{model.order.id}}" class="button">Удалить заказ</a>
+        {% endif %}
+
+        {% if model.ThisIsBasket == false%}
+            <div>Заказ на имя {{ model.user.name }} </div>
+
+        {% endif %}
 
 
-              </div>
-
-             {% endfor %}
-
-<a href="/basket/delete/{{model.order.id}}" class="button">Удалить заказ</a>
     {% endblock %}

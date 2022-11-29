@@ -1,3 +1,8 @@
 package ru.ac.uniyar.models
 
-data class OrdersVM()
+import org.http4k.template.ViewModel
+import ru.ac.uniyar.domain.Order
+
+data class OrdersVM(
+    val listOfOrders: List<Order>
+): ViewModel

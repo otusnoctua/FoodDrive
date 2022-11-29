@@ -96,6 +96,7 @@ class HttpHandlerHolder(
     )
     val orderH = OrderH(
         permissionLens,
+        curUserLens,
         storeHolder.orderQueries,
         htmlView,
     )
@@ -107,6 +108,7 @@ class HttpHandlerHolder(
     )
     val deleteDishFromOrderH = DeleteDishFromOrderH(
         permissionLens,
+        curUserLens,
         storeHolder.orderQueries,
         htmlView,
     )
@@ -132,6 +134,18 @@ class HttpHandlerHolder(
         permissionLens,
         storeHolder.reviewQueries,
         storeHolder.restaurantQueries,
+        htmlView
+    )
+    val ordersH= OrdersH(
+        permissionLens,
+        curUserLens,
+        storeHolder.orderQueries,
+        htmlView,
+    )
+    val orderForOperatorH = OrderForOperatorH(
+        permissionLens,
+        storeHolder.orderQueries,
+        storeHolder.userQueries,
         htmlView
     )
 }
