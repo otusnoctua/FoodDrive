@@ -1,0 +1,23 @@
+{% extends "./layout.peb" %}
+{% block content %}
+    <a href="/{{ model.restaurant.id }}/ListOfDishes" class="button">Вернуться к ресторану</a>
+    <table>
+        <thead>
+            <tr>
+                <th width="200">Номер отзыва</th>
+                <th>Описание</th>
+                <th width="150">Оценка</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for review in model.listOfReviews %}
+                <tr>
+                    <td>Отзыв:{{ loop.index + 1 }}</td>
+                    <td> {{ review.text }}</td>
+                    <td> {{ review.rating }}/5</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="/{{model.restaurant.id }}/addReview"class="button">Оставить отзыв</a>
+{% endblock %}

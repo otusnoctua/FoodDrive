@@ -5,24 +5,23 @@ import org.http4k.core.Status.Companion.BAD_REQUEST
 import org.http4k.core.Status.Companion.FOUND
 import org.http4k.core.Status.Companion.OK
 import org.http4k.lens.*
-import ru.ac.uniyar.domain.EMPTY_UUID
 import ru.ac.uniyar.domain.lensOrNull
-import ru.ac.uniyar.models.ShowUserFormVM
+import ru.ac.uniyar.models.RegisterVM
 import ru.ac.uniyar.models.template.ContextAwareViewRender
-import ru.ac.uniyar.queries.AddUserQuery
+import ru.ac.uniyar.queries.AddUserQ
 
 
-class ShowUserForm(
+class RegisterFormH(
     private val htmlView: ContextAwareViewRender,
 ): HttpHandler {
     override fun invoke(request: Request): Response {
-        return Response(OK).with(htmlView(request) of ShowUserFormVM())
+        return Response(OK).with(htmlView(request) of RegisterVM())
     }
 }
 
 
-class AddUser(
-    private val addUserQuery: AddUserQuery,
+class RegisterH(
+    private val addUserQ: AddUserQ,
     private val htmlView: ContextAwareViewRender,
 ): HttpHandler {
     companion object {
@@ -45,7 +44,7 @@ class AddUser(
             form = form.copy(errors = newError)
         }
         if (form.errors.isEmpty()) {
-            addUserQuery.invoke(
+            addUserQ.invoke(
                 userNameFormLens(form),
                 userPhoneFormLens(form),
                 userEmailFormLens(form),
@@ -53,6 +52,6 @@ class AddUser(
             )
             return Response(FOUND).header("Location", "/")
         }
-        return Response(BAD_REQUEST).with(htmlView(request) of ShowUserFormVM(form))
+        return Response(BAD_REQUEST).with(htmlView(request) of RegisterVM(form))
     }
 }

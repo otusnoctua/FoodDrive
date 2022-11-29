@@ -10,29 +10,29 @@ class RestaurantQueries(
     private val restaurantRepository: RestaurantRepository,
     private val store: Store,
 ) {
-    inner class FetchRestaurantViaId {
+    inner class FetchRestaurantQ {
         operator fun invoke(id: UUID): Restaurant? {
             return restaurantRepository.fetch(id)
         }
     }
-    inner class ListOfRestaurantsQuery {
+    inner class RestaurantsQ {
         operator fun invoke(): List<Restaurant> {
             return restaurantRepository.list()
         }
     }
-    inner class DeleteRestaurantQuery {
+    inner class DeleteRestaurantQ {
         operator fun invoke(id:UUID){
             store.restaurantRepository.delete(id)
             store.save()
         }
     }
-    inner class EditRestaurantQuery {
+    inner class EditRestaurantQ {
         operator fun invoke(nameRestaurant: String, restaurant: Restaurant) {
             restaurantRepository.changeRestaurantName(nameRestaurant, restaurant)
             store.save()
         }
     }
-    inner class AddRestaurantQuery{
+    inner class AddRestaurantQ{
         operator fun invoke(nameRestaurant: String) {
             restaurantRepository.add(
                 Restaurant(

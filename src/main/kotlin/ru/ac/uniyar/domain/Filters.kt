@@ -3,21 +3,21 @@ package ru.ac.uniyar.domain
 import org.http4k.core.*
 import org.http4k.core.cookie.cookie
 import org.http4k.lens.RequestContextLens
-import ru.ac.uniyar.queries.FetchPermissionsViaIdQuery
-import ru.ac.uniyar.queries.FetchUserViaUserId
+import ru.ac.uniyar.queries.FetchPermissionsQ
+import ru.ac.uniyar.queries.FetchUserQ
 
 
 
 fun authenticationFilter(
     currentUser: RequestContextLens<User?>,
-    fetchUserViaUserId: FetchUserViaUserId,
+    fetchUserQ: FetchUserQ,
     jwtTools: JwtTools,
 ): Filter = Filter { next: HttpHandler ->
     {request: Request ->
         val requestWithUser = request.cookie("token")?.value?.let { token ->
             jwtTools.subject(token)
         }?.let { userId ->
-            fetchUserViaUserId(userId)
+            fetchUserQ(userId)
         }?.let { user ->
             request.with( currentUser of user)
         }?: request
@@ -27,12 +27,12 @@ fun authenticationFilter(
 fun authorizationFilter(
     currentUser: RequestContextLens<User?>,
     permissionsLens: RequestContextLens<RolePermissions>,
-    fetchPermissionsViaIdQuery: FetchPermissionsViaIdQuery,
+    fetchPermissionsQ: FetchPermissionsQ,
 ): Filter = Filter { next: HttpHandler ->
     {
         request: Request ->
         val permissions = currentUser(request)?.let {
-            fetchPermissionsViaIdQuery(it.roleId)
+            fetchPermissionsQ(it.roleId)
         } ?: RolePermissions.ANONYMOUS_ROLE
         val authorizedRequest = request.with( permissionsLens of permissions)
         next(authorizedRequest)

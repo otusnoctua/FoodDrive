@@ -11,21 +11,21 @@ import org.http4k.core.cookie.cookie
 import org.http4k.core.cookie.invalidateCookie
 import org.http4k.lens.*
 import ru.ac.uniyar.domain.JwtTools
-import ru.ac.uniyar.models.LoginFormVM
+import ru.ac.uniyar.models.LoginVM
 import ru.ac.uniyar.models.template.ContextAwareViewRender
-import ru.ac.uniyar.queries.AuthenticateUserViaLoginQuery
+import ru.ac.uniyar.queries.AuthenticateUserViaLoginQ
 import ru.ac.uniyar.queries.AuthenticationError
 
-class ShowLoginFormHandler(
+class LoginFormH(
     private val htmlView: ContextAwareViewRender,
 ):HttpHandler {
     override fun invoke(request: Request): Response {
-        return Response(OK).with(htmlView(request) of LoginFormVM())
+        return Response(OK).with(htmlView(request) of LoginVM())
 
     }
 }
-class AuthenticateUser(
-    private val authenticateUserViaLoginQuery: AuthenticateUserViaLoginQuery,
+class LoginH(
+    private val authenticateUserViaLoginQ: AuthenticateUserViaLoginQ,
     private val htmlView: ContextAwareViewRender,
     private val jwtTools: JwtTools,
 ): HttpHandler {
@@ -38,16 +38,16 @@ class AuthenticateUser(
     override fun invoke(request: Request): Response {
         val form = formLens(request)
         if (form.errors.isNotEmpty()) {
-            return Response(BAD_REQUEST).with(htmlView(request) of LoginFormVM(form))
+            return Response(BAD_REQUEST).with(htmlView(request) of LoginVM(form))
         }
         val userId = try {
-            authenticateUserViaLoginQuery(loginFieldLens(form), passwordFieldLens(form))
+            authenticateUserViaLoginQ(loginFieldLens(form), passwordFieldLens(form))
         } catch (_: AuthenticationError) {
             val newErrors = form.errors + Invalid(
                 passwordFieldLens.meta.copy(description = "login or password should match")
             )
             val newForm = form.copy(errors = newErrors)
-            return  Response(BAD_REQUEST).with(htmlView(request) of LoginFormVM(newForm))
+            return  Response(BAD_REQUEST).with(htmlView(request) of LoginVM(newForm))
         }
         val token = jwtTools.create(userId) ?: return Response(INTERNAL_SERVER_ERROR)
         val authCookie = Cookie("token", token, httpOnly = true, sameSite = SameSite.Strict)
@@ -57,7 +57,7 @@ class AuthenticateUser(
     }
 }
 
-class LogOutUser: HttpHandler {
+class LogOutH: HttpHandler {
     override fun invoke(request: Request): Response {
         return Response(FOUND)
             .header("Location", "/")

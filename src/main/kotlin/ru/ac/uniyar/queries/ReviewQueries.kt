@@ -7,13 +7,13 @@ import ru.ac.uniyar.domain.ReviewRepository
 class ReviewQueries(
     private val reviewRepository: ReviewRepository){
 
-    inner class ListOfReviews{
+    inner class ReviewsQ{
         operator fun invoke():List<Review>{
             return reviewRepository.list()
         }
     }
 
-    inner class AddReview{
+    inner class AddReviewQ{
         operator fun invoke(review: Review){
             reviewRepository.add(review)
         }

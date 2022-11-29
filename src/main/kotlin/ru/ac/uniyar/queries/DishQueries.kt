@@ -8,22 +8,17 @@ class DishQueries(
     private val dishRepository: DishRepository,
     private val store: Store
 ) {
-    inner class FetchDishViaId{
+    inner class FetchDishQ{
         operator fun invoke(id:UUID):Dish?{
             return dishRepository.fetch(id)
         }
     }
-    inner class FetchNameDishViaId{
-        operator fun invoke(id: UUID): String {
-            return dishRepository.fetch(id)?.nameDish ?: ""
-        }
-    }
-    inner class ListOfDishes {
+    inner class DishesOfRestaurantQ {
         operator fun invoke(id: UUID):List<Dish>{
             return dishRepository.list().filter {it.restaurantId==id}
         }
     }
-    inner class AddDishQuery{
+    inner class AddDishQ{
         operator fun invoke(restaurant: Restaurant, nameDish: String, ingredients: String, vegan: Boolean, description: String ){
             dishRepository.add(
                 Dish(
@@ -38,15 +33,14 @@ class DishQueries(
             store.save()
         }
     }
-     inner class DeleteDishQuery{
-
+     inner class DeleteDishQ{
          operator fun invoke(dish: Dish) {
              store.dishRepository.delete(dish)
              store.save()
          }
      }
 
-    inner class EditDishQuery{
+    inner class EditDishQ{
         operator fun invoke(nameDish: String, dish: Dish) {
             dishRepository.changeDishName(nameDish, dish)
             store.save()

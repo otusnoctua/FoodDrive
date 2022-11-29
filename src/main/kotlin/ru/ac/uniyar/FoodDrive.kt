@@ -4,7 +4,6 @@ import org.http4k.core.ContentType
 import org.http4k.core.HttpHandler
 import org.http4k.core.RequestContexts
 import org.http4k.core.then
-import org.http4k.filter.DebuggingFilters.PrintRequest
 import org.http4k.filter.ServerFilters
 import org.http4k.lens.RequestContextKey
 import org.http4k.lens.RequestContextLens
@@ -33,10 +32,10 @@ fun main() {
     val htmlView = ContextAwareViewRender(renderer, ContentType.TEXT_HTML)
 
     val contexts = RequestContexts()
-    val currentUserLens: RequestContextLens<User?> = RequestContextKey.optional(contexts, name = "user")
+    val curUserLens: RequestContextLens<User?> = RequestContextKey.optional(contexts, name = "user")
     val permissionsLens: RequestContextLens<RolePermissions> =
         RequestContextKey.required(contexts, name = "permissions")
-    val htmlViewWithContext = htmlView.associateContextLens("currentUser", currentUserLens)
+    val htmlViewWithContext = htmlView.associateContextLens("currentUser", curUserLens)
     val htmlViewPermissions= htmlView.associateContextLens("permissions", permissionsLens)
 
     val jwtTools = JwtTools(storeHolder.settings.salt, "ru.ac.uniyar.AnimalsList2")
@@ -44,6 +43,7 @@ fun main() {
     val handlerHolder = HttpHandlerHolder(
         jwtTools,
         permissionsLens,
+        curUserLens,
         htmlView,
         storeHolder,
     )
@@ -51,43 +51,43 @@ fun main() {
 
     val router = Router(
         handlerHolder.pingHandler,
-        handlerHolder.redirectToRestaurants,
-        handlerHolder.showListOfRestaurants,
-        handlerHolder.showListOfDishes,
-        handlerHolder.showUserForm,
-        handlerHolder.addUser,
-        handlerHolder.showLoginFormHandler,
-        handlerHolder.authenticateUser,
-        handlerHolder.logOutUser,
-        handlerHolder.showRestaurantForm,
-        handlerHolder.addRestaurant,
-        handlerHolder.deleteRestaurant,
-        handlerHolder.editRestaurant,
-        handlerHolder.showEditRestaurantForm,
-        handlerHolder.deleteDish,
-        handlerHolder.showDishForm,
-        handlerHolder.addDish,
-        handlerHolder.showEditDishForm,
-        handlerHolder.editDish,
-        handlerHolder.showBasket,
-        handlerHolder.addDishToOrder,
-        handlerHolder.showOrder,
-        handlerHolder.deleteOrder,
-        handlerHolder.deleteDishFromOrder,
-        handlerHolder.editStatusByUser,
-        handlerHolder.showReviewList,
-        handlerHolder.showReviewForm,
-        handlerHolder.addReviewToList,
+        handlerHolder.redirectToHomePage,
+        handlerHolder.homePageH,
+        handlerHolder.restaurantH,
+        handlerHolder.registerFormH,
+        handlerHolder.registerH,
+        handlerHolder.loginFormH,
+        handlerHolder.loginH,
+        handlerHolder.logOutH,
+        handlerHolder.addRestaurantFormH,
+        handlerHolder.addRestaurantH,
+        handlerHolder.deleteRestaurantH,
+        handlerHolder.editRestaurantH,
+        handlerHolder.editRestaurantFormH,
+        handlerHolder.deleteDishH,
+        handlerHolder.addDishFormH,
+        handlerHolder.addDishH,
+        handlerHolder.editDishFormH,
+        handlerHolder.editDishH,
+        handlerHolder.basketH,
+        handlerHolder.addDishToOrderH,
+        handlerHolder.orderH,
+        handlerHolder.deleteOrderH,
+        handlerHolder.deleteDishFromOrderH,
+        handlerHolder.editStatusByUserH,
+        handlerHolder.reviewsH,
+        handlerHolder.reviewFormH,
+        handlerHolder.addReviewH,
 
         routingHttpHandler,
     )
     val authorizedApp = authenticationFilter(
-        currentUserLens,
-        storeHolder.fetchUserViaUserId,
+        curUserLens,
+        storeHolder.fetchUserQ,
         jwtTools,
     ).then(
         authorizationFilter(
-            currentUserLens,
+            curUserLens,
             permissionsLens,
             storeHolder.fetchPermissionsViaQuery,
         )

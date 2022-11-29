@@ -4,125 +4,131 @@ import org.http4k.lens.RequestContextLens
 import ru.ac.uniyar.domain.JwtTools
 import ru.ac.uniyar.domain.RolePermissions
 import ru.ac.uniyar.domain.StoreHolder
+import ru.ac.uniyar.domain.User
 import ru.ac.uniyar.models.template.ContextAwareViewRender
 
 class HttpHandlerHolder(
     jwtTools: JwtTools,
     permissionLens: RequestContextLens<RolePermissions>,
+    curUserLens: RequestContextLens<User?>,
     htmlView: ContextAwareViewRender,
     storeHolder: StoreHolder,
 
 ) {
     val pingHandler = PingHandler()
-    val redirectToRestaurants = RedirectToRestaurants()
-    val showListOfRestaurants = ShowListOfRestaurants(
+    val redirectToHomePage = RedirectToHomePage()
+    val homePageH = HomePageH(
         permissionLens,
         storeHolder.restaurantQueries,
         storeHolder.dishQueries,
         htmlView
     )
-    val showListOfDishes = ShowListOfDishes(
+    val restaurantH = RestaurantH(
         permissionLens,
         storeHolder.dishQueries,
         storeHolder.restaurantQueries,
         htmlView
     )
-    val showUserForm = ShowUserForm(
+    val registerFormH = RegisterFormH(
         htmlView)
-    val addUser = AddUser(
-        storeHolder.addUserQuery,
+    val registerH = RegisterH(
+        storeHolder.addUserQ,
         htmlView)
-    val showLoginFormHandler = ShowLoginFormHandler(
+    val loginFormH = LoginFormH(
         htmlView)
-    val authenticateUser = AuthenticateUser(
-        storeHolder.authenticateUserViaLoginQuery,
+    val loginH = LoginH(
+        storeHolder.authenticateUserViaLoginQ,
         htmlView, jwtTools)
-    val logOutUser = LogOutUser()
-    val showRestaurantForm = ShowRestaurantForm(
+    val logOutH = LogOutH()
+    val addRestaurantFormH = AddRestaurantFormH(
         permissionLens,
         htmlView)
-    val addRestaurant = AddRestaurant(
+    val addRestaurantH = AddRestaurantH(
         permissionLens,
         storeHolder.restaurantQueries,
         htmlView)
-    val deleteRestaurant = DeleteRestaurant(
+    val deleteRestaurantH = DeleteRestaurantH(
         permissionLens,
         storeHolder.restaurantQueries,
         storeHolder.dishQueries)
-    val editRestaurant = EditRestaurant(
+    val editRestaurantH = EditRestaurantH(
         permissionLens,
         storeHolder.restaurantQueries,
         htmlView)
-    val showEditRestaurantForm = ShowEditRestaurantForm(
+    val editRestaurantFormH = EditRestaurantFormH(
         permissionLens,
         htmlView)
-    val addDish = AddDish(
+    val addDishH = AddDishH(
         permissionLens,
         storeHolder.restaurantQueries,
         storeHolder.dishQueries,
         htmlView)
-    val deleteDish = DeleteDish(
+    val deleteDishH = DeleteDishH(
         permissionLens,
         storeHolder.dishQueries,
     )
-    val editDish = EditDish(
+    val editDishH = EditDishH(
         permissionLens,
         storeHolder.dishQueries,
         storeHolder.restaurantQueries,
         htmlView)
-    val showEditDishForm = ShowEditDishForm(
+    val editDishFormH = EditDishFormH(
         permissionLens,
         storeHolder.restaurantQueries,
         htmlView)
-    val showDishForm = ShowDishForm(
+    val addDishFormH = AddDishFormH(
         permissionLens,
         storeHolder.restaurantQueries,
         htmlView)
-    val showBasket = ShowBasket(
+    val basketH = BasketH(
         permissionLens,
+        curUserLens,
         storeHolder.orderQueries,
         htmlView,
     )
-    val addDishToOrder = AddDishToOrder(
+    val addDishToOrderH = AddDishToOrderH(
         permissionLens,
+        curUserLens,
         htmlView,
         storeHolder.orderQueries,
         storeHolder.dishQueries,
         storeHolder.restaurantQueries,
     )
-    val showOrder = ShowOrder(
+    val orderH = OrderH(
         permissionLens,
         storeHolder.orderQueries,
         htmlView,
     )
-    val deleteOrder = DeleteOrder(
+    val deleteOrderH = DeleteOrderH(
+        permissionLens,
+        curUserLens,
+        storeHolder.orderQueries,
+        htmlView,
+    )
+    val deleteDishFromOrderH = DeleteDishFromOrderH(
         permissionLens,
         storeHolder.orderQueries,
         htmlView,
     )
-    val deleteDishFromOrder = DeleteDishFromOrder(
+    val editStatusByUserH = EditStatusByUserH(
         permissionLens,
+        curUserLens,
         storeHolder.orderQueries,
         htmlView,
     )
-    val editStatusByUser = EditStatusByUser(
-        permissionLens,
-        storeHolder.orderQueries,
-        htmlView,
-    )
-    val showReviewList = ShowReviewList(
+    val reviewsH = ReviewsH(
         permissionLens,
         storeHolder.reviewQueries,
         storeHolder.restaurantQueries,
         htmlView
     )
-    val showReviewForm = ShowReviewForm(
+    val reviewFormH = ReviewFormH(
         permissionLens,
         storeHolder.reviewQueries,
         htmlView
     )
 
-    val addReviewToList = AddReviewToList(
+    val addReviewH = AddReviewH(
         permissionLens,
         storeHolder.reviewQueries,
         storeHolder.restaurantQueries,

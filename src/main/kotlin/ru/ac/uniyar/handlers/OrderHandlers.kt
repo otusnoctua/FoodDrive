@@ -7,9 +7,10 @@ import org.http4k.routing.path
 import ru.ac.uniyar.domain.EMPTY_UUID
 import ru.ac.uniyar.domain.Order
 import ru.ac.uniyar.domain.RolePermissions
-import ru.ac.uniyar.models.ShowBasketVM
-import ru.ac.uniyar.models.ShowListOfDishesVM
-import ru.ac.uniyar.models.ShowOrderVM
+import ru.ac.uniyar.domain.User
+import ru.ac.uniyar.models.BasketVM
+import ru.ac.uniyar.models.RestaurantVM
+import ru.ac.uniyar.models.OrderVM
 import ru.ac.uniyar.models.template.ContextAwareViewRender
 import ru.ac.uniyar.queries.DishQueries
 import ru.ac.uniyar.queries.OrderQueries
@@ -18,23 +19,25 @@ import ru.ac.uniyar.queries.RestaurantQueries
 import java.time.LocalDateTime
 import java.util.*
 
-class ShowBasket(
+class BasketH(
     private val permissionsLens: RequestContextLens<RolePermissions>,
+    private val curUserLens: RequestContextLens<User?>,
     private val orderQueries: OrderQueries,
     private val htmlView: ContextAwareViewRender,
 ): HttpHandler {
     override fun invoke(request: Request): Response {
         val permissions = permissionsLens(request)
-        if (!permissions.listOrders)
+        val user = curUserLens(request)
+        if (!permissions.listOrders || user==null)
             return Response(Status.UNAUTHORIZED)
-        val userId = permissions.id
-        return Response(Status.OK).with(htmlView(request) of ShowBasketVM(orderQueries.FetchOrdersViaUserId().invoke(userId)))
+        return Response(Status.OK).with(htmlView(request) of BasketVM(orderQueries.OrdersByUserQ().invoke(user.id)))
     }
 }
 
 
-class AddDishToOrder(
+class AddDishToOrderH(
     private val permissionsLens: RequestContextLens<RolePermissions>,
+    private val curUserLens: RequestContextLens<User?>,
     private val htmlView: ContextAwareViewRender,
     private val orderQueries: OrderQueries,
     private val dishQueries: DishQueries,
@@ -42,37 +45,36 @@ class AddDishToOrder(
 ): HttpHandler {
     override fun invoke(request: Request): Response {
         val permissions = permissionsLens(request)
-        if (!permissions.createOrder)
+        val user = curUserLens(request)
+        if (!permissions.createOrder || user == null)
             return Response(Status.UNAUTHORIZED)
-        val userId = permissions.id
         val params = request.form()
-        val idString = params.findSingle("id").orEmpty()
-        val id = UUID.fromString(idString)
+        val dishId = UUID.fromString(params.findSingle("id").orEmpty()) ?: return Response(Status.BAD_REQUEST)
+        val dish = dishQueries.FetchDishQ().invoke(dishId) ?: return Response(Status.BAD_REQUEST)
         val restaurantId = UUID.fromString(request.path("restaurant").orEmpty()) ?: return Response(Status.BAD_REQUEST)
+        val restaurant = restaurantQueries.FetchRestaurantQ().invoke(restaurantId) ?: return Response(Status.BAD_REQUEST)
 
-        if (!orderQueries.CheckOrder().invoke(userId)) {
+        if (!orderQueries.CheckOrderQ().invoke(user.id)) {
             val dishes = mutableListOf<String>()
-            dishes.add(dishQueries.FetchNameDishViaId().invoke(id))
+            dishes.add(dish.nameDish)
             val order = Order(
                 EMPTY_UUID,
-                userId,
+                user.id,
                 restaurantId,
                 "В ожидании",
                 LocalDateTime.now(),
                 dishes
             )
-            orderQueries.AddOrder().invoke(order)
+            orderQueries.AddOrderQ().invoke(order)
         } else {
-            orderQueries.UpdateOrder().invoke(orderQueries.AddDish().invoke(userId, id))
+            orderQueries.UpdateOrderQ().invoke(orderQueries.AddDishQ().invoke(user.id, dishId))
         }
-        val model =
-            restaurantQueries.FetchRestaurantViaId().invoke(restaurantId)
-                ?.let { ShowListOfDishesVM(dishQueries.ListOfDishes().invoke(restaurantId), it) }
-        return Response(Status.OK).with(htmlView(request) of model!!)
+        val model = RestaurantVM(dishQueries.DishesOfRestaurantQ().invoke(restaurant.id), restaurant)
+        return Response(Status.OK).with(htmlView(request) of model)
     }
 }
 
-class ShowOrder(
+class OrderH(
     private val permissionsLens: RequestContextLens<RolePermissions>,
     private val orderQueries: OrderQueries,
     private val htmlView: ContextAwareViewRender,
@@ -81,33 +83,32 @@ class ShowOrder(
         val permissions = permissionsLens(request)
         if (!permissions.viewOrder)
             return Response(Status.UNAUTHORIZED)
-        val idString = request.path("order").orEmpty()
-        val id = UUID.fromString(idString) ?: return Response(Status.BAD_REQUEST)
-        val order = orderQueries.FetchOrderViaId().invoke(id) ?: return Response(Status.BAD_REQUEST)
-        return Response(Status.OK).with(htmlView(request) of ShowOrderVM(order))
+        val orderId = UUID.fromString(request.path("order").orEmpty()) ?: return Response(Status.BAD_REQUEST)
+        val order = orderQueries.FetchOrderQ().invoke(orderId) ?: return Response(Status.BAD_REQUEST)
+        return Response(Status.OK).with(htmlView(request) of OrderVM(order))
     }
 }
 
-class DeleteOrder(
+class DeleteOrderH(
     private val permissionsLens: RequestContextLens<RolePermissions>,
+    private val curUserLens: RequestContextLens<User?>,
     private val orderQueries: OrderQueries,
     private val htmlView: ContextAwareViewRender,
 ): HttpHandler {
     override fun invoke(request: Request): Response {
-        val idString = request.path("order").orEmpty()
-        val id = UUID.fromString(idString) ?: return Response(Status.BAD_REQUEST)
+        val id = UUID.fromString(request.path("order").orEmpty()) ?: return Response(Status.BAD_REQUEST)
         val permissionsDelete = permissionsLens(request)
-        if (!permissionsDelete.deleteOrder)
+        val user = curUserLens(request)
+        if (!permissionsDelete.deleteOrder || user == null)
             return Response(Status.UNAUTHORIZED)
         val permissions = permissionsLens(request)
         if (!permissions.listOrders)
             return Response(Status.UNAUTHORIZED)
-        orderQueries.DeleteOrder().invoke(id)
-        val userId = permissions.id
-        return Response(Status.OK).with(htmlView(request) of ShowBasketVM(orderQueries.FetchOrdersViaUserId().invoke(userId)))
+        orderQueries.DeleteOrderQ().invoke(id)
+        return Response(Status.OK).with(htmlView(request) of BasketVM(orderQueries.OrdersByUserQ().invoke(user.id)))
     }
 }
-class DeleteDishFromOrder(
+class DeleteDishFromOrderH(
     private val permissionsLens: RequestContextLens<RolePermissions>,
     private val orderQueries: OrderQueries,
     private val htmlView: ContextAwareViewRender,
@@ -118,28 +119,28 @@ class DeleteDishFromOrder(
             return Response(Status.UNAUTHORIZED)
         val idString = request.path("order").orEmpty()
         val id = UUID.fromString(idString) ?: return Response(Status.BAD_REQUEST)
-        val order = orderQueries.FetchOrderViaId().invoke(id) ?: return Response(Status.BAD_REQUEST)
+        val order = orderQueries.FetchOrderQ().invoke(id) ?: return Response(Status.BAD_REQUEST)
         val indexString = request.path("dish").orEmpty()
         val index = indexString.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
-        val newOrder = orderQueries.DeleteDish().invoke(order, index)
-        orderQueries.UpdateOrder().invoke(newOrder)
-        return Response(Status.OK).with(htmlView(request) of ShowOrderVM(newOrder))
+        val newOrder = orderQueries.DeleteDishQ().invoke(order, index)
+        orderQueries.UpdateOrderQ().invoke(newOrder)
+        return Response(Status.OK).with(htmlView(request) of OrderVM(newOrder))
     }
 }
 
-class EditStatusByUser(
+class EditStatusByUserH(
     private val permissionsLens: RequestContextLens<RolePermissions>,
+    private val curUserLens: RequestContextLens<User?>,
     private val orderQueries: OrderQueries,
     private val htmlView: ContextAwareViewRender,
 ):HttpHandler {
     override fun invoke(request: Request): Response {
         val permissions = permissionsLens(request)
-        if (!permissions.listOrders)
+        val user = curUserLens(request)
+        if (!permissions.listOrders || user == null)
             return Response(Status.UNAUTHORIZED)
-        val userId = permissions.id
-        val idString = request.form().findSingle("index").orEmpty()
-        val index = idString.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
-        orderQueries.EditStatus().invoke(index, "В обработке", userId)
-        return Response(Status.OK).with(htmlView(request) of ShowBasketVM(orderQueries.FetchOrdersViaUserId().invoke(userId)))
+        val index = request.form().findSingle("index").orEmpty().toIntOrNull() ?: return Response(Status.BAD_REQUEST)
+        orderQueries.EditStatusQ().invoke(index, "В обработке", user.id)
+        return Response(Status.OK).with(htmlView(request) of BasketVM(orderQueries.OrdersByUserQ().invoke(user.id)))
     }
 }
