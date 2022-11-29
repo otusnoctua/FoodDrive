@@ -25,7 +25,7 @@
                     <li><a href="/register">Зарегистрироваться</a></li>
                 {% endif %}
                 {% if currentUser is not null %}
-                    <li class="menu-text">{{ currentUser.name}}</li><li><a href="/logout">Выйти</a></li>
+                    <li><a href="/profile">{{ currentUser.name}}</a></li><li><a href="/logout">Выйти</a></li>
                 {% else %}
                     <li><a href="/login">Войти</a></li>
                 {% endif %}

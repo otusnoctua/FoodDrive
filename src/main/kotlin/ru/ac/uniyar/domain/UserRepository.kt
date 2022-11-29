@@ -36,4 +36,7 @@ class UserRepository(user: Iterable<User> = emptyList()) {
 
     fun list() = allUsers.values.toList()
 
+    fun changeUser(userName: String, userPhone: String, userEmail: String, user: User) {
+        allUsers[user.id] = user.copy(name = userName, phone = userPhone, email = userEmail)
+    }
 }

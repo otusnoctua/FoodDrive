@@ -88,7 +88,7 @@ class EditDishH(
             Response(Status.UNAUTHORIZED)
         val webForm = BodyDishFormLens(request)
         if (webForm.errors.isEmpty()) {
-            dishQueries.EditDishQ().invoke(dishNameFormLens(webForm), dish)
+            dishQueries.EditDishQ().invoke(dishNameFormLens(webForm), ingredientsFormLens(webForm), descriptionFormLens(webForm), veganFormLens(webForm), dish)
             return Response(Status.FOUND).header("Location", "/${restaurant.id}/ListOfDishes")
         } else {
             return Response(Status.OK).with(htmlView(request) of DishFormVM(webForm, restaurant,isEdit=true))

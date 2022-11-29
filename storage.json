@@ -94,10 +94,10 @@
   }, {
     "id" : "1a9fb169-0666-4fe0-ae4d-8099ee3f851a",
     "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
-    "ingredients" : "1123",
+    "ingredients" : "Курица, салат",
     "vegan" : true,
-    "description" : "213",
-    "nameDish" : "Салат"
+    "description" : "Вкусно",
+    "nameDish" : "Цезарь"
   } ],
   "restaurant" : [ {
     "id" : "06badb58-9b86-4485-84a5-6caf91661b4b",
@@ -167,7 +167,7 @@
     "id" : "5416a740-4c8b-4491-9c3a-8593f4b27e9b",
     "name" : "Евгений",
     "phone" : "89108236375",
-    "email" : "oreshnikov@mail.ru",
+    "email" : "oreshnikov02@mail.ru",
     "password" : "d093867118da21af4af2ee88198d85f7b1fb2ddf25bcb227c3f0baac31808e6714a9453a22166b2c11f2d88639f3765cb8833dc106cd15e5ac2d80fe69039662",
     "roleId" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9"
   } ]

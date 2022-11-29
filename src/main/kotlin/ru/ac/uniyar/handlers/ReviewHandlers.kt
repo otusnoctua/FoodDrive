@@ -6,6 +6,7 @@ import org.http4k.routing.path
 import ru.ac.uniyar.domain.EMPTY_UUID
 import ru.ac.uniyar.domain.Review
 import ru.ac.uniyar.domain.RolePermissions
+import ru.ac.uniyar.domain.User
 import ru.ac.uniyar.models.ReviewsVM
 import ru.ac.uniyar.models.ReviewFormVM
 import ru.ac.uniyar.models.template.ContextAwareViewRender
@@ -56,15 +57,16 @@ class ReviewFormH(
 
 class AddReviewH(
     private val permissionsLens: RequestContextLens<RolePermissions>,
+    private val curUserLens: RequestContextLens<User?>,
     private val reviewQueries: ReviewQueries,
     private val restaurantQueries: RestaurantQueries,
     private val htmlView: ContextAwareViewRender,
 ):HttpHandler {
     override fun invoke(request: Request): Response {
         val permissions = permissionsLens(request)
-        if (!permissions.createReview)
+        val user = curUserLens(request)
+        if (!permissions.createReview || user == null)
             return Response(Status.UNAUTHORIZED)
-        val userId = permissions.id
         val restaurantId =
             UUID.fromString(request.path("restaurant").orEmpty()) ?: return Response(Status.BAD_REQUEST)
         val restaurant =
@@ -73,7 +75,7 @@ class AddReviewH(
         if (webForm.errors.isEmpty()) {
             val review = Review(
                 EMPTY_UUID,
-                userId,
+                user.id,
                 restaurant.id,
                 textReviewFormLens(webForm),
                 ratingReviewFormLens(webForm),

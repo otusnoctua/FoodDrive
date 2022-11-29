@@ -36,7 +36,9 @@ class Router (
     private val reviewsH:HttpHandler,
     private val reviewFormH:HttpHandler,
     private val addReviewH:HttpHandler,
-
+    private val showProfileH:HttpHandler,
+    private val editProfileFormH: HttpHandler,
+    private val editProfileH: HttpHandler,
 
     private val staticFilesHandler: RoutingHttpHandler,
 ) {
@@ -52,6 +54,11 @@ class Router (
         "/logout" bind Method.GET to logOutH,
 
         "/{restaurant}/delete" bind Method.GET to deleteRestaurantH,
+
+        "/profile" bind Method.GET to showProfileH,
+        "/profile/edit" bind Method.GET to editProfileFormH,
+        "/profile/edit" bind Method.POST to editProfileH,
+
         "/restaurants" bind Method.GET to homePageH,
         "/restaurants/new" bind Method.GET to addRestaurantFormH,
         "/restaurants/new" bind Method.POST to addRestaurantH,

@@ -41,8 +41,8 @@ class DishQueries(
      }
 
     inner class EditDishQ{
-        operator fun invoke(nameDish: String, dish: Dish) {
-            dishRepository.changeDishName(nameDish, dish)
+        operator fun invoke(nameDish: String, ingredients: String, description: String, vegan: Boolean, dish: Dish) {
+            dishRepository.changeDish(nameDish, ingredients, description, vegan, dish)
             store.save()
         }
     }

@@ -78,6 +78,9 @@ fun main() {
         handlerHolder.reviewsH,
         handlerHolder.reviewFormH,
         handlerHolder.addReviewH,
+        handlerHolder.profileH,
+        handlerHolder.editProfileFormH,
+        handlerHolder.editProfileH,
 
         routingHttpHandler,
     )

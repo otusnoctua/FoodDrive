@@ -32,7 +32,7 @@ class HttpHandlerHolder(
     val registerFormH = RegisterFormH(
         htmlView)
     val registerH = RegisterH(
-        storeHolder.addUserQ,
+        storeHolder.userQ,
         htmlView)
     val loginFormH = LoginFormH(
         htmlView)
@@ -130,8 +130,26 @@ class HttpHandlerHolder(
 
     val addReviewH = AddReviewH(
         permissionLens,
+        curUserLens,
         storeHolder.reviewQueries,
         storeHolder.restaurantQueries,
         htmlView
+    )
+
+    val profileH = ProfileH(
+        permissionLens,
+        htmlView
+    )
+
+    val editProfileFormH = EditProfileFormH(
+        permissionLens,
+        htmlView
+    )
+
+    val editProfileH = EditProfileH(
+        permissionLens,
+        curUserLens,
+        storeHolder.userQueries,
+        htmlView,
     )
 }

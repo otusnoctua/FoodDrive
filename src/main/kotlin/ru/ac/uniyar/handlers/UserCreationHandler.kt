@@ -8,7 +8,7 @@ import org.http4k.lens.*
 import ru.ac.uniyar.domain.lensOrNull
 import ru.ac.uniyar.models.RegisterVM
 import ru.ac.uniyar.models.template.ContextAwareViewRender
-import ru.ac.uniyar.queries.AddUserQ
+import ru.ac.uniyar.queries.UserQ
 
 
 class RegisterFormH(
@@ -21,7 +21,7 @@ class RegisterFormH(
 
 
 class RegisterH(
-    private val addUserQ: AddUserQ,
+    private val userQ: UserQ,
     private val htmlView: ContextAwareViewRender,
 ): HttpHandler {
     companion object {
@@ -44,7 +44,7 @@ class RegisterH(
             form = form.copy(errors = newError)
         }
         if (form.errors.isEmpty()) {
-            addUserQ.invoke(
+            userQ.AddUserQ().invoke(
                 userNameFormLens(form),
                 userPhoneFormLens(form),
                 userEmailFormLens(form),

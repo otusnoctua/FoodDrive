@@ -37,8 +37,8 @@ class DishRepository(dish: Iterable<Dish> = emptyList()) {
         allDishes.remove(dish.id)
     }
 
-    fun changeDishName(nameDish: String, dish: Dish){
-        allDishes[dish.id] = dish.copy(nameDish = nameDish)
+    fun changeDish(nameDish: String, ingredients: String, description: String, vegan: Boolean, dish: Dish){
+        allDishes[dish.id] = dish.copy(nameDish = nameDish, ingredients = ingredients, description = description, vegan = vegan)
     }
 
     fun list() = allDishes.values.toList()
