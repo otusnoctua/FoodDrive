@@ -27,7 +27,8 @@ class DishQueries(
                     ingredients,
                     vegan,
                     description,
-                    nameDish
+                    nameDish,
+                    true
                 )
             )
             store.save()

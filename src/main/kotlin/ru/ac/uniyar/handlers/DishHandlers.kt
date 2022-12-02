@@ -5,6 +5,7 @@ import org.http4k.lens.*
 import org.http4k.routing.path
 import ru.ac.uniyar.domain.RolePermissions
 import ru.ac.uniyar.models.DishFormVM
+import ru.ac.uniyar.models.RestaurantFormVM
 import ru.ac.uniyar.models.template.ContextAwareViewRender
 import ru.ac.uniyar.queries.*
 import java.util.*
@@ -54,7 +55,8 @@ class AddDishH(
                 dishNameFormLens(webForm),
                 ingredientsFormLens(webForm),
                 veganFormLens(webForm),
-                descriptionFormLens(webForm)
+                descriptionFormLens(webForm),
+
             )
             return Response(Status.FOUND).header("Location", "/${restaurant.id}/ListOfDishes")//<--пример
         } else {

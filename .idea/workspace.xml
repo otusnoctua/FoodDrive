@@ -4,23 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="43b4130d-75c7-4252-b650-8f23e8024b9b" name="Changes" comment="">
+    <list default="true" id="43b4130d-75c7-4252-b650-8f23e8024b9b" name="Changes" comment="Добавлена в обработчики currentUserLens, небольшие изменения в запросах">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/models/OrderInBasketVM.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ru/ac/uniyar/models/OrderInBasketVM.peb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/FoodDrive.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/FoodDrive.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/Router.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/Router.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/OrderRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/OrderRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/Dish.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/Dish.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/RolePermissions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/RolePermissions.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/StoreHolder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/StoreHolder.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/handlers/DishHandlers.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/handlers/DishHandlers.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/handlers/HttpHandlerHolder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/handlers/HttpHandlerHolder.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/handlers/OrderHandlers.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/handlers/OrderHandlers.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/models/OrderVM.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/models/OrderVM.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/models/OrdersVM.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/models/OrdersVM.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/queries/DishQueries.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/queries/DishQueries.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/queries/OrderQueries.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/queries/OrderQueries.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/queries/ReviewQueries.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/queries/ReviewQueries.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/queries/UserQueries.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/queries/UserQueries.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/ru/ac/uniyar/models/OrderVM.peb" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ru/ac/uniyar/models/OrderVM.peb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/ru/ac/uniyar/models/OrdersVM.peb" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ru/ac/uniyar/models/OrdersVM.peb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/ru/ac/uniyar/models/layout.peb" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ru/ac/uniyar/models/layout.peb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage.json" beforeDir="false" afterPath="$PROJECT_DIR$/storage.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -67,9 +66,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Kotlin Class" />
         <option value="Kotlin Data Class" />
         <option value="Pebble template" />
-        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -81,19 +80,25 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="2HPEi4UamyAEeachmbvTq0TK1mn" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "last_opened_file_path": "D:/FoodDrive/src/main/resources/ru/ac/uniyar/models",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "Template Data Languages"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/FoodDrive/src/main/resources/ru/ac/uniyar/models&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;Template Data Languages&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Gradle.FoodDrive [run]">
     <configuration name="FoodDrive [buildKotlinToolingMetadata]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
@@ -184,7 +189,7 @@
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="--scan" />
+        <option name="scriptParameters" value="--scan --stacktrace" />
         <option name="taskDescriptions">
           <list />
         </option>
@@ -218,8 +223,13 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1668178446564</updated>
+      <workItem from="1669822302283" duration="616000" />
+      <workItem from="1669966003044" duration="6416000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">

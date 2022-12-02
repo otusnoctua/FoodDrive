@@ -38,6 +38,7 @@ class Router (
     private val addReviewH:HttpHandler,
     private val ordersH:HttpHandler,
     private val orderForOperatorH:HttpHandler,
+    private val editStatusByOperatorH:HttpHandler,
 
     private val staticFilesHandler: RoutingHttpHandler,
 ) {
@@ -82,6 +83,8 @@ class Router (
 
         "/orders" bind Method.GET to ordersH,
         "/orders/{order}" bind Method.GET to orderForOperatorH,
+        "/orders/{order}" bind Method.POST to editStatusByOperatorH,
+
 
         staticFilesHandler,
     )

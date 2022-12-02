@@ -98,5 +98,12 @@ class OrderQueries(
         }
     }
 
+    inner class EditStatusViaId(){
+        operator fun invoke(id:UUID,string:String){
+            orderRepository.update(FetchOrderQ().invoke(id)!!.editStatus(string))
+            store.save()
+        }
+    }
+
 
 }

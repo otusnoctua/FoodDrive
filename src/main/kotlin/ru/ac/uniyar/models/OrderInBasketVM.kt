@@ -1,3 +1,6 @@
 package ru.ac.uniyar.models
 
-data class OrderInBasketVM()
+import org.http4k.template.ViewModel
+import ru.ac.uniyar.domain.Order
+
+data class OrderInBasketVM(val order: Order):ViewModel

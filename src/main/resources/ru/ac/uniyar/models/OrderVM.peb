@@ -1,23 +1,20 @@
     {% extends "./layout.peb" %}
     {% block content %}
-        {% if model.ThisIsBasket ==true %}
-            {% for dish in model.order.dishes %}
-            <div>
-                {{ dish }}
-                <a href="/basket/{{model.order.id}}/delete/{{ loop.index }}" class="button">Удалить блюдо</a>
 
-
+    <div>Заказ на имя {{ model.user.name }} </div>
+    <form method="POST">
+        <div class="grid-x grid-padding-x">
+            <div class="medium-12 cell">
+                <label>Доступность:
+                    <select name = "status" >
+                        <option  value="В обработке">В обработке</option>
+                        <option  value="Готов">Готов</option>
+                        <option  value="Отменен">Отменен</option>
+                    </select >
+                </label>
             </div>
+        </div>
+        <input type="submit" value="Изменить" class="button">
 
-            {% endfor %}
-
-        <a href="/basket/delete/{{model.order.id}}" class="button">Удалить заказ</a>
-        {% endif %}
-
-        {% if model.ThisIsBasket == false%}
-            <div>Заказ на имя {{ model.user.name }} </div>
-
-        {% endif %}
-
-
+    </form>
     {% endblock %}

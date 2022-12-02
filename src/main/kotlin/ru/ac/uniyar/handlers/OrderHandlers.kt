@@ -5,10 +5,7 @@ import org.http4k.core.body.form
 import org.http4k.lens.*
 import org.http4k.routing.path
 import ru.ac.uniyar.domain.*
-import ru.ac.uniyar.models.BasketVM
-import ru.ac.uniyar.models.RestaurantVM
-import ru.ac.uniyar.models.OrderVM
-import ru.ac.uniyar.models.OrdersVM
+import ru.ac.uniyar.models.*
 import ru.ac.uniyar.models.template.ContextAwareViewRender
 import ru.ac.uniyar.queries.DishQueries
 import ru.ac.uniyar.queries.OrderQueries
@@ -101,7 +98,7 @@ class OrderH(
             return Response(Status.UNAUTHORIZED)
         val orderId = UUID.fromString(request.path("order").orEmpty()) ?: return Response(Status.BAD_REQUEST)
         val order = orderQueries.FetchOrderQ().invoke(orderId) ?: return Response(Status.BAD_REQUEST)
-        return Response(Status.OK).with(htmlView(request) of OrderVM(order,user,true))
+        return Response(Status.OK).with(htmlView(request) of OrderVM(order,user))
     }
 }
 class OrderForOperatorH(
@@ -110,6 +107,7 @@ class OrderForOperatorH(
     private val userQueries: UserQueries,
     private val htmlView: ContextAwareViewRender,
 ):HttpHandler{
+
     override fun invoke(request: Request): Response {
         val permissions = permissionsLens(request)
         if (!permissions.viewOrder)
@@ -117,7 +115,7 @@ class OrderForOperatorH(
         val orderId = UUID.fromString(request.path("order").orEmpty()) ?: return Response(Status.BAD_REQUEST)
         val order = orderQueries.FetchOrderQ().invoke(orderId) ?: return Response(Status.BAD_REQUEST)
         val user = userQueries.FetchUserQ().invoke(order.clientId)?: return Response(Status.BAD_REQUEST)
-        return Response(Status.OK).with(htmlView(request) of OrderVM(order,user,false))
+        return Response(Status.OK).with(htmlView(request) of OrderVM(order,user))
     }
 }
 
@@ -158,7 +156,7 @@ class DeleteDishFromOrderH(
         val index = indexString.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
         val newOrder = orderQueries.DeleteDishQ().invoke(order, index)
         orderQueries.UpdateOrderQ().invoke(newOrder)
-        return Response(Status.OK).with(htmlView(request) of OrderVM(newOrder,user,true))
+        return Response(Status.OK).with(htmlView(request) of OrderInBasketVM(newOrder))
     }
 }
 
@@ -176,5 +174,28 @@ class EditStatusByUserH(
         val index = request.form().findSingle("index").orEmpty().toIntOrNull() ?: return Response(Status.BAD_REQUEST)
         orderQueries.EditStatusQ().invoke(index, "В обработке", user.id)
         return Response(Status.OK).with(htmlView(request) of BasketVM(orderQueries.OrdersForUserQ().invoke(user.id)))
+    }
+}
+
+class EditStatusByOperatorH(
+    private val permissionsLens: RequestContextLens<RolePermissions>,
+    private val orderQueries: OrderQueries,
+):HttpHandler{
+
+    companion object {
+        val statusFormLens = FormField.string().required("status")
+        val BodyFormLens = Body.webForm(
+            Validator.Feedback, statusFormLens,
+        ).toLens()
+    }
+    override fun invoke(request: Request): Response {
+        val permissions = permissionsLens(request)
+        if (!permissions.editOrder)
+            return Response(Status.UNAUTHORIZED)
+        val orderId =
+            UUID.fromString(request.path("order").orEmpty()) ?: return Response(Status.BAD_REQUEST)
+        val webForm = BodyReviewFormLens(request)
+        orderQueries.EditStatusViaId().invoke(orderId, statusFormLens(webForm))
+        return Response(Status.FOUND).header("Location", "/orders")
     }
 }

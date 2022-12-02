@@ -80,6 +80,7 @@ fun main() {
         handlerHolder.addReviewH,
         handlerHolder.ordersH,
         handlerHolder.orderForOperatorH,
+        handlerHolder.editStatusByOperatorH,
 
         routingHttpHandler,
     )
