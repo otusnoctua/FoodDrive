@@ -9,6 +9,7 @@ data class Dish(
     val id: UUID,
     val restaurantId : UUID,
     val ingredients: String,
+    val price: Int,
     val vegan: Boolean,
     val description: String,
     val nameDish: String,
@@ -21,10 +22,10 @@ data class Dish(
                 UUID.fromString(jsonObject["id"].asText()),
                 UUID.fromString(jsonObject["restaurantId"].asText()),
                 jsonObject["ingredients"].asText(),
+                jsonObject["price"].asInt(),
                 jsonObject["vegan"].asBoolean(),
                 jsonObject["description"].asText(),
                 jsonObject["nameDish"].asText(),
-
             )
         }
     }
@@ -33,10 +34,10 @@ data class Dish(
             "id" to id.toString().asJsonValue(),
             "restaurantId" to restaurantId.toString().asJsonValue(),
             "ingredients" to ingredients.asJsonValue(),
+            "price" to price.asJsonValue(),
             "vegan" to vegan.asJsonValue(),
             "description" to description.asJsonValue(),
             "nameDish" to nameDish.asJsonValue(),
-
         ).asJsonObject()
     }
 

@@ -88,16 +88,26 @@
     "id" : "b129984d-db73-417b-bc8f-facbd63eba68",
     "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
     "ingredients" : "Булка, курица и т.д.",
+    "price" : 169,
     "vegan" : false,
-    "description" : "Вкусно",
+    "description" : "Вкусно и выгодно",
     "nameDish" : "Шефбургер"
   }, {
     "id" : "1a9fb169-0666-4fe0-ae4d-8099ee3f851a",
     "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
     "ingredients" : "Курица, салат",
+    "price" : 123,
     "vegan" : true,
     "description" : "Вкусно",
     "nameDish" : "Цезарь"
+  }, {
+    "id" : "7ce8b494-5257-4547-97a1-8a4779a8e1a4",
+    "restaurantId" : "c5a5a16b-7cbc-41ed-823b-dbe05ad0e943",
+    "ingredients" : "Котлета говяжья, булка и т.д.",
+    "price" : 159,
+    "vegan" : false,
+    "description" : "Вкусно",
+    "nameDish" : "БигМак"
   } ],
   "restaurant" : [ {
     "id" : "06badb58-9b86-4485-84a5-6caf91661b4b",
@@ -140,6 +150,13 @@
     "status" : "В ожидании",
     "timestamp" : "2022-11-12T13:31:00.7359844",
     "dishes" : [ "Салат", "Салат" ]
+  }, {
+    "id" : "3351a471-2da5-424d-9edb-fb9b68ac5270",
+    "clientId" : "5416a740-4c8b-4491-9c3a-8593f4b27e9b",
+    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
+    "status" : "В ожидании",
+    "timestamp" : "2022-12-02T17:16:25.5330066",
+    "dishes" : [ "Шефбургер", "Цезарь" ]
   } ],
   "review" : [ {
     "id" : "1e4442e6-cef6-4be7-b40d-3ada1e743b05",

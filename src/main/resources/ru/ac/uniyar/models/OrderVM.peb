@@ -6,10 +6,7 @@
               <div>
              {{ dish }}
                   <a href="/basket/{{model.order.id}}/delete/{{ loop.index }}" class="button">Удалить блюдо</a>
-
-
               </div>
-
              {% endfor %}
 
 <a href="/basket/delete/{{model.order.id}}" class="button">Удалить заказ</a>

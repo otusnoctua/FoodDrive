@@ -36,6 +36,7 @@ class AddDishH(
         private val veganFormLens = FormField.boolean().required("vegan")
         private val ingredientsFormLens = FormField.string().required("ingredients")
         private val descriptionFormLens = FormField.string().required("description")
+        private val priceFormLens = FormField.int().required("price")
         private val BodyDishFormLens = Body.webForm(
             Validator.Feedback, dishNameFormLens,
         ).toLens()
@@ -53,6 +54,7 @@ class AddDishH(
                 restaurant,
                 dishNameFormLens(webForm),
                 ingredientsFormLens(webForm),
+                priceFormLens(webForm),
                 veganFormLens(webForm),
                 descriptionFormLens(webForm)
             )
@@ -74,6 +76,7 @@ class EditDishH(
         private val veganFormLens = FormField.boolean().required("vegan")
         private val ingredientsFormLens = FormField.string().required("ingredients")
         private val descriptionFormLens = FormField.string().required("description")
+        private val priceFormLens = FormField.int().required("price")
         private val BodyDishFormLens = Body.webForm(
             Validator.Feedback, dishNameFormLens,
         ).toLens()
@@ -88,7 +91,7 @@ class EditDishH(
             Response(Status.UNAUTHORIZED)
         val webForm = BodyDishFormLens(request)
         if (webForm.errors.isEmpty()) {
-            dishQueries.EditDishQ().invoke(dishNameFormLens(webForm), ingredientsFormLens(webForm), descriptionFormLens(webForm), veganFormLens(webForm), dish)
+            dishQueries.EditDishQ().invoke(dishNameFormLens(webForm), ingredientsFormLens(webForm), priceFormLens(webForm), descriptionFormLens(webForm), veganFormLens(webForm), dish)
             return Response(Status.FOUND).header("Location", "/${restaurant.id}/ListOfDishes")
         } else {
             return Response(Status.OK).with(htmlView(request) of DishFormVM(webForm, restaurant,isEdit=true))

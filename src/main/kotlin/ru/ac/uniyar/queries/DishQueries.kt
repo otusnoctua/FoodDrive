@@ -19,12 +19,13 @@ class DishQueries(
         }
     }
     inner class AddDishQ{
-        operator fun invoke(restaurant: Restaurant, nameDish: String, ingredients: String, vegan: Boolean, description: String ){
+        operator fun invoke(restaurant: Restaurant, nameDish: String, ingredients: String, price: Int, vegan: Boolean, description: String ){
             dishRepository.add(
                 Dish(
                     EMPTY_UUID,
                     restaurant.id,
                     ingredients,
+                    price,
                     vegan,
                     description,
                     nameDish
@@ -41,8 +42,8 @@ class DishQueries(
      }
 
     inner class EditDishQ{
-        operator fun invoke(nameDish: String, ingredients: String, description: String, vegan: Boolean, dish: Dish) {
-            dishRepository.changeDish(nameDish, ingredients, description, vegan, dish)
+        operator fun invoke(nameDish: String, ingredients: String, price: Int, description: String, vegan: Boolean, dish: Dish) {
+            dishRepository.changeDish(nameDish, ingredients, price, description, vegan, dish)
             store.save()
         }
     }
