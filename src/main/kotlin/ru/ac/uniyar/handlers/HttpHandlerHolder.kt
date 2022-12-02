@@ -97,6 +97,7 @@ class HttpHandlerHolder(
     val orderH = OrderH(
         permissionLens,
         storeHolder.orderQueries,
+        storeHolder.dishQueries,
         htmlView,
     )
     val deleteOrderH = DeleteOrderH(
@@ -108,6 +109,7 @@ class HttpHandlerHolder(
     val deleteDishFromOrderH = DeleteDishFromOrderH(
         permissionLens,
         storeHolder.orderQueries,
+        storeHolder.dishQueries,
         htmlView,
     )
     val editStatusByUserH = EditStatusByUserH(

@@ -31,8 +31,8 @@ class OrderQueries(
 
     inner class CreateOrderQ{
         operator fun invoke(userId:UUID, dish: Dish):Order{
-            val listOfDishes= mutableListOf<String>()
-            listOfDishes.add(dish.nameDish)
+            val listOfDishes= mutableListOf<UUID>()
+            listOfDishes.add(dish.id)
             val order: Order = Order(
                 UUID.randomUUID(),
                 userId,
@@ -54,7 +54,7 @@ class OrderQueries(
         operator fun invoke(userId: UUID,dishId:UUID):Order{
             val order: Order =
                 orderRepository.list().first { it.clientId == userId && it.status == "В ожидании" }
-            return order.addElementToDishes(dishQueries.FetchDishQ().invoke(dishId)?.nameDish ?: "")
+            return order.addElementToDishes(dishId)
         }
     }
 
@@ -85,6 +85,7 @@ class OrderQueries(
         operator fun invoke(index: Int,string: String,userId: UUID){
             val mas = OrdersByUserQ().invoke(userId).toMutableList()
             orderRepository.update(mas[index].editStatus(string))
+            store.save()
         }
     }
 

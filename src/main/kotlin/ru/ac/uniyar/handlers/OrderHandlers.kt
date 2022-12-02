@@ -55,8 +55,8 @@ class AddDishToOrderH(
         val restaurant = restaurantQueries.FetchRestaurantQ().invoke(restaurantId) ?: return Response(Status.BAD_REQUEST)
 
         if (!orderQueries.CheckOrderQ().invoke(user.id)) {
-            val dishes = mutableListOf<String>()
-            dishes.add(dish.nameDish)
+            val dishes = mutableListOf<UUID>()
+            dishes.add(dish.id)
             val order = Order(
                 EMPTY_UUID,
                 user.id,
@@ -77,6 +77,7 @@ class AddDishToOrderH(
 class OrderH(
     private val permissionsLens: RequestContextLens<RolePermissions>,
     private val orderQueries: OrderQueries,
+    private val dishQueries: DishQueries,
     private val htmlView: ContextAwareViewRender,
 ): HttpHandler {
     override fun invoke(request: Request): Response {
@@ -85,7 +86,12 @@ class OrderH(
             return Response(Status.UNAUTHORIZED)
         val orderId = UUID.fromString(request.path("order").orEmpty()) ?: return Response(Status.BAD_REQUEST)
         val order = orderQueries.FetchOrderQ().invoke(orderId) ?: return Response(Status.BAD_REQUEST)
-        return Response(Status.OK).with(htmlView(request) of OrderVM(order))
+        val dishes = order.dishes.map { dishQueries.FetchDishQ().invoke(it) }
+        if (dishes.contains(null))
+            return Response(Status.BAD_REQUEST)
+        var price = 29
+        dishes.forEach { price +=it!!.price }
+        return Response(Status.OK).with(htmlView(request) of OrderVM(order, dishes.map { it!! }, price))
     }
 }
 
@@ -111,6 +117,7 @@ class DeleteOrderH(
 class DeleteDishFromOrderH(
     private val permissionsLens: RequestContextLens<RolePermissions>,
     private val orderQueries: OrderQueries,
+    private val dishQueries: DishQueries,
     private val htmlView: ContextAwareViewRender,
 ):HttpHandler {
     override fun invoke(request: Request): Response {
@@ -124,7 +131,12 @@ class DeleteDishFromOrderH(
         val index = indexString.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
         val newOrder = orderQueries.DeleteDishQ().invoke(order, index)
         orderQueries.UpdateOrderQ().invoke(newOrder)
-        return Response(Status.OK).with(htmlView(request) of OrderVM(newOrder))
+        val dishes = newOrder.dishes.map { dishQueries.FetchDishQ().invoke(it) }
+        if (dishes.contains(null))
+            return Response(Status.BAD_REQUEST)
+        var price = 29
+        dishes.forEach { price +=it!!.price }
+        return Response(Status.OK).with(htmlView(request) of OrderVM(newOrder, dishes.map { it!! }, price))
     }
 }
 

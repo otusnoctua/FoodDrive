@@ -2,12 +2,19 @@
     {% block content %}
 
 
-          {% for dish in model.order.dishes %}
+          {% for dish in model.dishes %}
               <div>
-             {{ dish }}
+             {{ dish.nameDish }}, {{ dish.price }} руб.
                   <a href="/basket/{{model.order.id}}/delete/{{ loop.index }}" class="button">Удалить блюдо</a>
               </div>
              {% endfor %}
-
+<div>
+Сервисный сбор: 29 руб.
+</div>
+<div>
+Итоговая цена: {{ model.price }} руб.
+</div>
+<div>
 <a href="/basket/delete/{{model.order.id}}" class="button">Удалить заказ</a>
+</div>
     {% endblock %}
