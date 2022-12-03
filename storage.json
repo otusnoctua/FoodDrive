@@ -28,7 +28,7 @@
     "deleteDish" : false,
     "deleteReview" : false,
     "viewBasket" : true,
-    "editAvailability" : false
+    "editStopList" : false
   }, {
     "id" : "ca3c1157-29d4-4de4-b258-7011c3e7a426",
     "name" : "Оператор",
@@ -47,10 +47,10 @@
     "viewRestaurant" : true,
     "viewDish" : true,
     "viewReview" : true,
-    "editOrder" : false,
+    "editOrder" : true,
     "editUser" : false,
     "editRestaurant" : false,
-    "editDish" : false,
+    "editDish" : true,
     "editReview" : false,
     "deleteOrder" : true,
     "deleteUser" : false,
@@ -58,7 +58,7 @@
     "deleteDish" : false,
     "deleteReview" : false,
     "viewBasket" : false,
-    "editAvailability" : true
+    "editStopList" : true
   }, {
     "id" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9",
     "name" : "Администратор",
@@ -88,7 +88,7 @@
     "deleteDish" : true,
     "deleteReview" : true,
     "viewBasket" : true,
-    "editAvailability" : true
+    "editStopList" : true
   } ],
   "dish" : [ {
     "id" : "1a9fb169-0666-4fe0-ae4d-8099ee3f851a",
@@ -105,7 +105,7 @@
     "vegan" : false,
     "description" : "...",
     "nameDish" : "Тестовое блюдо",
-    "availability" : false
+    "availability" : true
   } ],
   "restaurant" : [ {
     "id" : "06badb58-9b86-4485-84a5-6caf91661b4b",
@@ -134,6 +134,13 @@
     "status" : "Готов",
     "timestamp" : "2022-11-29T22:02:50.3487989",
     "dishes" : [ "Шефбургер", "Салат" ]
+  }, {
+    "id" : "efd1c380-1bec-4f47-b300-9169e12d0fe2",
+    "clientId" : "bf613567-236f-49cf-b862-6629f2d11ff9",
+    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
+    "status" : "В ожидании",
+    "timestamp" : "2022-12-03T12:23:44.5906745",
+    "dishes" : [ "Салат", "Тестовое блюдо" ]
   } ],
   "review" : [ ],
   "user" : [ {

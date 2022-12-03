@@ -141,7 +141,7 @@ class EditAvailabilityH(
         val dishId = UUID.fromString(request.path("dish").orEmpty()) ?: return Response(Status.BAD_REQUEST)
         val dish = dishQueries.FetchDishQ().invoke(dishId) ?: return Response(Status.BAD_REQUEST)
         val restaurantId = UUID.fromString(request.path("restaurant").orEmpty()) ?: return Response(Status.BAD_REQUEST)
-        if (!permissionLens(request).editDish)
+        if (!permissionLens(request).editStopList)
             return Response(Status.UNAUTHORIZED)
         if (!permissionLens(request).listDishes)
             return Response(Status.UNAUTHORIZED)

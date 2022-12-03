@@ -67,8 +67,8 @@ class Router (
 
         "/{restaurant}/{dish}/delete" bind Method.GET to deleteDishH,
         "/{restaurant}/{dish}/availability" bind Method.GET to editAvailabilityH,
+        "/{restaurant}/{dish}/dishToOrder" bind Method.GET to addDishToOrderH,
         "/{restaurant}/ListOfDishes" bind Method.GET to restaurantH,
-        "/{restaurant}/ListOfDishes" bind Method.POST to addDishToOrderH,
         "/{restaurant}/ListOfDishes/new" bind Method.GET to addDishFormH,
         "/{restaurant}/ListOfDishes/new" bind Method.POST to addDishH,
 

@@ -59,11 +59,9 @@ class AddDishToOrderH(
         val user = curUserLens(request)
         if (!permissions.createOrder || user == null)
             return Response(Status.UNAUTHORIZED)
-        val params = request.form()
-        val dishId = UUID.fromString(params.findSingle("id").orEmpty()) ?: return Response(Status.BAD_REQUEST)
+        val dishId = UUID.fromString(request.path("dish").orEmpty()) ?: return Response(Status.BAD_REQUEST)
         val dish = dishQueries.FetchDishQ().invoke(dishId) ?: return Response(Status.BAD_REQUEST)
         val restaurantId = UUID.fromString(request.path("restaurant").orEmpty()) ?: return Response(Status.BAD_REQUEST)
-        val restaurant = restaurantQueries.FetchRestaurantQ().invoke(restaurantId) ?: return Response(Status.BAD_REQUEST)
 
         if (!orderQueries.CheckOrderQ().invoke(user.id)) {
             val dishes = mutableListOf<String>()
@@ -80,8 +78,7 @@ class AddDishToOrderH(
         } else {
             orderQueries.UpdateOrderQ().invoke(orderQueries.AddDishQ().invoke(user.id, dishId))
         }
-        val model = RestaurantVM(dishQueries.DishesOfRestaurantQ().invoke(restaurant.id), restaurant)
-        return Response(Status.OK).with(htmlView(request) of model)
+        return Response(Status.FOUND).header("Location", "/${restaurantId}/ListOfDishes")
     }
 }
 
@@ -98,13 +95,14 @@ class OrderH(
             return Response(Status.UNAUTHORIZED)
         val orderId = UUID.fromString(request.path("order").orEmpty()) ?: return Response(Status.BAD_REQUEST)
         val order = orderQueries.FetchOrderQ().invoke(orderId) ?: return Response(Status.BAD_REQUEST)
-        return Response(Status.OK).with(htmlView(request) of OrderVM(order,user))
+        return Response(Status.OK).with(htmlView(request) of OrderInBasketVM(order))
     }
 }
 class OrderForOperatorH(
     private val permissionsLens: RequestContextLens<RolePermissions>,
     private val orderQueries: OrderQueries,
     private val userQueries: UserQueries,
+    private val restaurantQueries: RestaurantQueries,
     private val htmlView: ContextAwareViewRender,
 ):HttpHandler{
 
@@ -115,7 +113,8 @@ class OrderForOperatorH(
         val orderId = UUID.fromString(request.path("order").orEmpty()) ?: return Response(Status.BAD_REQUEST)
         val order = orderQueries.FetchOrderQ().invoke(orderId) ?: return Response(Status.BAD_REQUEST)
         val user = userQueries.FetchUserQ().invoke(order.clientId)?: return Response(Status.BAD_REQUEST)
-        return Response(Status.OK).with(htmlView(request) of OrderVM(order,user))
+        val restaurant=restaurantQueries.FetchRestaurantQ().invoke(order.restaurantId)?:return Response(Status.BAD_REQUEST)
+        return Response(Status.OK).with(htmlView(request) of OrderVM(order,user,restaurant))
     }
 }
 
@@ -196,6 +195,6 @@ class EditStatusByOperatorH(
             UUID.fromString(request.path("order").orEmpty()) ?: return Response(Status.BAD_REQUEST)
         val webForm = BodyReviewFormLens(request)
         orderQueries.EditStatusViaId().invoke(orderId, statusFormLens(webForm))
-        return Response(Status.FOUND).header("Location", "/orders")
+        return Response(Status.FOUND).header("Location", "/orders/${orderId}")
     }
 }

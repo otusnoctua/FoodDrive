@@ -1,20 +1,29 @@
     {% extends "./layout.peb" %}
     {% block content %}
-
-    <div>Заказ на имя {{ model.user.name }} </div>
+    <h2 class="text-center"> Заказ номер: {{ model.order.id }} </h2>
+    <h3 class="text-lefT"> Контактная информация:  </h3>
+    <p>Имя заказчика: {{ model.user.name }} </p>
+    <p>Телефон: {{ model.user.phone }} </p>
+    <p>Email: {{ model.user.email }} </p>
+    <h3 class="text-left">Информация о заказе:  </h3>
+    <p>Время добавления: {{ model.order.timestamp }} </p>
+    <p>Ресторан: {{ model.restaurant.nameRestaurant }} </p>
+    <p>Содержимое: {{ model.order.dishes }} </p>
+    <h3 class="text-left">Статус: {{ model.order.status }}</h3>
     <form method="POST">
         <div class="grid-x grid-padding-x">
             <div class="medium-12 cell">
-                <label>Доступность:
+
                     <select name = "status" >
-                        <option  value="В обработке">В обработке</option>
-                        <option  value="Готов">Готов</option>
-                        <option  value="Отменен">Отменен</option>
+                        <option id="1"  value="В обработке">В обработке</option>
+                        <option id="2"  value="Готов">Готов</option>
+                        <option id="3"  value="Отменен">Отменен</option>
                     </select >
                 </label>
             </div>
         </div>
         <input type="submit" value="Изменить" class="button">
-
     </form>
+
+
     {% endblock %}
