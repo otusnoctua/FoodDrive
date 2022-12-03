@@ -39,6 +39,7 @@ class Router (
     private val ordersH:HttpHandler,
     private val orderForOperatorH:HttpHandler,
     private val editStatusByOperatorH:HttpHandler,
+    private val editAvailabilityH:HttpHandler,
 
     private val staticFilesHandler: RoutingHttpHandler,
 ) {
@@ -65,6 +66,7 @@ class Router (
         "/{restaurant}/addReview" bind Method.POST to addReviewH,
 
         "/{restaurant}/{dish}/delete" bind Method.GET to deleteDishH,
+        "/{restaurant}/{dish}/availability" bind Method.GET to editAvailabilityH,
         "/{restaurant}/ListOfDishes" bind Method.GET to restaurantH,
         "/{restaurant}/ListOfDishes" bind Method.POST to addDishToOrderH,
         "/{restaurant}/ListOfDishes/new" bind Method.GET to addDishFormH,

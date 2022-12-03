@@ -28,7 +28,7 @@
     "deleteDish" : false,
     "deleteReview" : false,
     "viewBasket" : true,
-    "editAvailability" : true
+    "editAvailability" : false
   }, {
     "id" : "ca3c1157-29d4-4de4-b258-7011c3e7a426",
     "name" : "Оператор",
@@ -58,7 +58,7 @@
     "deleteDish" : false,
     "deleteReview" : false,
     "viewBasket" : false,
-    "editAvailability" : false
+    "editAvailability" : true
   }, {
     "id" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9",
     "name" : "Администратор",
@@ -91,14 +91,6 @@
     "editAvailability" : true
   } ],
   "dish" : [ {
-    "id" : "b129984d-db73-417b-bc8f-facbd63eba68",
-    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
-    "ingredients" : "Булка, курица и т.д.",
-    "vegan" : false,
-    "description" : "Вкусно",
-    "nameDish" : "Шефбургер",
-    "availability" : false
-  }, {
     "id" : "1a9fb169-0666-4fe0-ae4d-8099ee3f851a",
     "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
     "ingredients" : "1123",
@@ -106,6 +98,14 @@
     "description" : "213",
     "nameDish" : "Салат",
     "availability" : true
+  }, {
+    "id" : "2f28c0ce-0860-4983-960d-99b8ca1748eb",
+    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
+    "ingredients" : "что-нибудь",
+    "vegan" : false,
+    "description" : "...",
+    "nameDish" : "Тестовое блюдо",
+    "availability" : false
   } ],
   "restaurant" : [ {
     "id" : "06badb58-9b86-4485-84a5-6caf91661b4b",

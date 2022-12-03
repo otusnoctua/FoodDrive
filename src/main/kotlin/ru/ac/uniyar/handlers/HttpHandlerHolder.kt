@@ -152,4 +152,8 @@ class HttpHandlerHolder(
         permissionLens,
         storeHolder.orderQueries,
     )
+    val editAvailabilityH = EditAvailabilityH(
+        permissionLens,
+        storeHolder.dishQueries,
+    )
 }

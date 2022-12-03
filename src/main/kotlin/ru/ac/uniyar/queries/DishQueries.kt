@@ -47,4 +47,10 @@ class DishQueries(
             store.save()
         }
     }
+    inner class EditAvailability{
+        operator fun invoke(dish:Dish){
+            dishRepository.update(dish.editAvailability())
+            store.save()
+        }
+    }
 }

@@ -132,3 +132,20 @@ class DeleteDishH(
         return Response(Status.FOUND).header("Location", "/${restaurantId}/ListOfDishes")
     }
 }
+
+class EditAvailabilityH(
+    private val permissionLens: RequestContextLens<RolePermissions>,
+    private val dishQueries: DishQueries,
+): HttpHandler{
+    override fun invoke(request: Request): Response {
+        val dishId = UUID.fromString(request.path("dish").orEmpty()) ?: return Response(Status.BAD_REQUEST)
+        val dish = dishQueries.FetchDishQ().invoke(dishId) ?: return Response(Status.BAD_REQUEST)
+        val restaurantId = UUID.fromString(request.path("restaurant").orEmpty()) ?: return Response(Status.BAD_REQUEST)
+        if (!permissionLens(request).editDish)
+            return Response(Status.UNAUTHORIZED)
+        if (!permissionLens(request).listDishes)
+            return Response(Status.UNAUTHORIZED)
+        dishQueries.EditAvailability().invoke(dish)
+        return Response(Status.FOUND).header("Location", "/${restaurantId}/ListOfDishes")
+    }
+}

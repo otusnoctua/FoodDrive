@@ -37,12 +37,16 @@ data class Dish(
             "vegan" to vegan.asJsonValue(),
             "description" to description.asJsonValue(),
             "nameDish" to nameDish.asJsonValue(),
-            "availability" to vegan.asJsonValue(),
+            "availability" to availability.asJsonValue(),
 
         ).asJsonObject()
     }
 
     fun setUuid(uuid: UUID): Dish {
         return this.copy(id = uuid)
+    }
+
+    fun editAvailability():Dish{
+        return this.copy(availability = !availability)
     }
 }
