@@ -17,6 +17,9 @@
                 {% if permissions.listOrders%}
                     <li><a href="/orders">Заказы</a></li>
                 {% endif %}
+                {% if permissions.createOperator%}
+                    <li><a href="/registerOperator">Создать оператора</a></li>
+                {% endif %}
                 {% if currentUser is not null %}
                     <li><a href="/basket">Корзина</a></li>
                 {% endif %}

@@ -41,6 +41,7 @@ data class RolePermissions(
     //
     val viewBasket:Boolean,
     val editStopList:Boolean,
+    val createOperator:Boolean
 
     ) {
     companion object {
@@ -82,6 +83,7 @@ data class RolePermissions(
                 //----------------------------------------
                 jsonObject["viewBasket"].asBoolean(),
                 jsonObject["editStopList"].asBoolean(),
+                jsonObject["createOperator"].asBoolean(),
             )
         }
 
@@ -121,6 +123,7 @@ data class RolePermissions(
             //----------------------------------------
             viewBasket = false,
             editStopList = false,
+            createOperator = false,
         )
     }
 
@@ -160,6 +163,7 @@ data class RolePermissions(
         //----------------------------------------
         "viewBasket" to viewBasket.asJsonValue(),
         "editStopList" to editStopList.asJsonValue(),
+        "createOperator" to createOperator.asJsonValue(),
     ).asJsonObject()
 
     fun setUuid(uuid: UUID): RolePermissions {

@@ -4,16 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="43b4130d-75c7-4252-b650-8f23e8024b9b" name="Changes" comment="Добавлена в обработчики currentUserLens, небольшие изменения в запросах">
+    <list default="true" id="43b4130d-75c7-4252-b650-8f23e8024b9b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/models/RegisterOperatorVM.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ru/ac/uniyar/models/RegisterOperatorVM.peb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/FoodDrive.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/FoodDrive.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/Router.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/Router.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/RolePermissions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/RolePermissions.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/handlers/DishHandlers.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/handlers/DishHandlers.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/User.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/domain/User.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/handlers/HttpHandlerHolder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/handlers/HttpHandlerHolder.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/handlers/OrderHandlers.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/handlers/OrderHandlers.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/models/OrderVM.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/models/OrderVM.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/handlers/UserCreationHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/handlers/UserCreationHandler.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/models/RegisterVM.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/models/RegisterVM.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/queries/AddUserQ.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ru/ac/uniyar/queries/AddUserQ.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/ru/ac/uniyar/models/OrderVM.peb" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ru/ac/uniyar/models/OrderVM.peb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/ru/ac/uniyar/models/RestaurantVM.peb" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ru/ac/uniyar/models/RestaurantVM.peb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ru/ac/uniyar/models/layout.peb" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ru/ac/uniyar/models/layout.peb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage.json" beforeDir="false" afterPath="$PROJECT_DIR$/storage.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -61,6 +65,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin Class" />
+        <option value="Kotlin File" />
         <option value="Kotlin Data Class" />
         <option value="Pebble template" />
       </list>
@@ -216,7 +221,7 @@
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="--scan --stacktrace" />
+        <option name="scriptParameters" value="--scan --scan --stacktrace" />
         <option name="taskDescriptions">
           <list />
         </option>
@@ -254,7 +259,8 @@
       <workItem from="1669966003044" duration="6562000" />
       <workItem from="1669997510347" duration="3536000" />
       <workItem from="1670003069104" duration="1364000" />
-      <workItem from="1670056523832" duration="9307000" />
+      <workItem from="1670056523832" duration="13375000" />
+      <workItem from="1670179309026" duration="5408000" />
     </task>
     <servers />
   </component>

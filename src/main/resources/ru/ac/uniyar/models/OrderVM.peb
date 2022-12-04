@@ -15,9 +15,9 @@
             <div class="medium-12 cell">
 
                     <select name = "status" >
-                        <option id="1"  value="В обработке">В обработке</option>
-                        <option id="2"  value="Готов">Готов</option>
-                        <option id="3"  value="Отменен">Отменен</option>
+                        <option   value="В обработке">В обработке</option>
+                        <option   value="Готов">Готов</option>
+                        <option   value="Отменен">Отменен</option>
                     </select >
                 </label>
             </div>

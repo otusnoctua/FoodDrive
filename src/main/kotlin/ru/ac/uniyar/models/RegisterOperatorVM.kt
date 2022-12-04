@@ -1,3 +1,11 @@
 package ru.ac.uniyar.models
 
-data class RegisterOperatorVM()
+import org.http4k.lens.WebForm
+import org.http4k.template.ViewModel
+import ru.ac.uniyar.domain.Restaurant
+import ru.ac.uniyar.domain.RestaurantInfo
+
+data class RegisterOperatorVM(
+    val listOfRestaurants: List<Restaurant>,
+    val form: WebForm = WebForm(),
+) : ViewModel

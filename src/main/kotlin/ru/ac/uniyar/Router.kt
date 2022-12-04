@@ -40,6 +40,7 @@ class Router (
     private val orderForOperatorH:HttpHandler,
     private val editStatusByOperatorH:HttpHandler,
     private val editAvailabilityH:HttpHandler,
+    private val registerOperatorH:HttpHandler,
 
     private val staticFilesHandler: RoutingHttpHandler,
 ) {
@@ -49,6 +50,8 @@ class Router (
 
         "/register" bind Method.GET to registerFormH,
         "/register" bind Method.POST to registerH,
+        "/registerOperator" bind Method.GET to registerOperatorH,
+        "/registerOperator" bind Method.POST to registerH,
 
         "/login" bind Method.GET to loginFormH,
         "/login" bind Method.POST to loginH,

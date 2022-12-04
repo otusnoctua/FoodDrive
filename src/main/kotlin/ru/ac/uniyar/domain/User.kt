@@ -12,6 +12,7 @@ data class User(
     val email: String,
     val password: String,
     val roleId: UUID,
+    val linkToRestaurant:UUID,
 
     ){
     companion object{
@@ -24,7 +25,7 @@ data class User(
                 user["email"].asText(),
                 user["password"].asText(),
                 UUID.fromString(user["roleId"].asText()),
-
+                UUID.fromString(user["linkToRestaurant"].asText()),
             )
         }
     }
@@ -37,7 +38,7 @@ data class User(
             "email" to email.asJsonValue(),
             "password" to password.asJsonValue(),
             "roleId" to roleId.toString().asJsonValue(),
-
+            "linkToRestaurant" to linkToRestaurant.toString().asJsonValue(),
         ).asJsonObject()
     }
 

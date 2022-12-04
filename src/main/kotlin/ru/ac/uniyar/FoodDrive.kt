@@ -82,6 +82,7 @@ fun main() {
         handlerHolder.orderForOperatorH,
         handlerHolder.editStatusByOperatorH,
         handlerHolder.editAvailabilityH,
+        handlerHolder.registerOperatorH,
 
         routingHttpHandler,
     )
