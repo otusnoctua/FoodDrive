@@ -84,6 +84,7 @@ class AddReviewH(
         }
         val restaurant = restaurantQueries.FetchRestaurantQ().invoke(UUID.fromString(request.path("restaurant").orEmpty()))
                 ?: return Response(Status.BAD_REQUEST)
+
         val webForm = BodyReviewFormLens(request)
         return if (webForm.errors.isEmpty()) {
             val review = Review(
