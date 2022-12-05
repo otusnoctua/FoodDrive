@@ -36,7 +36,11 @@ class Router (
     private val reviewsH:HttpHandler,
     private val reviewFormH:HttpHandler,
     private val addReviewH:HttpHandler,
-
+    private val ordersH:HttpHandler,
+    private val orderForOperatorH:HttpHandler,
+    private val editStatusByOperatorH:HttpHandler,
+    private val editAvailabilityH:HttpHandler,
+    private val registerOperatorH:HttpHandler,
 
     private val staticFilesHandler: RoutingHttpHandler,
 ) {
@@ -46,6 +50,8 @@ class Router (
 
         "/register" bind Method.GET to registerFormH,
         "/register" bind Method.POST to registerH,
+        "/registerOperator" bind Method.GET to registerOperatorH,
+        "/registerOperator" bind Method.POST to registerH,
 
         "/login" bind Method.GET to loginFormH,
         "/login" bind Method.POST to loginH,
@@ -63,8 +69,9 @@ class Router (
         "/{restaurant}/addReview" bind Method.POST to addReviewH,
 
         "/{restaurant}/{dish}/delete" bind Method.GET to deleteDishH,
+        "/{restaurant}/{dish}/availability" bind Method.GET to editAvailabilityH,
+        "/{restaurant}/{dish}/dishToOrder" bind Method.GET to addDishToOrderH,
         "/{restaurant}/ListOfDishes" bind Method.GET to restaurantH,
-        "/{restaurant}/ListOfDishes" bind Method.POST to addDishToOrderH,
         "/{restaurant}/ListOfDishes/new" bind Method.GET to addDishFormH,
         "/{restaurant}/ListOfDishes/new" bind Method.POST to addDishH,
 
@@ -78,6 +85,11 @@ class Router (
         "/basket/delete/{order}" bind Method.GET to deleteOrderH,
 
         "/reviews/{restaurant}" bind Method.GET to reviewsH,
+
+        "/orders" bind Method.GET to ordersH,
+        "/orders/{order}" bind Method.GET to orderForOperatorH,
+        "/orders/{order}" bind Method.POST to editStatusByOperatorH,
+
 
         staticFilesHandler,
     )

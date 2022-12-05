@@ -12,6 +12,7 @@ data class Dish(
     val vegan: Boolean,
     val description: String,
     val nameDish: String,
+    val availability:Boolean,
 
     ){
     companion object{
@@ -24,7 +25,7 @@ data class Dish(
                 jsonObject["vegan"].asBoolean(),
                 jsonObject["description"].asText(),
                 jsonObject["nameDish"].asText(),
-
+                jsonObject["availability"].asBoolean(),
             )
         }
     }
@@ -36,11 +37,16 @@ data class Dish(
             "vegan" to vegan.asJsonValue(),
             "description" to description.asJsonValue(),
             "nameDish" to nameDish.asJsonValue(),
+            "availability" to availability.asJsonValue(),
 
         ).asJsonObject()
     }
 
     fun setUuid(uuid: UUID): Dish {
         return this.copy(id = uuid)
+    }
+
+    fun editAvailability():Dish{
+        return this.copy(availability = !availability)
     }
 }

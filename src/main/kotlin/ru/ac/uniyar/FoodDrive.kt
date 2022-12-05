@@ -78,6 +78,11 @@ fun main() {
         handlerHolder.reviewsH,
         handlerHolder.reviewFormH,
         handlerHolder.addReviewH,
+        handlerHolder.ordersH,
+        handlerHolder.orderForOperatorH,
+        handlerHolder.editStatusByOperatorH,
+        handlerHolder.editAvailabilityH,
+        handlerHolder.registerOperatorH,
 
         routingHttpHandler,
     )

@@ -6,16 +6,40 @@
             {% if permissions.createDish %}<a href="/{{model.restaurant.id}}/ListOfDishes/new" class="button">Добавить</a>{% endif %}
         </div>
         {% for dish in model.listOfDishes %}
+            {% if permissions.editStopList %}
             <div>
                 {{ dish.nameDish }}: {{dish.ingredients}}, {{dish.description}}{% if dish.vegan %}, Вегетарианское {% endif %}
-                <button name="id" class="button" type="submit" value={{ dish.id }}>В корзину</button>
+                {% if permissions.createOrder %}
+                    <a href="/{{model.restaurant.id}}/{{dish.id}}/dishToOrder"class="button">Добавить в корзину</a>
+                {% endif %}
                 {% if permissions.editDish %}
                     <a href="/{{model.restaurant.id}}/{{dish.id}}/edit"class="button">Редактировать</a>
                 {% endif %}
                 {% if permissions.deleteDish %}
                     <a href="/{{model.restaurant.id }}/{{dish.id}}/delete"class="button">Удалить</a>
                 {% endif %}
+                {% if dish.availability %}
+                    <a href="/{{model.restaurant.id }}/{{dish.id}}/availability"class="button">Убрать из каталога</a>
+                {% endif %}
+                {% if not dish.availability %}
+                    <a href="/{{model.restaurant.id }}/{{dish.id}}/availability"class="button">Добавить в каталог</a>
+                {% endif %}
             </div>
+            {% endif %}
+            {% if not permissions.editStopList and dish.availability %}
+                <div>
+                    {{ dish.nameDish }}: {{dish.ingredients}}, {{dish.description}}{% if dish.vegan %}, Вегетарианское {% endif %}
+                    {% if permissions.createOrder %}
+                        <a href="/{{model.restaurant.id}}/{{dish.id}}/dishToOrder"class="button">Добавить в корзину</a>
+                    {% endif %}
+                    {% if permissions.editDish %}
+                        <a href="/{{model.restaurant.id}}/{{dish.id}}/edit"class="button">Редактировать</a>
+                    {% endif %}
+                    {% if permissions.deleteDish %}
+                        <a href="/{{model.restaurant.id }}/{{dish.id}}/delete"class="button">Удалить</a>
+                    {% endif %}
+                </div>
+            {% endif %}
         {% endfor %}
     </form>
     <a class="button" href="/reviews/{{model.restaurant.id}}">Отзывы</a>

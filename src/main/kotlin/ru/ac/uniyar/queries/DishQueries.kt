@@ -27,7 +27,8 @@ class DishQueries(
                     ingredients,
                     vegan,
                     description,
-                    nameDish
+                    nameDish,
+                    true
                 )
             )
             store.save()
@@ -43,6 +44,12 @@ class DishQueries(
     inner class EditDishQ{
         operator fun invoke(nameDish: String, dish: Dish) {
             dishRepository.changeDishName(nameDish, dish)
+            store.save()
+        }
+    }
+    inner class EditAvailability{
+        operator fun invoke(dish:Dish){
+            dishRepository.update(dish.editAvailability())
             store.save()
         }
     }

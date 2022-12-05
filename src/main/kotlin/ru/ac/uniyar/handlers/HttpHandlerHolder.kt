@@ -33,7 +33,9 @@ class HttpHandlerHolder(
         htmlView)
     val registerH = RegisterH(
         storeHolder.addUserQ,
-        htmlView)
+        htmlView,
+        permissionLens,
+    storeHolder.restaurantQueries,)
     val loginFormH = LoginFormH(
         htmlView)
     val loginH = LoginH(
@@ -96,6 +98,7 @@ class HttpHandlerHolder(
     )
     val orderH = OrderH(
         permissionLens,
+        curUserLens,
         storeHolder.orderQueries,
         htmlView,
     )
@@ -107,6 +110,7 @@ class HttpHandlerHolder(
     )
     val deleteDishFromOrderH = DeleteDishFromOrderH(
         permissionLens,
+        curUserLens,
         storeHolder.orderQueries,
         htmlView,
     )
@@ -133,5 +137,30 @@ class HttpHandlerHolder(
         storeHolder.reviewQueries,
         storeHolder.restaurantQueries,
         htmlView
+    )
+    val ordersH= OrdersH(
+        permissionLens,
+        curUserLens,
+        storeHolder.orderQueries,
+        htmlView,
+    )
+    val orderForOperatorH = OrderForOperatorH(
+        permissionLens,
+        storeHolder.orderQueries,
+        storeHolder.userQueries,
+        storeHolder.restaurantQueries,
+        htmlView
+    )
+    val editStatusByOperatorH = EditStatusByOperatorH(
+        permissionLens,
+        storeHolder.orderQueries,
+    )
+    val editAvailabilityH = EditAvailabilityH(
+        permissionLens,
+        storeHolder.dishQueries,
+    )
+    val registerOperatorH = RegisterOperatorH(
+        htmlView,
+        storeHolder.restaurantQueries,
     )
 }

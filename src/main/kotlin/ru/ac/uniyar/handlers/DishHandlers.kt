@@ -5,6 +5,7 @@ import org.http4k.lens.*
 import org.http4k.routing.path
 import ru.ac.uniyar.domain.RolePermissions
 import ru.ac.uniyar.models.DishFormVM
+import ru.ac.uniyar.models.RestaurantFormVM
 import ru.ac.uniyar.models.template.ContextAwareViewRender
 import ru.ac.uniyar.queries.*
 import java.util.*
@@ -54,7 +55,8 @@ class AddDishH(
                 dishNameFormLens(webForm),
                 ingredientsFormLens(webForm),
                 veganFormLens(webForm),
-                descriptionFormLens(webForm)
+                descriptionFormLens(webForm),
+
             )
             return Response(Status.FOUND).header("Location", "/${restaurant.id}/ListOfDishes")//<--пример
         } else {
@@ -127,6 +129,23 @@ class DeleteDishH(
         if (!permissions.listDishes)
             return Response(Status.UNAUTHORIZED)
         dishQueries.DeleteDishQ().invoke(dish)
+        return Response(Status.FOUND).header("Location", "/${restaurantId}/ListOfDishes")
+    }
+}
+
+class EditAvailabilityH(
+    private val permissionLens: RequestContextLens<RolePermissions>,
+    private val dishQueries: DishQueries,
+): HttpHandler{
+    override fun invoke(request: Request): Response {
+        val dishId = UUID.fromString(request.path("dish").orEmpty()) ?: return Response(Status.BAD_REQUEST)
+        val dish = dishQueries.FetchDishQ().invoke(dishId) ?: return Response(Status.BAD_REQUEST)
+        val restaurantId = UUID.fromString(request.path("restaurant").orEmpty()) ?: return Response(Status.BAD_REQUEST)
+        if (!permissionLens(request).editStopList)
+            return Response(Status.UNAUTHORIZED)
+        if (!permissionLens(request).listDishes)
+            return Response(Status.UNAUTHORIZED)
+        dishQueries.EditAvailability().invoke(dish)
         return Response(Status.FOUND).header("Location", "/${restaurantId}/ListOfDishes")
     }
 }

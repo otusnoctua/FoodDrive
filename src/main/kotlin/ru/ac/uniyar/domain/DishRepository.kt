@@ -42,4 +42,9 @@ class DishRepository(dish: Iterable<Dish> = emptyList()) {
     }
 
     fun list() = allDishes.values.toList()
+
+    fun update(dish: Dish){
+        val id=dish.id
+        allDishes[id]= dish
+    }
 }
