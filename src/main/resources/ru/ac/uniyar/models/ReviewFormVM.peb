@@ -1,19 +1,16 @@
-    {% extends "./layout.peb" %}
-
-    {% block content %}
-
-        {% if model.form.errors is not empty %}
+{% extends "./layout.peb" %}
+{% block content %}
+    {% if model.form.errors is not empty %}
         <div class="grid-x grid-padding-x">
             <div class="medium-12 cell warning">
                 <ul>
-                        {% for error in model.form.errors %}
+                    {% for error in model.form.errors %}
                         <li>{{ error }}</li>
-                        {% endfor %}
+                    {% endfor %}
                 </ul>
             </div>
         </div>
-        {% endif %}
-
+    {% endif %}
     <form method="POST">
         <div class="grid-x grid-padding-x">
             <div class="medium-12 cell">
@@ -36,6 +33,5 @@
             </div>
         </div>
         <input type="submit" value="Добавить" class="button">
-
     </form>
-    {% endblock %}
+{% endblock %}

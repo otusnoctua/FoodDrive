@@ -7,15 +7,8 @@ import java.util.*
 
 class OrderQueries(
     private val orderRepository: OrderRepository,
-    private val dishQueries: DishQueries,
     private val store: Store,
 ) {
-
-    inner class OrdersQ{
-        operator fun invoke(){
-            orderRepository.list()
-        }
-    }
 
    inner class AddOrderQ{
        operator fun invoke(order: Order){
@@ -33,9 +26,9 @@ class OrderQueries(
 
     inner class CreateOrderQ{
         operator fun invoke(userId:UUID, dish: Dish):Order{
-            val listOfDishes= mutableListOf<String>()
-            listOfDishes.add(dish.nameDish)
-            val order: Order = Order(
+            val listOfDishes= mutableListOf<UUID>()
+            listOfDishes.add(dish.id)
+            val order = Order(
                 UUID.randomUUID(),
                 userId,
                 dish.restaurantId,
@@ -48,26 +41,26 @@ class OrderQueries(
         }
     }
     inner class CheckOrderQ{
-        operator fun invoke(userId: UUID):Boolean{
-            return  orderRepository.list().any {it.clientId==userId && it.status=="В ожидании"}
+        operator fun invoke(userId: UUID): Boolean{
+            return  orderRepository.list().any {it.clientId==userId && it.status == "В ожидании"}
         }
     }
     inner class AddDishQ{
-        operator fun invoke(userId: UUID,dishId:UUID):Order{
+        operator fun invoke(userId: UUID, dish:Dish):Order{
             val order: Order =
                 orderRepository.list().first { it.clientId == userId && it.status == "В ожидании" }
-            return order.addElementToDishes(dishQueries.FetchDishQ().invoke(dishId)?.nameDish ?: "")
+            return order.addDish(dish.id)
         }
     }
 
     inner class OrdersForUserQ{
         operator fun invoke(userId: UUID):List<Order>{
-            return orderRepository.list().filter {it.clientId==userId}
+            return orderRepository.list().filter { it.clientId == userId }
         }
     }
-    inner class OrdersForOrdersQ{
-        operator fun invoke():List<Order>{
-            return orderRepository.list().filter { it.status!="В ожидании"}
+    inner class OrdersForOperatorQ{
+        operator fun invoke(restaurantId: UUID):List<Order>{
+            return orderRepository.list().filter { it.status != "В ожидании" && it.restaurantId == restaurantId }
         }
 
     }
@@ -83,27 +76,17 @@ class OrderQueries(
         }
     }
    inner class DeleteDishQ{
-       operator fun invoke(order: Order,index: Int):Order{
-           val newOrder = order.deleteElementFromDishes(index)
+       operator fun invoke(order: Order,dishId: UUID):Order{
+           val newOrder = order.deleteDish(dishId)
            store.save()
            return newOrder
        }
    }
 
     inner class EditStatusQ{
-        operator fun invoke(index: Int,string: String,userId: UUID){
-            val mas = OrdersForUserQ().invoke(userId).toMutableList()
-            orderRepository.update(mas[index].editStatus(string))
+        operator fun invoke(order: Order,string: String){
+            orderRepository.update(order.editStatus(string))
             store.save()
         }
     }
-
-    inner class EditStatusViaId(){
-        operator fun invoke(id:UUID,string:String){
-            orderRepository.update(FetchOrderQ().invoke(id)!!.editStatus(string))
-            store.save()
-        }
-    }
-
-
 }

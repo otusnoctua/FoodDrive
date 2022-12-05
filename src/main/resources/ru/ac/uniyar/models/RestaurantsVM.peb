@@ -1,5 +1,4 @@
 {% extends "./layout.peb" %}
-
 {% block content %}
     {% if permissions.createRestaurant %}
         <div>

@@ -20,10 +20,12 @@ class LoginFormH(
     private val htmlView: ContextAwareViewRender,
 ):HttpHandler {
     override fun invoke(request: Request): Response {
-        return Response(OK).with(htmlView(request) of LoginVM())
-
+        return Response(OK).with(
+            htmlView(request) of LoginVM()
+        )
     }
 }
+
 class LoginH(
     private val authenticateUserViaLoginQ: AuthenticateUserViaLoginQ,
     private val htmlView: ContextAwareViewRender,

@@ -124,26 +124,19 @@
     "nameRestaurant" : "Краснодарский парень"
   } ],
   "order" : [ {
-    "id" : "98211c7d-051c-45e5-911b-8eced36a2482",
-    "clientId" : "bf613567-236f-49cf-b862-6629f2d11ff9",
+    "id" : "16d0bccb-16d7-4255-a847-486c41c19032",
+    "clientId" : "5416a740-4c8b-4491-9c3a-8593f4b27e9b",
     "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
-    "status" : "Готов",
-    "timestamp" : "2022-11-29T22:02:38.6791297",
-    "dishes" : [ "Шефбургер" ]
+    "status" : "В обработке",
+    "timestamp" : "2022-12-05T12:09:34.1245505",
+    "dishes" : [ "1a9fb169-0666-4fe0-ae4d-8099ee3f851a", "1a9fb169-0666-4fe0-ae4d-8099ee3f851a", "1a9fb169-0666-4fe0-ae4d-8099ee3f851a" ]
   }, {
-    "id" : "9637fa5d-2c02-434d-8762-dc09ffcb1beb",
-    "clientId" : "bf613567-236f-49cf-b862-6629f2d11ff9",
+    "id" : "3167647c-7ba6-49c5-97af-50930c1dbc29",
+    "clientId" : "5416a740-4c8b-4491-9c3a-8593f4b27e9b",
     "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
-    "status" : "Готов",
-    "timestamp" : "2022-11-29T22:02:50.3487989",
-    "dishes" : [ "Шефбургер", "Салат" ]
-  }, {
-    "id" : "efd1c380-1bec-4f47-b300-9169e12d0fe2",
-    "clientId" : "bf613567-236f-49cf-b862-6629f2d11ff9",
-    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
-    "status" : "В ожидании",
-    "timestamp" : "2022-12-03T12:23:44.5906745",
-    "dishes" : [ "Салат", "Тестовое блюдо" ]
+    "status" : "В обработке",
+    "timestamp" : "2022-12-05T12:10:11.8415772",
+    "dishes" : [ "1a9fb169-0666-4fe0-ae4d-8099ee3f851a", "1a9fb169-0666-4fe0-ae4d-8099ee3f851a" ]
   } ],
   "review" : [ ],
   "user" : [ {

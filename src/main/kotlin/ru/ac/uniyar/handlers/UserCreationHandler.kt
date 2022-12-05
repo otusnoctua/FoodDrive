@@ -20,7 +20,9 @@ class RegisterFormH(
     private val htmlView: ContextAwareViewRender,
 ): HttpHandler {
     override fun invoke(request: Request): Response {
-        return Response(OK).with(htmlView(request) of RegisterVM())
+        return Response(OK).with(
+            htmlView(request) of RegisterVM()
+        )
     }
 }
 
@@ -29,7 +31,9 @@ class RegisterOperatorH(
     private val restaurantQueries: RestaurantQueries,
 ):HttpHandler{
     override fun invoke(request: Request): Response {
-        return Response(OK).with(htmlView(request) of RegisterOperatorVM(restaurantQueries.RestaurantsQ().invoke(),))
+        return Response(OK).with(
+            htmlView(request) of RegisterOperatorVM(restaurantQueries.RestaurantsQ().invoke())
+        )
     }
 }
 
@@ -69,13 +73,23 @@ class RegisterH(
                 firstPassword!!,
                 UUID.fromString(linkToRestaurantFormLens(form)),
             )
-            return Response(FOUND).header("Location", "/")
+            return Response(FOUND).header(
+                "Location", "/"
+            )
         }
-        else if (permissionsLens.invoke(request).createOperator){
-            return Response(BAD_REQUEST).with(htmlView(request) of RegisterOperatorVM(restaurantQueries.RestaurantsQ().invoke(),))
+        else {
+            return if (permissionsLens.invoke(request).createOperator) {
+                Response(BAD_REQUEST).with(
+                    htmlView(request) of RegisterOperatorVM(
+                        restaurantQueries.RestaurantsQ().invoke(),
+                    )
+                )
+            } else {
+                Response(BAD_REQUEST).with(
+                    htmlView(request) of RegisterVM()
+                )
+            }
         }
-
-        return Response(BAD_REQUEST).with(htmlView(request) of RegisterVM())
     }
 }
 

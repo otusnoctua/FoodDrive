@@ -80,7 +80,7 @@ class Router (
 
         "/basket" bind Method.GET to basketH,
         "/basket" bind Method.POST to editStatusByUserH,
-        "/basket/{order}/delete/{dish}" bind Method.GET to deleteDishFromOrderH,
+        "/basket/{order}/{dish}/delete" bind Method.GET to deleteDishFromOrderH,
         "/basket/{order}" bind Method.GET to orderH,
         "/basket/delete/{order}" bind Method.GET to deleteOrderH,
 

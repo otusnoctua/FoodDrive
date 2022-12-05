@@ -1,5 +1,5 @@
-    {% extends "./layout.peb" %}
-    {% block content %}
+{% extends "./layout.peb" %}
+{% block content %}
     <h2 class="text-center"> Заказ номер: {{ model.order.id }} </h2>
     <h3 class="text-lefT"> Контактная информация:  </h3>
     <p>Имя заказчика: {{ model.user.name }} </p>
@@ -13,7 +13,6 @@
     <form method="POST">
         <div class="grid-x grid-padding-x">
             <div class="medium-12 cell">
-
                     <select name = "status" >
                         <option   value="В обработке">В обработке</option>
                         <option   value="Готов">Готов</option>
@@ -24,6 +23,4 @@
         </div>
         <input type="submit" value="Изменить" class="button">
     </form>
-
-
-    {% endblock %}
+{% endblock %}

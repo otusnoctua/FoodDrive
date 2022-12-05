@@ -68,6 +68,7 @@ class HttpHandlerHolder(
     val deleteDishH = DeleteDishH(
         permissionLens,
         storeHolder.dishQueries,
+        storeHolder.restaurantQueries,
     )
     val editDishH = EditDishH(
         permissionLens,
@@ -81,7 +82,8 @@ class HttpHandlerHolder(
     val addDishFormH = AddDishFormH(
         permissionLens,
         storeHolder.restaurantQueries,
-        htmlView)
+        htmlView,
+    )
     val basketH = BasketH(
         permissionLens,
         curUserLens,
@@ -91,10 +93,9 @@ class HttpHandlerHolder(
     val addDishToOrderH = AddDishToOrderH(
         permissionLens,
         curUserLens,
-        htmlView,
         storeHolder.orderQueries,
         storeHolder.dishQueries,
-        storeHolder.restaurantQueries,
+        storeHolder.restaurantQueries
     )
     val orderH = OrderH(
         permissionLens,
@@ -112,6 +113,7 @@ class HttpHandlerHolder(
         permissionLens,
         curUserLens,
         storeHolder.orderQueries,
+        storeHolder.dishQueries,
         htmlView,
     )
     val editStatusByUserH = EditStatusByUserH(
@@ -128,12 +130,12 @@ class HttpHandlerHolder(
     )
     val reviewFormH = ReviewFormH(
         permissionLens,
-        storeHolder.reviewQueries,
         htmlView
     )
 
     val addReviewH = AddReviewH(
         permissionLens,
+        curUserLens,
         storeHolder.reviewQueries,
         storeHolder.restaurantQueries,
         htmlView
@@ -158,6 +160,7 @@ class HttpHandlerHolder(
     val editAvailabilityH = EditAvailabilityH(
         permissionLens,
         storeHolder.dishQueries,
+        storeHolder.restaurantQueries,
     )
     val registerOperatorH = RegisterOperatorH(
         htmlView,

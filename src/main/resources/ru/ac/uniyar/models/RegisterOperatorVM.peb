@@ -1,19 +1,16 @@
-    {% extends "./layout.peb" %}
-
-    {% block content %}
-
-        {% if model.form.errors is not empty %}
+{% extends "./layout.peb" %}
+{% block content %}
+    {% if model.form.errors is not empty %}
         <div class="grid-x grid-padding-x">
             <div class="medium-12 cell warning">
                 <ul>
-                        {% for error in model.form.errors %}
+                    {% for error in model.form.errors %}
                         <li>{{ error }}</li>
-                        {% endfor %}
+                    {% endfor %}
                 </ul>
             </div>
         </div>
-        {% endif %}
-
+    {% endif %}
     <form method="POST">
         <div class="grid-x grid-padding-x">
             <div class="medium-12 cell">
@@ -41,18 +38,15 @@
                     <input name="passwordTwo" type="password" value="{{model.form.fields["passwordTwo"] | first }}">
                 </label>
             </div>
-
-                <div class="medium-6 cell">
-                    <label>Выбор ресторана
-                        <select name="linkToRestaurant">
-                {% for restaurant in model.listOfRestaurants %}
-                                <option  value={{ restaurant.id }}>{{restaurant.nameRestaurant}}</option>
-                 {% endfor %}
-                        </select>
-                    </label>
-
-                </div>
-
+            <div class="medium-6 cell">
+                <label>Выбор ресторана
+                    <select name="linkToRestaurant">
+                        {% for restaurant in model.listOfRestaurants %}
+                            <option  value={{ restaurant.id }}>{{restaurant.nameRestaurant}}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+            </div>
             <div class="grid-x grid-padding-x">
                 <div class="medium-12 cell align-center">
                     <input type="submit" value="Зарегистрироваться" class="button">
@@ -61,5 +55,4 @@
             </div>
         </div>
     </form>
-
-    {% endblock %}
+{% endblock %}

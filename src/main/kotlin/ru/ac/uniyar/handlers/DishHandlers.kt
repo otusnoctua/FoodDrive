@@ -17,12 +17,14 @@ class AddDishFormH(
 ): HttpHandler {
     override fun invoke(request: Request): Response {
         val permissions = permissionLens(request)
-        if (!permissions.createDish)
+        if (!permissions.createDish) {
             return Response(Status.UNAUTHORIZED)
-        val id = UUID.fromString(request.path("restaurant").orEmpty()) ?: return Response(Status.BAD_REQUEST)
-        val restaurant =
-            restaurantQueries.FetchRestaurantQ().invoke(id) ?: return Response(Status.BAD_REQUEST)
-        return Response(Status.OK).with(htmlView(request) of DishFormVM(restaurant = restaurant, isEdit = false))
+        }
+        val restaurant = restaurantQueries.FetchRestaurantQ().invoke(UUID.fromString(request.path("restaurant").orEmpty()))
+                ?: return Response(Status.BAD_REQUEST)
+        return Response(Status.OK).with(
+            htmlView(request) of DishFormVM(restaurant = restaurant, isEdit = false)
+        )
     }
 }
 
@@ -44,23 +46,27 @@ class AddDishH(
 
     override fun invoke(request: Request): Response {
         val permissions = permissionLens(request)
-        if (!permissions.createDish)
+        if (!permissions.createDish) {
             Response(Status.UNAUTHORIZED)
-        val id = UUID.fromString(request.path("restaurant").orEmpty()) ?: return Response(Status.BAD_REQUEST)
-        val restaurant = restaurantQueries.FetchRestaurantQ().invoke(id) ?: return Response(Status.BAD_REQUEST)
+        }
+        val restaurant = restaurantQueries.FetchRestaurantQ().invoke(UUID.fromString(request.path("restaurant").orEmpty()))
+            ?: return Response(Status.BAD_REQUEST)
         val webForm = BodyDishFormLens(request)
-        if (webForm.errors.isEmpty()) {
+        return if (webForm.errors.isEmpty()) {
             dishQueries.AddDishQ().invoke(
                 restaurant,
                 dishNameFormLens(webForm),
                 ingredientsFormLens(webForm),
                 veganFormLens(webForm),
                 descriptionFormLens(webForm),
-
+                )
+            Response(Status.FOUND).header(
+                "Location", "/${restaurant.id}/ListOfDishes"
             )
-            return Response(Status.FOUND).header("Location", "/${restaurant.id}/ListOfDishes")//<--пример
         } else {
-            return Response(Status.OK).with(htmlView(request) of DishFormVM(webForm, restaurant,isEdit=false))
+            Response(Status.OK).with(
+                htmlView(request) of DishFormVM(webForm, restaurant, isEdit=false)
+            )
         }
     }
 }
@@ -81,19 +87,24 @@ class EditDishH(
         ).toLens()
     }
     override fun invoke(request: Request): Response {
-        val dishId = UUID.fromString(request.path("dish").orEmpty()) ?: return Response(Status.BAD_REQUEST)
-        val dish = dishQueries.FetchDishQ().invoke(dishId) ?: return Response(Status.BAD_REQUEST)
-        val id = UUID.fromString(request.path("restaurant").orEmpty()) ?: return Response(Status.BAD_REQUEST)
-        val restaurant = restaurantQueries.FetchRestaurantQ().invoke(id) ?: return Response(Status.BAD_REQUEST)
         val permissions = permissionLens(request)
-        if (!permissions.editDish)
+        if (!permissions.editDish) {
             Response(Status.UNAUTHORIZED)
+        }
+        val dish = dishQueries.FetchDishQ().invoke(UUID.fromString(request.path("dish").orEmpty()))
+            ?: return Response(Status.BAD_REQUEST)
+        val restaurant = restaurantQueries.FetchRestaurantQ().invoke(UUID.fromString(request.path("restaurant").orEmpty()))
+            ?: return Response(Status.BAD_REQUEST)
         val webForm = BodyDishFormLens(request)
-        if (webForm.errors.isEmpty()) {
+        return if (webForm.errors.isEmpty()) {
             dishQueries.EditDishQ().invoke(dishNameFormLens(webForm), dish)
-            return Response(Status.FOUND).header("Location", "/${restaurant.id}/ListOfDishes")
+            Response(Status.FOUND).header(
+                "Location", "/${restaurant.id}/ListOfDishes"
+            )
         } else {
-            return Response(Status.OK).with(htmlView(request) of DishFormVM(webForm, restaurant,isEdit=true))
+            Response(Status.OK).with(
+                htmlView(request) of DishFormVM(webForm, restaurant, isEdit = true)
+            )
         }
     }
 }
@@ -105,47 +116,55 @@ class EditDishFormH(
 ): HttpHandler {
     override fun invoke(request: Request): Response {
         val permissions = permissionLens(request)
-        if (!permissions.editDish)
+        if (!permissions.editDish) {
             return Response(Status.UNAUTHORIZED)
-        val id = UUID.fromString(request.path("restaurant").orEmpty()) ?: return Response(Status.BAD_REQUEST)
-        val restaurant =
-            restaurantQueries.FetchRestaurantQ().invoke(id) ?: return Response(Status.BAD_REQUEST)
-        return Response(Status.OK).with(htmlView(request) of DishFormVM(restaurant = restaurant, isEdit = true))
+        }
+        val restaurant = restaurantQueries.FetchRestaurantQ().invoke(UUID.fromString(request.path("restaurant").orEmpty()))
+            ?: return Response(Status.BAD_REQUEST)
+        return Response(Status.OK).with(
+            htmlView(request) of DishFormVM(restaurant = restaurant, isEdit = true)
+        )
     }
 }
 
 class DeleteDishH(
     private val permissionLens: RequestContextLens<RolePermissions>,
     private val dishQueries: DishQueries,
+    private val restaurantQueries: RestaurantQueries,
 ): HttpHandler {
     override fun invoke(request: Request): Response {
-        val dishId = UUID.fromString(request.path("dish").orEmpty()) ?: return Response(Status.BAD_REQUEST)
-        val dish = dishQueries.FetchDishQ().invoke(dishId) ?: return Response(Status.BAD_REQUEST)
-        val restaurantId = UUID.fromString(request.path("restaurant").orEmpty()) ?: return Response(Status.BAD_REQUEST)
-        val permissionsDelete = permissionLens(request)
-        if (!permissionsDelete.deleteDish)
-            return Response(Status.UNAUTHORIZED)
         val permissions = permissionLens(request)
-        if (!permissions.listDishes)
+        if (!permissions.deleteDish || permissions.listDishes) {
             return Response(Status.UNAUTHORIZED)
+        }
+        val dish = dishQueries.FetchDishQ().invoke(UUID.fromString(request.path("dish").orEmpty()))
+            ?: return Response(Status.BAD_REQUEST)
+        val restaurant = restaurantQueries.FetchRestaurantQ().invoke(UUID.fromString(request.path("restaurant").orEmpty()))
+            ?: return Response(Status.BAD_REQUEST)
         dishQueries.DeleteDishQ().invoke(dish)
-        return Response(Status.FOUND).header("Location", "/${restaurantId}/ListOfDishes")
+        return Response(Status.FOUND).header(
+            "Location", "/${restaurant.id}/ListOfDishes"
+        )
     }
 }
 
 class EditAvailabilityH(
     private val permissionLens: RequestContextLens<RolePermissions>,
     private val dishQueries: DishQueries,
+    private val restaurantQueries: RestaurantQueries,
 ): HttpHandler{
     override fun invoke(request: Request): Response {
-        val dishId = UUID.fromString(request.path("dish").orEmpty()) ?: return Response(Status.BAD_REQUEST)
-        val dish = dishQueries.FetchDishQ().invoke(dishId) ?: return Response(Status.BAD_REQUEST)
-        val restaurantId = UUID.fromString(request.path("restaurant").orEmpty()) ?: return Response(Status.BAD_REQUEST)
-        if (!permissionLens(request).editStopList)
+        val permissions = permissionLens(request)
+        if (!permissions.editStopList || permissions.listDishes) {
             return Response(Status.UNAUTHORIZED)
-        if (!permissionLens(request).listDishes)
-            return Response(Status.UNAUTHORIZED)
+        }
+        val dish = dishQueries.FetchDishQ().invoke(UUID.fromString(request.path("dish").orEmpty()))
+            ?: return Response(Status.BAD_REQUEST)
+        val restaurant = restaurantQueries.FetchRestaurantQ().invoke(UUID.fromString(request.path("restaurant").orEmpty()))
+            ?: return Response(Status.BAD_REQUEST)
         dishQueries.EditAvailability().invoke(dish)
-        return Response(Status.FOUND).header("Location", "/${restaurantId}/ListOfDishes")
+        return Response(Status.FOUND).header(
+            "Location", "/${restaurant.id}/ListOfDishes"
+        )
     }
 }
