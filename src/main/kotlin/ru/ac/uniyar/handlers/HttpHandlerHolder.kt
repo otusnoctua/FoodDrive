@@ -32,10 +32,11 @@ class HttpHandlerHolder(
     val registerFormH = RegisterFormH(
         htmlView)
     val registerH = RegisterH(
-        storeHolder.addUserQ,
+        storeHolder.userQueries,
         htmlView,
         permissionLens,
-    storeHolder.restaurantQueries,)
+        storeHolder.restaurantQueries,
+    )
     val loginFormH = LoginFormH(
         htmlView)
     val loginH = LoginH(
@@ -84,12 +85,6 @@ class HttpHandlerHolder(
         storeHolder.restaurantQueries,
         htmlView,
     )
-    val basketH = BasketH(
-        permissionLens,
-        curUserLens,
-        storeHolder.orderQueries,
-        htmlView,
-    )
     val addDishToOrderH = AddDishToOrderH(
         permissionLens,
         curUserLens,
@@ -98,6 +93,12 @@ class HttpHandlerHolder(
         storeHolder.restaurantQueries
     )
     val orderH = OrderH(
+        permissionLens,
+        storeHolder.orderQueries,
+        storeHolder.dishQueries,
+        htmlView
+    )
+    val basketH = BasketH(
         permissionLens,
         curUserLens,
         storeHolder.orderQueries,
@@ -149,8 +150,7 @@ class HttpHandlerHolder(
     val orderForOperatorH = OrderForOperatorH(
         permissionLens,
         storeHolder.orderQueries,
-        storeHolder.userQueries,
-        storeHolder.restaurantQueries,
+        storeHolder.dishQueries,
         htmlView
     )
     val editStatusByOperatorH = EditStatusByOperatorH(
@@ -165,5 +165,30 @@ class HttpHandlerHolder(
     val registerOperatorH = RegisterOperatorH(
         htmlView,
         storeHolder.restaurantQueries,
+    )
+
+    val profileH = ProfileH(
+        permissionLens,
+        htmlView
+    )
+
+    val editProfileFormH = EditProfileFormH(
+        permissionLens,
+        htmlView
+    )
+
+    val editProfileH = EditProfileH(
+        permissionLens,
+        curUserLens,
+        storeHolder.userQueries,
+        htmlView,
+    )
+
+    val orderFromBasketH = OrderFromBasketH(
+        permissionLens,
+        curUserLens,
+        storeHolder.orderQueries,
+        storeHolder.dishQueries,
+        htmlView,
     )
 }

@@ -94,20 +94,13 @@
     "createOperator" : true
   } ],
   "dish" : [ {
-    "id" : "1a9fb169-0666-4fe0-ae4d-8099ee3f851a",
+    "id" : "f0ea2546-f795-4d3a-8805-8d42d893b768",
     "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
-    "ingredients" : "1123",
-    "vegan" : true,
-    "description" : "213",
-    "nameDish" : "Салат",
-    "availability" : true
-  }, {
-    "id" : "2f28c0ce-0860-4983-960d-99b8ca1748eb",
-    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
-    "ingredients" : "что-нибудь",
+    "ingredients" : "Гыча",
+    "price" : 99,
     "vegan" : false,
-    "description" : "...",
-    "nameDish" : "Тестовое блюдо",
+    "description" : "Гыча",
+    "nameDish" : "Гыча",
     "availability" : true
   } ],
   "restaurant" : [ {
@@ -123,27 +116,13 @@
     "id" : "65d117a4-72d8-4a3f-92c3-94d05f86a9dc",
     "nameRestaurant" : "Краснодарский парень"
   } ],
-  "order" : [ {
-    "id" : "16d0bccb-16d7-4255-a847-486c41c19032",
-    "clientId" : "5416a740-4c8b-4491-9c3a-8593f4b27e9b",
-    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
-    "status" : "В обработке",
-    "timestamp" : "2022-12-05T12:09:34.1245505",
-    "dishes" : [ "1a9fb169-0666-4fe0-ae4d-8099ee3f851a", "1a9fb169-0666-4fe0-ae4d-8099ee3f851a", "1a9fb169-0666-4fe0-ae4d-8099ee3f851a" ]
-  }, {
-    "id" : "3167647c-7ba6-49c5-97af-50930c1dbc29",
-    "clientId" : "5416a740-4c8b-4491-9c3a-8593f4b27e9b",
-    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
-    "status" : "В обработке",
-    "timestamp" : "2022-12-05T12:10:11.8415772",
-    "dishes" : [ "1a9fb169-0666-4fe0-ae4d-8099ee3f851a", "1a9fb169-0666-4fe0-ae4d-8099ee3f851a" ]
-  } ],
+  "order" : [ ],
   "review" : [ ],
   "user" : [ {
     "id" : "5416a740-4c8b-4491-9c3a-8593f4b27e9b",
     "name" : "Евгений",
     "phone" : "89108236375",
-    "email" : "oreshnikov@mail.ru",
+    "email" : "oreshnikov02@mail.ru",
     "password" : "d093867118da21af4af2ee88198d85f7b1fb2ddf25bcb227c3f0baac31808e6714a9453a22166b2c11f2d88639f3765cb8833dc106cd15e5ac2d80fe69039662",
     "roleId" : "4b5e2b66-c1fa-40b5-83f8-b1962842dab9",
     "linkToRestaurant" : "00000000-0000-0000-0000-000000000000"
@@ -155,22 +134,6 @@
     "password" : "a2f52d0b2295eb6b05ab57116a6d77e6835b9c12fc4d404a922e0a56909ea0da27ffea5bf575a7bf5e702d93685f391bf1dbe11a372dbd81d3793faf3563de16",
     "roleId" : "ca3c1157-29d4-4de4-b258-7011c3e7a426",
     "linkToRestaurant" : "06badb58-9b86-4485-84a5-6caf91661b4b"
-  }, {
-    "id" : "bf613567-236f-49cf-b862-6629f2d11ff9",
-    "name" : "test",
-    "phone" : "123",
-    "email" : "test@mail.ru",
-    "password" : "661dce80562bcfce6ca421d8642f7201390b64789565580b2b157ec49e8d99b8739c35ee576213dd7ce7fda5c925dce8578090ad65ebbc65c08e06660c6796e4",
-    "roleId" : "26b9e5e7-1c8a-40e5-aece-2345f6b8afd9",
-    "linkToRestaurant" : "00000000-0000-0000-0000-000000000000"
-  }, {
-    "id" : "5021fc6b-2c88-4037-a852-d441fded5e99",
-    "name" : "test2",
-    "phone" : "111",
-    "email" : "test2@mail.ru",
-    "password" : "74c95b6863355add582cb3518b5984f1e111084518135f4c093d683970e76d69b3be128f2ecea1cb7fba73edf73c74c4b4009aff85d4fbfada35ab723ad2730f",
-    "roleId" : "26b9e5e7-1c8a-40e5-aece-2345f6b8afd9",
-    "linkToRestaurant" : "00000000-0000-0000-0000-000000000000"
   }, {
     "id" : "7fb0eaa7-66e3-4319-bff6-0b870e538a89",
     "name" : "operator",

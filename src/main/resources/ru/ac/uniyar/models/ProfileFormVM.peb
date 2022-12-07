@@ -1,0 +1,43 @@
+{% extends "./layout.peb" %}
+
+{% block content %}
+
+    {% if model.form.errors is not empty %}
+        <div class="grid-x grid-padding-x">
+            <div class="medium-12 cell warning">
+                <ul>
+                {% for error in model.form.errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
+    </ul>
+    </div>
+    </div>
+    {% endif %}
+
+    <form method="POST">
+    <div class="grid-x grid-padding-x">
+    <div class="medium-12 cell">
+    <label>Имя:
+    <input name="name" type="text" value="{{model.form.fields["name"] | first }}">
+    </label>
+    </div>
+    <div class="medium-6 cell">
+    <label>Телефон:
+    <input name="phone" type="number" value="{{model.form.fields["phone"] | first }}">
+    </label>
+    </div>
+    <div class="medium-6 cell">
+    <label>Почта:
+    <input name="email" type="email" value="{{model.form.fields["email"] | first }}">
+    </label>
+    </div>
+    <div class="grid-x grid-padding-x">
+    <div class="medium-12 cell align-center">
+    <input type="submit" value="Изменить" class="button">
+    <a href="/"class="button">На главную страницу</a>
+    </div>
+    </div>
+    </div>
+    </form>
+
+{% endblock %}

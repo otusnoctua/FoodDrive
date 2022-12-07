@@ -5,15 +5,14 @@ import org.http4k.core.Status.Companion.BAD_REQUEST
 import org.http4k.core.Status.Companion.FOUND
 import org.http4k.core.Status.Companion.OK
 import org.http4k.lens.*
-import ru.ac.uniyar.domain.EMPTY_UUID
 import ru.ac.uniyar.domain.RolePermissions
 import ru.ac.uniyar.domain.lensOrNull
 import ru.ac.uniyar.models.RegisterOperatorVM
 import ru.ac.uniyar.models.RegisterVM
 import ru.ac.uniyar.models.template.ContextAwareViewRender
-import ru.ac.uniyar.queries.AddUserQ
 import ru.ac.uniyar.queries.RestaurantQueries
 import java.util.*
+import ru.ac.uniyar.queries.UserQueries
 
 
 class RegisterFormH(
@@ -37,9 +36,8 @@ class RegisterOperatorH(
     }
 }
 
-
 class RegisterH(
-    private val addUserQ: AddUserQ,
+    private val userQueries: UserQueries,
     private val htmlView: ContextAwareViewRender,
     private val permissionsLens: RequestContextLens<RolePermissions>,
     private val restaurantQueries: RestaurantQueries,
@@ -66,7 +64,7 @@ class RegisterH(
             form = form.copy(errors = newError)
         }
         if (form.errors.isEmpty()) {
-            addUserQ.invoke(
+            userQueries.AddUserQ().invoke(
                 userNameFormLens(form),
                 userPhoneFormLens(form),
                 userEmailFormLens(form),

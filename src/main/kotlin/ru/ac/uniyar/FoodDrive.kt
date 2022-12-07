@@ -52,37 +52,53 @@ fun main() {
     val router = Router(
         handlerHolder.pingHandler,
         handlerHolder.redirectToHomePage,
-        handlerHolder.homePageH,
-        handlerHolder.restaurantH,
+
         handlerHolder.registerFormH,
         handlerHolder.registerH,
+        handlerHolder.registerOperatorH,
+
         handlerHolder.loginFormH,
         handlerHolder.loginH,
         handlerHolder.logOutH,
+
+        handlerHolder.profileH,
+        handlerHolder.editProfileFormH,
+        handlerHolder.editProfileH,
+
+        handlerHolder.ordersH,
+        handlerHolder.orderH,
+
+        handlerHolder.homePageH,
         handlerHolder.addRestaurantFormH,
         handlerHolder.addRestaurantH,
-        handlerHolder.deleteRestaurantH,
+
         handlerHolder.editRestaurantH,
         handlerHolder.editRestaurantFormH,
-        handlerHolder.deleteDishH,
-        handlerHolder.addDishFormH,
-        handlerHolder.addDishH,
-        handlerHolder.editDishFormH,
-        handlerHolder.editDishH,
-        handlerHolder.basketH,
-        handlerHolder.addDishToOrderH,
-        handlerHolder.orderH,
-        handlerHolder.deleteOrderH,
-        handlerHolder.deleteDishFromOrderH,
-        handlerHolder.editStatusByUserH,
+        handlerHolder.deleteRestaurantH,
+
         handlerHolder.reviewsH,
         handlerHolder.reviewFormH,
         handlerHolder.addReviewH,
-        handlerHolder.ordersH,
+
+        handlerHolder.deleteDishH,
+        handlerHolder.editAvailabilityH,
+        handlerHolder.addDishToOrderH,
+
+        handlerHolder.restaurantH,
+        handlerHolder.addDishFormH,
+        handlerHolder.addDishH,
+
+        handlerHolder.editDishFormH,
+        handlerHolder.editDishH,
+
+        handlerHolder.basketH,
+        handlerHolder.editStatusByUserH,
+        handlerHolder.orderFromBasketH,
+        handlerHolder.deleteOrderH,
+        handlerHolder.deleteDishFromOrderH,
+
         handlerHolder.orderForOperatorH,
         handlerHolder.editStatusByOperatorH,
-        handlerHolder.editAvailabilityH,
-        handlerHolder.registerOperatorH,
 
         routingHttpHandler,
     )

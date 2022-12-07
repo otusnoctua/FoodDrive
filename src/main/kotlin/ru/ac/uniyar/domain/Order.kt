@@ -26,7 +26,6 @@ data class Order(
                 jsonObject["status"].asText(),
                 LocalDateTime.parse(jsonObject["timestamp"].asText(), DateTimeFormatter.ISO_LOCAL_DATE_TIME),
                 jsonObject["dishes"].asJsonArray().map { UUID.fromString(it.asText()) },
-
                 )
         }
     }

@@ -1,0 +1,21 @@
+{% extends "./layout.peb" %}
+{% block content %}
+    <p>Время добавления: {{ model.order.timestamp }} </p>
+    <p>Ресторан: {{ model.restaurant.nameRestaurant }} </p>
+    <p>Содержимое: </p>
+    {% for dish in model.dishes %}
+        <div>
+            {{ dish.nameDish }}, {{ dish.price }} руб.
+            <a href="/basket/{{model.order.id}}/delete/{{ loop.index }}" class="button">Удалить блюдо</a>
+        </div>
+    {% endfor %}
+    <div>
+        Сервисный сбор: 29 руб.
+    </div>
+    <div>
+        Итоговая цена: {{ model.price }} руб.
+    </div>
+    <div>
+        <a href="/basket/delete/{{model.order.id}}" class="button">Удалить заказ</a>
+    </div>
+{% endblock %}

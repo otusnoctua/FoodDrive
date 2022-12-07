@@ -9,12 +9,13 @@ data class Dish(
     val id: UUID,
     val restaurantId : UUID,
     val ingredients: String,
+    val price: Int,
     val vegan: Boolean,
     val description: String,
     val nameDish: String,
     val availability:Boolean,
-
     ){
+
     companion object{
         fun fromJson(node: JsonNode): Dish {
             val jsonObject = node.asJsonObject()
@@ -22,6 +23,7 @@ data class Dish(
                 UUID.fromString(jsonObject["id"].asText()),
                 UUID.fromString(jsonObject["restaurantId"].asText()),
                 jsonObject["ingredients"].asText(),
+                jsonObject["price"].asInt(),
                 jsonObject["vegan"].asBoolean(),
                 jsonObject["description"].asText(),
                 jsonObject["nameDish"].asText(),
@@ -29,16 +31,18 @@ data class Dish(
             )
         }
     }
+
     fun asJsonObject(): JsonNode{
         return listOf(
             "id" to id.toString().asJsonValue(),
             "restaurantId" to restaurantId.toString().asJsonValue(),
             "ingredients" to ingredients.asJsonValue(),
+            "price" to price.asJsonValue(),
             "vegan" to vegan.asJsonValue(),
             "description" to description.asJsonValue(),
             "nameDish" to nameDish.asJsonValue(),
-            "availability" to availability.asJsonValue(),
 
+            "availability" to availability.asJsonValue(),
         ).asJsonObject()
     }
 

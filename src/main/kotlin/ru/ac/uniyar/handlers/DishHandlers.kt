@@ -39,6 +39,7 @@ class AddDishH(
         private val veganFormLens = FormField.boolean().required("vegan")
         private val ingredientsFormLens = FormField.string().required("ingredients")
         private val descriptionFormLens = FormField.string().required("description")
+        private val priceFormLens = FormField.int().required("price")
         private val BodyDishFormLens = Body.webForm(
             Validator.Feedback, dishNameFormLens,
         ).toLens()
@@ -57,6 +58,7 @@ class AddDishH(
                 restaurant,
                 dishNameFormLens(webForm),
                 ingredientsFormLens(webForm),
+                priceFormLens(webForm),
                 veganFormLens(webForm),
                 descriptionFormLens(webForm),
                 )
@@ -82,6 +84,7 @@ class EditDishH(
         private val veganFormLens = FormField.boolean().required("vegan")
         private val ingredientsFormLens = FormField.string().required("ingredients")
         private val descriptionFormLens = FormField.string().required("description")
+        private val priceFormLens = FormField.int().required("price")
         private val BodyDishFormLens = Body.webForm(
             Validator.Feedback, dishNameFormLens,
         ).toLens()
@@ -97,10 +100,15 @@ class EditDishH(
             ?: return Response(Status.BAD_REQUEST)
         val webForm = BodyDishFormLens(request)
         return if (webForm.errors.isEmpty()) {
-            dishQueries.EditDishQ().invoke(dishNameFormLens(webForm), dish)
-            Response(Status.FOUND).header(
-                "Location", "/${restaurant.id}/ListOfDishes"
+            dishQueries.EditDishQ().invoke(
+                dishNameFormLens(webForm),
+                ingredientsFormLens(webForm),
+                priceFormLens(webForm),
+                descriptionFormLens(webForm),
+                veganFormLens(webForm),
+                dish
             )
+            Response(Status.FOUND).header("Location", "/${restaurant.id}/ListOfDishes")
         } else {
             Response(Status.OK).with(
                 htmlView(request) of DishFormVM(webForm, restaurant, isEdit = true)

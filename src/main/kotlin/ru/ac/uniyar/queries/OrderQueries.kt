@@ -45,10 +45,15 @@ class OrderQueries(
             return  orderRepository.list().any {it.clientId==userId && it.status == "В ожидании"}
         }
     }
+    inner class CheckOrderRestaurantQ{
+        operator fun invoke(userId: UUID, restaurant: UUID):Boolean{
+            return  orderRepository.list().any {it.clientId==userId && it.restaurantId == restaurant && it.status=="В ожидании"}
+        }
+    }
     inner class AddDishQ{
         operator fun invoke(userId: UUID, dish:Dish):Order{
             val order: Order =
-                orderRepository.list().first { it.clientId == userId && it.status == "В ожидании" }
+                orderRepository.list().first { it.clientId == userId && it.restaurantId == dish.restaurantId && it.status == "В ожидании" }
             return order.addDish(dish.id)
         }
     }
@@ -58,11 +63,21 @@ class OrderQueries(
             return orderRepository.list().filter { it.clientId == userId }
         }
     }
-    inner class OrdersForOperatorQ{
-        operator fun invoke(restaurantId: UUID):List<Order>{
+
+    inner class OrdersForOperatorQ {
+        operator fun invoke(restaurantId: UUID): List<Order> {
             return orderRepository.list().filter { it.status != "В ожидании" && it.restaurantId == restaurantId }
         }
-
+    }
+    inner class WaitingOrdersQ{
+        operator fun invoke(userId: UUID):List<Order>{
+            return orderRepository.list().filter {it.clientId == userId && it.status == "В ожидании"}
+        }
+    }
+    inner class AcceptedOrdersQ{
+        operator fun invoke(userId: UUID):List<Order>{
+            return orderRepository.list().filter {it.clientId == userId && it.status != "В ожидании"}
+        }
     }
     inner class FetchOrderQ{
         operator fun invoke(id: UUID):Order?{
@@ -75,13 +90,13 @@ class OrderQueries(
             store.save()
         }
     }
-   inner class DeleteDishQ{
-       operator fun invoke(order: Order,dishId: UUID):Order{
-           val newOrder = order.deleteDish(dishId)
-           store.save()
-           return newOrder
-       }
-   }
+    inner class DeleteDishQ {
+        operator fun invoke(order: Order, dishId: UUID): Order {
+            val newOrder = order.deleteDish(dishId)
+            store.save()
+            return newOrder
+        }
+    }
 
     inner class EditStatusQ{
         operator fun invoke(order: Order,string: String){

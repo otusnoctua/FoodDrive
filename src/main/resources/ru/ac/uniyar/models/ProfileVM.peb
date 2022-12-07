@@ -1,0 +1,17 @@
+{% extends "./layout.peb" %}
+
+{% block content %}
+    <form method="POST">
+        <div>
+            {% if currentUser is not null %}
+                <div>{{currentUser.name}}</div>
+                <div>{{currentUser.phone}}</div>
+                <div>{{currentUser.email}}</div>
+                {% if permissions.editUser %}<a href="/profile/edit"class="button">Редактировать</a>{% endif %}
+            {% endif %}
+        </div>
+        <div>
+        <a href="/profile/orders">Список заказов</a>
+        </div>
+    </form>
+{% endblock %}
