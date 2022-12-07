@@ -122,49 +122,7 @@
     "id" : "65d117a4-72d8-4a3f-92c3-94d05f86a9dc",
     "nameRestaurant" : "Краснодарский парень"
   } ],
-  "order" : [ {
-    "id" : "d646591f-fbcf-44a9-9386-9db395b68cfb",
-    "clientId" : "5416a740-4c8b-4491-9c3a-8593f4b27e9b",
-    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
-    "status" : "В обработке",
-    "timestamp" : "2022-12-02T18:35:19.3980019",
-    "dishes" : [ "b129984d-db73-417b-bc8f-facbd63eba68", "b129984d-db73-417b-bc8f-facbd63eba68" ]
-  }, {
-    "id" : "572b5345-df1f-41ba-b432-ec00ce55d8db",
-    "clientId" : "5416a740-4c8b-4491-9c3a-8593f4b27e9b",
-    "restaurantId" : "c5a5a16b-7cbc-41ed-823b-dbe05ad0e943",
-    "status" : "В обработке",
-    "timestamp" : "2022-12-02T18:51:55.1565669",
-    "dishes" : [ "7ce8b494-5257-4547-97a1-8a4779a8e1a4", "7ce8b494-5257-4547-97a1-8a4779a8e1a4" ]
-  }, {
-    "id" : "345b39a2-2a4c-4a54-b2d0-5c72b79a02d4",
-    "clientId" : "5416a740-4c8b-4491-9c3a-8593f4b27e9b",
-    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
-    "status" : "В обработке",
-    "timestamp" : "2022-12-02T20:40:23.1137422",
-    "dishes" : [ "b129984d-db73-417b-bc8f-facbd63eba68", "b129984d-db73-417b-bc8f-facbd63eba68", "b129984d-db73-417b-bc8f-facbd63eba68" ]
-  }, {
-    "id" : "e1b84dba-3b88-438a-8acf-4ccda7f21f17",
-    "clientId" : "5416a740-4c8b-4491-9c3a-8593f4b27e9b",
-    "restaurantId" : "c5a5a16b-7cbc-41ed-823b-dbe05ad0e943",
-    "status" : "В обработке",
-    "timestamp" : "2022-12-02T20:40:29.4438859",
-    "dishes" : [ "7ce8b494-5257-4547-97a1-8a4779a8e1a4", "7ce8b494-5257-4547-97a1-8a4779a8e1a4", "7ce8b494-5257-4547-97a1-8a4779a8e1a4" ]
-  }, {
-    "id" : "a0c80e4e-48e9-4522-bb45-0aed7d813abc",
-    "clientId" : "5416a740-4c8b-4491-9c3a-8593f4b27e9b",
-    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
-    "status" : "В обработке",
-    "timestamp" : "2022-12-07T13:58:02.7010807",
-    "dishes" : [ "b129984d-db73-417b-bc8f-facbd63eba68", "1a9fb169-0666-4fe0-ae4d-8099ee3f851a" ]
-  }, {
-    "id" : "813574dd-1f1f-440d-bb47-0c93c67d0805",
-    "clientId" : "5416a740-4c8b-4491-9c3a-8593f4b27e9b",
-    "restaurantId" : "06badb58-9b86-4485-84a5-6caf91661b4b",
-    "status" : "В обработке",
-    "timestamp" : "2022-12-07T14:00:48.2952408",
-    "dishes" : [ "b129984d-db73-417b-bc8f-facbd63eba68", "1a9fb169-0666-4fe0-ae4d-8099ee3f851a" ]
-  } ],
+  "order" : [],
   "review" : [ {
     "id" : "1e4442e6-cef6-4be7-b40d-3ada1e743b05",
     "userId" : "a53f3b97-1dd2-4d67-9526-340b6dbb208a",

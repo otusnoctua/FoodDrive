@@ -28,7 +28,10 @@ class OrdersH(
         val user = curUserLens(request)
         if (!permissions.listOrders || user==null)
             return Response(Status.UNAUTHORIZED)
-        return Response(Status.OK).with(htmlView(request) of OrdersVM(orderQueries.AcceptedOrdersQ().invoke(user.id)))
+        return Response(Status.OK).with(htmlView(request) of OrdersVM(
+            orderQueries.AcceptedOrdersQ().invoke(user.id).filter { it.status == "В обработке" },
+            orderQueries.AcceptedOrdersQ().invoke(user.id).filter { it.status == "Готов" }
+        ))
     }
 }
 
@@ -67,7 +70,7 @@ class AddDishToOrderH(
         val restaurantId = UUID.fromString(request.path("restaurant").orEmpty()) ?: return Response(Status.BAD_REQUEST)
         val restaurant = restaurantQueries.FetchRestaurantQ().invoke(restaurantId) ?: return Response(Status.BAD_REQUEST)
 
-        if (!orderQueries.CheckOrderQ().invoke(user.id)) {
+        if (!orderQueries.CheckOrderRestaurantQ().invoke(user.id, restaurant.id)) {
             val dishes = mutableListOf<UUID>()
             dishes.add(dish.id)
             val order = Order(
@@ -80,7 +83,7 @@ class AddDishToOrderH(
             )
             orderQueries.AddOrderQ().invoke(order)
         } else {
-            orderQueries.UpdateOrderQ().invoke(orderQueries.AddDishQ().invoke(user.id, dishId))
+            orderQueries.UpdateOrderQ().invoke(orderQueries.AddDishQ().invoke(user.id, dish))
         }
         val model = RestaurantVM(dishQueries.DishesOfRestaurantQ().invoke(restaurant.id), restaurant)
         return Response(Status.OK).with(htmlView(request) of model)
@@ -186,6 +189,6 @@ class EditStatusByUserH(
             return Response(Status.UNAUTHORIZED)
         val index = request.form().findSingle("index").orEmpty().toIntOrNull() ?: return Response(Status.BAD_REQUEST)
         orderQueries.EditStatusQ().invoke(index, "В обработке", user.id)
-        return Response(Status.OK).with(htmlView(request) of OrdersVM(orderQueries.WaitingOrdersQ().invoke(user.id)))
+        return Response(Status.OK).with(htmlView(request) of BasketVM(orderQueries.WaitingOrdersQ().invoke(user.id)))
     }
 }
