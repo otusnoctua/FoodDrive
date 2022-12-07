@@ -15,7 +15,7 @@
                 <li class="menu-text">Food Drive</li>
                 <li><a href="/restaurants">Список ресторанов</a></li>
                 {% if currentUser is not null %}
-                    <li><a href="/basket">Корзина</a></li>
+                    <li><a href="/basket/">Корзина</a></li>
                 {% endif %}
             </ul>
         </div>

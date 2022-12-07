@@ -10,5 +10,8 @@
                 {% if permissions.editUser %}<a href="/profile/edit"class="button">Редактировать</a>{% endif %}
             {% endif %}
         </div>
+        <div>
+        <a href="/profile/orders">Список заказов</a>
+        </div>
     </form>
 {% endblock %}

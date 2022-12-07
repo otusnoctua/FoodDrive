@@ -4,4 +4,4 @@ import org.http4k.template.ViewModel
 import ru.ac.uniyar.domain.Dish
 import ru.ac.uniyar.domain.Order
 
-data class BasketVM(val listOfOrders: List<Order> ):ViewModel
+data class OrdersVM(val listOfOrders: List<Order> ):ViewModel

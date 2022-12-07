@@ -1,10 +1,9 @@
     {% extends "./layout.peb" %}
     {% block content %}
-
-
           {% for dish in model.dishes %}
               <div>
              {{ dish.nameDish }}, {{ dish.price }} руб.
+                  <a href="/basket/{{model.order.id}}/delete/{{ loop.index }}" class="button">Удалить блюдо</a>
               </div>
              {% endfor %}
 <div>
@@ -14,9 +13,6 @@
 Итоговая цена: {{ model.price }} руб.
 </div>
 <div>
-Статус: {{ model.order.status }}.
-</div>
-<div>
-<a class="button" href="/profile/orders">К списку заказов</a>
+<a href="/basket/delete/{{model.order.id}}" class="button">Удалить заказ</a>
 </div>
     {% endblock %}

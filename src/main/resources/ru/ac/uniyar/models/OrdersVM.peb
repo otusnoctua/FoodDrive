@@ -1,0 +1,11 @@
+    {% extends "./layout.peb" %}
+    {% block content %}
+
+    {% for order in model.listOfOrders %}
+        <div>
+           Заказ номер: {{ loop.index + 1}}
+            <a href="/profile/orders/{{ order.id }}">Больше</a>
+        </div>
+    {% endfor %}
+
+    {% endblock %}

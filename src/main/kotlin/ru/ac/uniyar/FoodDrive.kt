@@ -71,7 +71,6 @@ fun main() {
         handlerHolder.editDishH,
         handlerHolder.basketH,
         handlerHolder.addDishToOrderH,
-        handlerHolder.orderH,
         handlerHolder.deleteOrderH,
         handlerHolder.deleteDishFromOrderH,
         handlerHolder.editStatusByUserH,
@@ -81,6 +80,9 @@ fun main() {
         handlerHolder.profileH,
         handlerHolder.editProfileFormH,
         handlerHolder.editProfileH,
+        handlerHolder.ordersH,
+        handlerHolder.orderH,
+        handlerHolder.orderFromBasketH,
 
         routingHttpHandler,
     )
