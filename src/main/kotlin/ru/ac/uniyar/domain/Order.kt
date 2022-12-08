@@ -15,6 +15,7 @@ data class Order(
     val status: String,
     val timestamp:LocalDateTime,
     val dishes: List<UUID>,
+    val price: Int
 ){
     companion object{
         fun fromJson(node: JsonNode): Order {
@@ -26,6 +27,7 @@ data class Order(
                 jsonObject["status"].asText(),
                 LocalDateTime.parse(jsonObject["timestamp"].asText(), DateTimeFormatter.ISO_LOCAL_DATE_TIME),
                 jsonObject["dishes"].asJsonArray().map { UUID.fromString(it.asText()) },
+                jsonObject["price"].asInt(),
                 )
         }
     }
@@ -37,6 +39,7 @@ data class Order(
             "status" to status.asJsonValue(),
             "timestamp" to timestamp.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).asJsonValue(),
             "dishes" to dishes.asJsonObject(),
+            "price" to price.asJsonValue(),
         ).asJsonObject()
     }
 
@@ -48,6 +51,7 @@ data class Order(
         mas.add(dishId)
         return this.copy(dishes = mas)
     }
+
     fun deleteDish(dishId: UUID):Order{
         val mas= this.dishes.toMutableList()
         mas.remove(mas.last { it == dishId })
@@ -56,6 +60,10 @@ data class Order(
 
     fun editStatus(status: String):Order{
         return this.copy(status = status)
+    }
+
+    fun setPrice(price: Int): Order{
+        return this.copy(price = price)
     }
 
 }

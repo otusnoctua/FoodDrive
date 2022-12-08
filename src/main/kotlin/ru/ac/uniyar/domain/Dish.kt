@@ -12,7 +12,7 @@ data class Dish(
     val price: Int,
     val vegan: Boolean,
     val description: String,
-    val nameDish: String,
+    val name: String,
     val availability:Boolean,
     ){
 
@@ -26,7 +26,7 @@ data class Dish(
                 jsonObject["price"].asInt(),
                 jsonObject["vegan"].asBoolean(),
                 jsonObject["description"].asText(),
-                jsonObject["nameDish"].asText(),
+                jsonObject["name"].asText(),
                 jsonObject["availability"].asBoolean(),
             )
         }
@@ -40,7 +40,7 @@ data class Dish(
             "price" to price.asJsonValue(),
             "vegan" to vegan.asJsonValue(),
             "description" to description.asJsonValue(),
-            "nameDish" to nameDish.asJsonValue(),
+            "name" to name.asJsonValue(),
 
             "availability" to availability.asJsonValue(),
         ).asJsonObject()

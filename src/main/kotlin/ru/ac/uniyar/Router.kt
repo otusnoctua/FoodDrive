@@ -5,6 +5,7 @@ import org.http4k.core.Method
 import org.http4k.routing.RoutingHttpHandler
 import org.http4k.routing.bind
 import org.http4k.routing.routes
+import ru.ac.uniyar.handlers.OperatorOrdersH
 
 @Suppress("LongParameterList")
 class Router (
@@ -13,7 +14,7 @@ class Router (
 
     private val registerFormH: HttpHandler,
     private val registerH: HttpHandler,
-    private val registerOperatorH:HttpHandler,
+    private val registerOperatorFormH:HttpHandler,
 
     private val loginFormH: HttpHandler,
     private val loginH: HttpHandler,
@@ -55,6 +56,7 @@ class Router (
     private val deleteOrderH: HttpHandler,
     private val deleteDishFromOrderH:HttpHandler,
 
+    private val operatorOrdersH: OperatorOrdersH,
     private val orderForOperatorH:HttpHandler,
     private val editStatusByOperatorH:HttpHandler,
 
@@ -66,7 +68,7 @@ class Router (
 
         "/register" bind Method.GET to registerFormH,
         "/register" bind Method.POST to registerH,
-        "/registerOperator" bind Method.GET to registerOperatorH,
+        "/registerOperator" bind Method.GET to registerOperatorFormH,
         "/registerOperator" bind Method.POST to registerH,
 
         "/login" bind Method.GET to loginFormH,
@@ -104,12 +106,12 @@ class Router (
         "/{restaurant}/{dish}/edit" bind Method.POST to editDishH,
 
         "/basket" bind Method.GET to basketH,
-        "/basket" bind Method.POST to editStatusByUserH,
+        "/basket/{order}/accept" bind Method.GET to editStatusByUserH,
         "/basket/{order}" bind Method.GET to orderFromBasketH,
         "/basket/delete/{order}" bind Method.GET to deleteOrderH,
         "/basket/{order}/{dish}/delete" bind Method.GET to deleteDishFromOrderH,
 
-        "/orders" bind Method.GET to ordersH,
+        "/orders" bind Method.GET to operatorOrdersH,
         "/orders/{order}" bind Method.GET to orderForOperatorH,
         "/orders/{order}" bind Method.POST to editStatusByOperatorH,
 

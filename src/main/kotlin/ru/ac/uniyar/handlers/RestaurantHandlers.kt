@@ -51,9 +51,10 @@ class AddRestaurantH(
     private val htmlView: ContextAwareViewRender,
 ): HttpHandler {
     companion object {
-        val restaurantNameFormLens = FormField.string().required("nameRestaurant")
+        val restaurantNameFormLens = FormField.string().required("name")
         val BodyRestaurantFormLens = Body.webForm(
-            Validator.Feedback, restaurantNameFormLens,
+            Validator.Feedback,
+            restaurantNameFormLens,
         ).toLens()
     }
     override fun invoke(request: Request): Response {
@@ -75,15 +76,31 @@ class AddRestaurantH(
     }
 }
 
+class EditRestaurantFormH(
+    private val permissionLens: RequestContextLens<RolePermissions>,
+    private val htmlView: ContextAwareViewRender,
+): HttpHandler {
+    override fun invoke(request: Request): Response {
+        val permissions = permissionLens(request)
+        if (!permissions.editRestaurant) {
+            return Response(Status.UNAUTHORIZED)
+        }
+        return Response(Status.OK).with(
+            htmlView(request) of RestaurantFormVM(isEdit = true )
+        )
+    }
+}
+
 class EditRestaurantH(
     private val permissionLens: RequestContextLens<RolePermissions>,
     private val restaurantQueries: RestaurantQueries,
     private val htmlView: ContextAwareViewRender,
 ): HttpHandler {
     companion object {
-        val restaurantNameFormLens = FormField.string().required("nameRestaurant")
+        val restaurantNameFormLens = FormField.string().required("name")
         val BodyRestaurantFormLens = Body.webForm(
-            Validator.Feedback, restaurantNameFormLens,
+            Validator.Feedback,
+            restaurantNameFormLens,
         ).toLens()
     }
     override fun invoke(request: Request): Response {
@@ -104,20 +121,6 @@ class EditRestaurantH(
                 htmlView(request) of RestaurantFormVM(webForm,isEdit = true)
             )
         }
-    }
-}
-class EditRestaurantFormH(
-    private val permissionLens: RequestContextLens<RolePermissions>,
-    private val htmlView: ContextAwareViewRender,
-): HttpHandler {
-    override fun invoke(request: Request): Response {
-        val permissions = permissionLens(request)
-        if (!permissions.editRestaurant) {
-            return Response(Status.UNAUTHORIZED)
-        }
-        return Response(Status.OK).with(
-            htmlView(request) of RestaurantFormVM(isEdit = true )
-        )
     }
 }
 

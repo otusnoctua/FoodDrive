@@ -25,7 +25,7 @@ data class User(
                 user["email"].asText(),
                 user["password"].asText(),
                 UUID.fromString(user["roleId"].asText()),
-                UUID.fromString(user["linkToRestaurant"].asText()),
+                UUID.fromString(user["restaurantId"].asText()),
             )
         }
     }
@@ -38,7 +38,7 @@ data class User(
             "email" to email.asJsonValue(),
             "password" to password.asJsonValue(),
             "roleId" to roleId.toString().asJsonValue(),
-            "linkToRestaurant" to restaurantId.toString().asJsonValue(),
+            "restaurantId" to restaurantId.toString().asJsonValue(),
         ).asJsonObject()
     }
 

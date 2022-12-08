@@ -17,7 +17,7 @@
         <div class="grid-x grid-padding-x">
             <div class="medium-12 cell">
                 <label>Название:
-                    <input name="nameDish" type="text" value="{{model.form.fields["nameDish"] | first }}">
+                    <input name="name" type="text" value="{{model.form.fields["name"] | first }}">
                 </label>
             </div>
             <div class="medium-12 cell">

@@ -41,7 +41,7 @@ class DishRepository(
     }
 
     fun changeDish(nameDish: String, ingredients: String, price: Int, description: String, vegan: Boolean, dish: Dish){
-        allDishes[dish.id] = dish.copy(nameDish = nameDish, ingredients = ingredients, price = price, description = description, vegan = vegan)
+        allDishes[dish.id] = dish.copy(name = nameDish, ingredients = ingredients, price = price, description = description, vegan = vegan)
     }
 
     fun list() = allDishes.values.toList()

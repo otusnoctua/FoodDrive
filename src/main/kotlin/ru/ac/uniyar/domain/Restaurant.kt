@@ -7,21 +7,21 @@ import java.util.*
 
 data class Restaurant(
     val id: UUID,
-    val nameRestaurant: String,
+    val name: String,
 ) {
     companion object {
         fun fromJson(node: JsonNode): Restaurant {
             val restaurant = node.asJsonObject()
             return Restaurant(
                 UUID.fromString(restaurant["id"].asText()),
-                restaurant["nameRestaurant"].asText(),
+                restaurant["name"].asText(),
             )
         }
     }
     fun asJsonObject(): JsonNode {
         return listOf(
             "id" to id.toString().asJsonValue(),
-            "nameRestaurant" to nameRestaurant.asJsonValue(),
+            "name" to name.asJsonValue(),
         ).asJsonObject()
     }
 

@@ -17,7 +17,9 @@ class PingHandler(): HttpHandler {
 }
 class RedirectToHomePage(): HttpHandler {
     override fun invoke(request: Request): Response {
-        return Response(Status.FOUND).header("Location", "/restaurants")
+        return Response(Status.FOUND).header(
+            "Location", "/restaurants"
+        )
     }
 }
 
@@ -29,8 +31,9 @@ class HomePageH(
 ): HttpHandler {
     override fun invoke(request: Request): Response {
         val permissions = permissionsLens(request)
-        if (!permissions.listRestaurants)
+        if (!permissions.listRestaurants) {
             return Response(Status.UNAUTHORIZED)
+        }
         val model = RestaurantsVM(
             restaurantQueries.RestaurantsQ().invoke().map {
                 RestaurantInfo(
@@ -38,6 +41,8 @@ class HomePageH(
                     dishQueries.DishesOfRestaurantQ().invoke(it.id).isNotEmpty()
                 )
             })
-        return Response(Status.OK).with(htmlView(request) of model)
+        return Response(Status.OK).with(
+            htmlView(request) of model
+        )
     }
 }

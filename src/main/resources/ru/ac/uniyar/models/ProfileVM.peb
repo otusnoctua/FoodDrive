@@ -1,17 +1,15 @@
 {% extends "./layout.peb" %}
 
 {% block content %}
-    <form method="POST">
-        <div>
-            {% if currentUser is not null %}
-                <div>{{currentUser.name}}</div>
-                <div>{{currentUser.phone}}</div>
-                <div>{{currentUser.email}}</div>
-                {% if permissions.editUser %}<a href="/profile/edit"class="button">Редактировать</a>{% endif %}
-            {% endif %}
-        </div>
-        <div>
+    <div>
+        <p>Имя: {{currentUser.name}}</p>
+        <p>Телефон: {{currentUser.phone}}</p>
+        <p>Почта: {{currentUser.email}}</p>
+        {% if permissions.editUser %}
+            <a href="/profile/edit"class="button">Редактировать</a>
+        {% endif %}
+    </div>
+    <div>
         <a href="/profile/orders">Список заказов</a>
-        </div>
-    </form>
+    </div>
 {% endblock %}

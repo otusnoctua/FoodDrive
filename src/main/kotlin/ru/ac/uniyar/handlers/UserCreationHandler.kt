@@ -4,7 +4,11 @@ import org.http4k.core.*
 import org.http4k.core.Status.Companion.BAD_REQUEST
 import org.http4k.core.Status.Companion.FOUND
 import org.http4k.core.Status.Companion.OK
+import org.http4k.core.cookie.Cookie
+import org.http4k.core.cookie.SameSite
+import org.http4k.core.cookie.cookie
 import org.http4k.lens.*
+import ru.ac.uniyar.domain.JwtTools
 import ru.ac.uniyar.domain.RolePermissions
 import ru.ac.uniyar.domain.lensOrNull
 import ru.ac.uniyar.models.RegisterOperatorVM
@@ -25,7 +29,7 @@ class RegisterFormH(
     }
 }
 
-class RegisterOperatorH(
+class RegisterOperatorFormH(
     private val htmlView: ContextAwareViewRender,
     private val restaurantQueries: RestaurantQueries,
 ):HttpHandler{
@@ -38,9 +42,10 @@ class RegisterOperatorH(
 
 class RegisterH(
     private val userQueries: UserQueries,
-    private val htmlView: ContextAwareViewRender,
     private val permissionsLens: RequestContextLens<RolePermissions>,
     private val restaurantQueries: RestaurantQueries,
+    private val htmlView: ContextAwareViewRender,
+    private val jwtTools: JwtTools,
 ): HttpHandler {
     companion object {
         val userNameFormLens = FormField.nonEmptyString().required("name")
@@ -48,9 +53,14 @@ class RegisterH(
         val userEmailFormLens = FormField.nonEmptyString().required("email")
         val passwordOneFormLens = FormField.nonEmptyString().required("passwordOne")
         val passwordTwoFormLens = FormField.nonEmptyString().required("passwordTwo")
-        val linkToRestaurantFormLens= FormField.defaulted("linkToRestaurant", "00000000-0000-0000-0000-000000000000")
+        val linkToRestaurantFormLens= FormField.defaulted("restaurant", "00000000-0000-0000-0000-000000000000")
         val BodyUserFormLens = Body.webForm(
-            Validator.Feedback, userNameFormLens, userPhoneFormLens, userEmailFormLens, passwordOneFormLens, passwordTwoFormLens,
+            Validator.Feedback,
+            userNameFormLens,
+            userPhoneFormLens,
+            userEmailFormLens,
+            passwordOneFormLens,
+            passwordTwoFormLens,
             linkToRestaurantFormLens,
         ).toLens()
     }
@@ -64,16 +74,18 @@ class RegisterH(
             form = form.copy(errors = newError)
         }
         if (form.errors.isEmpty()) {
-            userQueries.AddUserQ().invoke(
+            val userId = userQueries.AddUserQ().invoke(
                 userNameFormLens(form),
                 userPhoneFormLens(form),
                 userEmailFormLens(form),
                 firstPassword!!,
                 UUID.fromString(linkToRestaurantFormLens(form)),
             )
-            return Response(FOUND).header(
-                "Location", "/"
-            )
+            val token = jwtTools.create(userId.toString()) ?: return Response(Status.INTERNAL_SERVER_ERROR)
+            val authCookie = Cookie("token", token, httpOnly = true, sameSite = SameSite.Strict)
+            return Response(FOUND)
+                .header("Location", "/")
+                .cookie(authCookie)
         }
         else {
             return if (permissionsLens.invoke(request).createOperator) {

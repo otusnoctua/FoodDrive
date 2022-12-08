@@ -40,6 +40,6 @@ class RestaurantRepository(restaurant: Iterable<Restaurant> = emptyList()) {
     fun list() = allRestaurants.values.toList()
 
     fun changeRestaurantName(nameRestaurant: String, restaurant: Restaurant){
-        allRestaurants[restaurant.id] = restaurant.copy(nameRestaurant = nameRestaurant)
+        allRestaurants[restaurant.id] = restaurant.copy(name = nameRestaurant)
     }
 }

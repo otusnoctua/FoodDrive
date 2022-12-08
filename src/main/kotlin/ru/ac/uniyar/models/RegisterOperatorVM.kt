@@ -6,6 +6,6 @@ import ru.ac.uniyar.domain.Restaurant
 import ru.ac.uniyar.domain.RestaurantInfo
 
 data class RegisterOperatorVM(
-    val listOfRestaurants: List<Restaurant>,
+    val restaurants: List<Restaurant>,
     val form: WebForm = WebForm(),
-) : ViewModel
+    ) : ViewModel

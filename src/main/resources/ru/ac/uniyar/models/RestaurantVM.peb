@@ -4,10 +4,10 @@
         <div>
             {% if permissions.createDish %}<a href="/{{model.restaurant.id}}/ListOfDishes/new" class="button">Добавить</a>{% endif %}
         </div>
-        {% for dish in model.listOfDishes %}
+        {% for dish in model.dishes %}
             {% if permissions.editStopList %}
             <div>
-                {{ dish.nameDish }}: {{dish.ingredients}}, {{dish.description}}{% if dish.vegan %}, Вегетарианское {% endif %}
+                {{ dish.name }}: {{dish.ingredients}}, {{dish.description}}{% if dish.vegan %}, Вегетарианское {% endif %}
                 {% if permissions.createOrder %}
                     <a href="/{{model.restaurant.id}}/{{dish.id}}/dishToOrder"class="button">Добавить в корзину</a>
                 {% endif %}
@@ -27,7 +27,7 @@
             {% endif %}
             {% if not permissions.editStopList and dish.availability %}
                 <div>
-                    {{ dish.nameDish }}: {{dish.ingredients}}, {{dish.description}}{% if dish.vegan %}, Вегетарианское {% endif %}
+                    {{ dish.name }}: {{dish.ingredients}}, {{dish.description}}{% if dish.vegan %}, Вегетарианское {% endif %}
                     {% if permissions.createOrder %}
                         <a href="/{{model.restaurant.id}}/{{dish.id}}/dishToOrder"class="button">Добавить в корзину</a>
                     {% endif %}

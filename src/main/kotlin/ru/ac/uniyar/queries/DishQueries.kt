@@ -15,7 +15,7 @@ class DishQueries(
     }
     inner class DishesOfRestaurantQ {
         operator fun invoke(id: UUID):List<Dish>{
-            return dishRepository.list().filter {it.restaurantId==id}
+            return dishRepository.list().filter {it.restaurantId == id}
         }
     }
     inner class AddDishQ{

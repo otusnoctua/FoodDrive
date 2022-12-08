@@ -40,9 +40,9 @@
             </div>
             <div class="medium-6 cell">
                 <label>Выбор ресторана
-                    <select name="linkToRestaurant">
-                        {% for restaurant in model.listOfRestaurants %}
-                            <option  value={{ restaurant.id }}>{{restaurant.nameRestaurant}}</option>
+                    <select name="restaurant">
+                        {% for restaurant in model.restaurants %}
+                            <option  value={{ restaurant.id }}>{{restaurant.name}}</option>
                         {% endfor %}
                     </select>
                 </label>

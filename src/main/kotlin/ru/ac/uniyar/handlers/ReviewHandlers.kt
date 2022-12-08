@@ -47,17 +47,17 @@ class ReviewFormH(
         val BodyReviewFormLens = Body.webForm(
             Validator.Feedback,
             textReviewFormLens,
+            ratingReviewFormLens,
         ).toLens()
     }
     override fun invoke(request: Request): Response {
         val permissions = permissionsLens(request)
-        return if (!permissions.createReview) {
-            Response(Status.UNAUTHORIZED)
-        } else {
-            Response(Status.OK).with(
-                htmlView(request) of ReviewFormVM()
-            )
+        if (!permissions.createReview) {
+            return  Response(Status.UNAUTHORIZED)
         }
+        return Response(Status.OK).with(
+            htmlView(request) of ReviewFormVM()
+        )
     }
 }
 
@@ -74,6 +74,7 @@ class AddReviewH(
         val BodyReviewFormLens = Body.webForm(
             Validator.Feedback,
             textReviewFormLens,
+            ratingReviewFormLens,
         ).toLens()
     }
     override fun invoke(request: Request): Response {
@@ -84,7 +85,6 @@ class AddReviewH(
         }
         val restaurant = restaurantQueries.FetchRestaurantQ().invoke(UUID.fromString(request.path("restaurant").orEmpty()))
                 ?: return Response(Status.BAD_REQUEST)
-
         val webForm = BodyReviewFormLens(request)
         return if (webForm.errors.isEmpty()) {
             val review = Review(
@@ -96,9 +96,13 @@ class AddReviewH(
                 LocalDateTime.now()
             )
             reviewQueries.AddReviewQ().invoke(review)
-            Response(Status.FOUND).header("Location", "/reviews/${restaurant.id}")
+            Response(Status.FOUND).header(
+                "Location", "/reviews/${restaurant.id}"
+            )
         } else {
-            Response(Status.OK).with(htmlView(request) of ReviewFormVM(webForm))
+            Response(Status.OK).with(
+                htmlView(request) of ReviewFormVM(webForm)
+            )
         }
     }
 }

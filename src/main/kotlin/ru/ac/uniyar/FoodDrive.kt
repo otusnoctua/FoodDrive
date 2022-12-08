@@ -55,7 +55,7 @@ fun main() {
 
         handlerHolder.registerFormH,
         handlerHolder.registerH,
-        handlerHolder.registerOperatorH,
+        handlerHolder.registerOperatorFormH,
 
         handlerHolder.loginFormH,
         handlerHolder.loginH,
@@ -97,6 +97,7 @@ fun main() {
         handlerHolder.deleteOrderH,
         handlerHolder.deleteDishFromOrderH,
 
+        handlerHolder.operatorOrdersH,
         handlerHolder.orderForOperatorH,
         handlerHolder.editStatusByOperatorH,
 

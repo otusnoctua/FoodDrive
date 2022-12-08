@@ -11,25 +11,35 @@ import ru.ac.uniyar.queries.UserQueries
 
 class ProfileH(
     private val permissionLens: RequestContextLens<RolePermissions>,
+    private val curUserLens: RequestContextLens<User?>,
     private val htmlView: ContextAwareViewRender,
 ):HttpHandler {
     override fun invoke(request: Request): Response {
         val permissions = permissionLens(request)
-        if (!permissions.viewUser)
+        val user = curUserLens(request)
+        if (!permissions.viewUser || user == null){
             return Response(Status.UNAUTHORIZED)
-        return Response(Status.OK).with(htmlView(request) of ProfileVM())
+        }
+        return Response(Status.OK).with(
+            htmlView(request) of ProfileVM()
+        )
     }
 }
 
 class EditProfileFormH(
     private val permissionLens: RequestContextLens<RolePermissions>,
+    private val curUserLens: RequestContextLens<User?>,
     private val htmlView: ContextAwareViewRender,
 ): HttpHandler {
     override fun invoke(request: Request): Response {
         val permissions = permissionLens(request)
-        if (!permissions.editUser)
+        val user = curUserLens(request)
+        if (!permissions.editUser || user == null) {
             return Response(Status.UNAUTHORIZED)
-        return Response(Status.OK).with(htmlView(request) of ProfileFormVM())
+        }
+        return Response(Status.OK).with(
+            htmlView(request) of ProfileFormVM()
+        )
     }
 }
 
@@ -44,20 +54,32 @@ class EditProfileH(
         val userPhoneFormLens = FormField.nonEmptyString().required("phone")
         val userEmailFormLens = FormField.nonEmptyString().required("email")
         val BodyUserFormLens = Body.webForm(
-            Validator.Feedback, userNameFormLens, userPhoneFormLens, userEmailFormLens,
+            Validator.Feedback,
+            userNameFormLens,
+            userPhoneFormLens,
+            userEmailFormLens,
         ).toLens()
     }
     override fun invoke(request: Request): Response {
         val user = curUserLens(request)
         val permissions = permissionLens(request)
-        if (!permissions.editUser || user == null)
+        if (!permissions.editUser || user == null) {
             return Response(Status.UNAUTHORIZED)
+        }
         val webForm = BodyUserFormLens(request)
-        if (webForm.errors.isEmpty()) {
-            userQueries.EditUserQuery().invoke(userNameFormLens(webForm), userPhoneFormLens(webForm), userEmailFormLens(webForm), user)
-            return Response(Status.FOUND).header("Location", "/profile")
+        return if (webForm.errors.isEmpty()) {
+            userQueries.EditUserQuery().invoke(
+                userNameFormLens(webForm),
+                userPhoneFormLens(webForm),
+                userEmailFormLens(webForm),
+                user)
+            Response(Status.FOUND).header(
+                "Location", "/profile"
+            )
         } else {
-            return Response(Status.OK).with(htmlView(request) of ProfileFormVM(webForm))
+            Response(Status.OK).with(
+                htmlView(request) of ProfileFormVM(webForm)
+            )
         }
     }
 }

@@ -7,7 +7,7 @@
     {% endif %}
     {% for restaurantInfo in model.listOfRestaurants %}
         <div>
-            {{ restaurantInfo.restaurant.nameRestaurant }}
+            {{ restaurantInfo.restaurant.name }}
             {% if permissions.editRestaurant %}
                 <a href="/{{restaurantInfo.restaurant.id}}/edit"class="button">Редактировать</a>
             {% endif %}

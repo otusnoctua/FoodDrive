@@ -1,12 +1,12 @@
 {% extends "./layout.peb" %}
 {% block content %}
     <p>Время добавления: {{ model.order.timestamp }} </p>
-    <p>Ресторан: {{ model.restaurant.nameRestaurant }} </p>
+    <p>Ресторан: {{ model.restaurant.name}} </p>
     <p>Содержимое: </p>
     {% for dish in model.dishes %}
         <div>
-            {{ dish.nameDish }}, {{ dish.price }} руб.
-            <a href="/basket/{{model.order.id}}/delete/{{ loop.index }}" class="button">Удалить блюдо</a>
+            {{ dish.name }}, {{ dish.price }} руб.
+            <a href="/basket/{{model.order.id}}/{{ dish.id }}/delete" class="button">Удалить блюдо</a>
         </div>
     {% endfor %}
     <div>

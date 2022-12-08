@@ -34,13 +34,19 @@ class LoginH(
     companion object {
         private val loginFieldLens = FormField.nonEmptyString().required("login")
         private val passwordFieldLens = FormField.nonEmptyString().required("password")
-        private val formLens = Body.webForm(Validator.Feedback, loginFieldLens, passwordFieldLens).toLens()
+        private val formLens = Body.webForm(
+            Validator.Feedback,
+            loginFieldLens,
+            passwordFieldLens)
+            .toLens()
     }
 
     override fun invoke(request: Request): Response {
         val form = formLens(request)
         if (form.errors.isNotEmpty()) {
-            return Response(BAD_REQUEST).with(htmlView(request) of LoginVM(form))
+            return Response(BAD_REQUEST).with(
+                htmlView(request) of LoginVM(form)
+            )
         }
         val userId = try {
             authenticateUserViaLoginQ(loginFieldLens(form), passwordFieldLens(form))

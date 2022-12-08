@@ -1,14 +1,16 @@
 {% extends "./layout.peb" %}
 {% block content %}
-    <div>
-        Заказы в процессе
-    </div>
-    {% for order in model.newOrders %}
+    {% if model.newOrders is not empty %}
         <div>
-           Заказ номер: {{ loop.index + 1}}
-            <a href="/profile/orders/{{ order.id }}">Больше</a>
+            Заказы в процессе
         </div>
-    {% endfor %}
+        {% for order in model.newOrders %}
+            <div>
+               Заказ номер: {{ loop.index + 1}}
+                <a href="/profile/orders/{{ order.id }}">Больше</a>
+            </div>
+        {% endfor %}
+    {% endif %}
     {% if model.oldOrders is not empty %}
         <div>
             Завершенные заказы

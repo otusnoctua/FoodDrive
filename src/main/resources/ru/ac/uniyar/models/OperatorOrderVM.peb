@@ -8,7 +8,7 @@
     <p>Email: {{ model.user.email }} </p>
     <h3 class="text-left">Информация о заказе:  </h3>
     <p>Время добавления: {{ model.order.timestamp }} </p>
-    <p>Ресторан: {{ model.restaurant.nameRestaurant }} </p>
+    <p>Ресторан: {{ model.restaurant.name }} </p>
     <p>Содержимое: </p>
     {% for dish in model.dishes %}
         <div>

@@ -7,5 +7,5 @@ import ru.ac.uniyar.domain.Order
 data class UserOrderVM(
     val order: Order,
     val dishes: List<Dish>,
-    val price: Int
+    val price: Int,
     ): ViewModel

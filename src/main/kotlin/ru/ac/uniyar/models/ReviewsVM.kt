@@ -7,4 +7,4 @@ import ru.ac.uniyar.domain.Review
 data class ReviewsVM(
     val listOfReviews : List<Review> ,
     val restaurant: Restaurant,
-): ViewModel
+    ): ViewModel

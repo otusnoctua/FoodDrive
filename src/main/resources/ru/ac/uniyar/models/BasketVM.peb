@@ -1,12 +1,10 @@
 {% extends "./layout.peb" %}
 {% block content %}
-    {% for order in model.listOfOrders %}
+    {% for order in model.orders %}
         <div>
             Заказ номер: {{ loop.index + 1}}
             <a href="/basket/{{ order.id }}">Больше</a>
-            <form method="POST">
-                <button name="orderId" class="button" type="submit" value={{ order.id }}>Подтвердить</button>
-            </form>
+            <a href="/basket/{{ order.id }}/accept" class="button">Подтвердить</a>
         </div>
     {% endfor %}
 {% endblock %}

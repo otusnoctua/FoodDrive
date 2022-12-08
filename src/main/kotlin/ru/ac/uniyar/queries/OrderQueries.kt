@@ -35,6 +35,7 @@ class OrderQueries(
                 "В ожидании",
                 LocalDateTime.now(),
                 listOfDishes,
+                0,
             )
             AddOrderQ().invoke(order)
             return order
@@ -42,12 +43,12 @@ class OrderQueries(
     }
     inner class CheckOrderQ{
         operator fun invoke(userId: UUID): Boolean{
-            return  orderRepository.list().any {it.clientId==userId && it.status == "В ожидании"}
+            return  orderRepository.list().any {it.clientId == userId && it.status == "В ожидании"}
         }
     }
     inner class CheckOrderRestaurantQ{
         operator fun invoke(userId: UUID, restaurant: UUID):Boolean{
-            return  orderRepository.list().any {it.clientId==userId && it.restaurantId == restaurant && it.status=="В ожидании"}
+            return  orderRepository.list().any {it.clientId == userId && it.restaurantId == restaurant && it.status == "В ожидании"}
         }
     }
     inner class AddDishQ{
@@ -86,22 +87,34 @@ class OrderQueries(
     }
     inner class DeleteOrderQ{
         operator fun invoke(id: UUID){
-             orderRepository.delete(id)
+            orderRepository.delete(id)
             store.save()
         }
     }
     inner class DeleteDishQ {
         operator fun invoke(order: Order, dishId: UUID): Order {
             val newOrder = order.deleteDish(dishId)
+            orderRepository.update(newOrder)
             store.save()
             return newOrder
         }
     }
 
     inner class EditStatusQ{
-        operator fun invoke(order: Order,string: String){
-            orderRepository.update(order.editStatus(string))
+        operator fun invoke(order: Order,string: String): Order{
+            val newOrder = order.editStatus(string)
+            orderRepository.update(newOrder)
             store.save()
+            return newOrder
+        }
+    }
+
+    inner class SetPriceQ{
+        operator fun invoke(order: Order, price: Int): Order{
+            val newOrder = order.setPrice(price)
+            orderRepository.update(newOrder)
+            store.save()
+            return newOrder
         }
     }
 }
