@@ -7,4 +7,6 @@ import ru.ac.uniyar.domain.Restaurant
 data class RestaurantVM(
     val dishes: List<Dish>,
     val restaurant: Restaurant,
+    val name:String?,
+    val flag:Int?,
     ): ViewModel

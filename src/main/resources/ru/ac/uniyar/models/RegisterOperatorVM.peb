@@ -20,7 +20,7 @@
             </div>
             <div class="medium-6 cell">
                 <label>Телефон:
-                    <input name="phone" type="number" value="{{model.form.fields["phone"] | first }}">
+                    <input name="phone" type="tel" value="{{model.form.fields["phone"] | first }}">
                 </label>
             </div>
             <div class="medium-6 cell">

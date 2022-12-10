@@ -15,6 +15,6 @@ class StoreHolder(
     val dishQueries = DishQueries(store.dishRepository,store)
     val orderQueries = OrderQueries(store.orderRepository,store)
     val reviewQueries = ReviewQueries(store.reviewRepository,store)
-    val restaurantQueries = RestaurantQueries(store.restaurantRepository,store)
+    val restaurantQueries = RestaurantQueries(store.restaurantRepository,reviewQueries ,store)
     val userQueries= UserQueries(store,settings,store.userRepository)
 }

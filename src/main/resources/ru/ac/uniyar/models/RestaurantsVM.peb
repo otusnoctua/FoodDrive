@@ -1,20 +1,60 @@
-{% extends "./layout.peb" %}
-{% block content %}
-    {% if permissions.createRestaurant %}
+    {% extends "./layout.peb" %}
+    {% block content %}
+        {% if permissions.createRestaurant %}
         <div>
             <a href="/restaurants/new" class="button">Добавить</a>
         </div>
-    {% endif %}
-    {% for restaurantInfo in model.listOfRestaurants %}
-        <div>
-            {{ restaurantInfo.restaurant.name }}
-            {% if permissions.editRestaurant %}
-                <a href="/{{restaurantInfo.restaurant.id}}/edit"class="button">Редактировать</a>
-            {% endif %}
-            {% if not restaurantInfo.haveDish and permissions.deleteRestaurant %}
-                <a href="/{{restaurantInfo.restaurant.id}}/delete"class="button">Удалить</a>
-            {% endif %}
-            <a href="/{{restaurantInfo.restaurant.id }}/ListOfDishes"class="button">К ресторану</a>
+        {% endif %}
+    <form method="GET">
+        <div class="grid-x grid-padding-x align-bottom">
+            <div class="medium-4 cell">
+                <label>
+                    Название ресторана:
+                    <input type="text" name="name"
+                           value="{{ model.name }}">
+                </label>
+            </div>
+            <div class="medium-4 cell">
+                <input type="submit" value="Поиск" class="button">
+                <a href="/restaurants" class="button">Сбросить</a>
+            </div>
         </div>
+    </form>
+    <form method="GET">
+        <div class="grid-x grid-padding-x align-bottom">
+            <div class="medium-4 cell">
+                <input type="submit" value="Максимальный рейтинг" class="button">
+                <input type="hidden" name="rating" value="1">
+            </div>
+        </div>
+    </form>
+    <form method="GET">
+        <div class="grid-x grid-padding-x align-bottom">
+            <div class="medium-4 cell">
+                <input type="submit" value="Минимальный рейтинг" class="button">
+                <input type="hidden" name="rating" value="0">
+            </div>
+        </div>
+    </form>
+    <div class="grid-x grid-padding-x">
+            {% if  model.listOfRestaurants.size==0 %}
+            <div class="medium-12 cell">
+                <p>Не найдено ресторанов</p>
+            </div>
+
+            {% endif %}
+    </div>
+    {% for restaurantInfo in model.listOfRestaurants %}
+    <div>
+        {{ restaurantInfo.restaurant.name }}: {{ restaurantInfo.rating }}
+        {% if permissions.editRestaurant %}
+            <a href="/{{restaurantInfo.restaurant.id}}/edit" class="button">Редактировать</a>
+        {% endif %}
+        {% if not restaurantInfo.haveDish and permissions.deleteRestaurant %}
+            <a href="/{{restaurantInfo.restaurant.id}}/delete" class="button">Удалить</a>
+        {% endif %}
+        <a href="/{{restaurantInfo.restaurant.id }}/ListOfDishes" class="button">К ресторану</a>
+    </div>
     {% endfor %}
-{% endblock %}
+
+    {% endblock %}

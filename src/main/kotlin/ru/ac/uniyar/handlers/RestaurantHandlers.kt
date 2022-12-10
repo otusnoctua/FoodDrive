@@ -4,6 +4,8 @@ import org.http4k.core.*
 import org.http4k.lens.*
 import org.http4k.routing.path
 import ru.ac.uniyar.domain.RolePermissions
+import ru.ac.uniyar.domain.lensOrDefault
+import ru.ac.uniyar.domain.lensOrNull
 import ru.ac.uniyar.models.RestaurantFormVM
 import ru.ac.uniyar.models.RestaurantVM
 import ru.ac.uniyar.models.template.ContextAwareViewRender
@@ -17,15 +19,32 @@ class RestaurantH(
     private val restaurantQueries: RestaurantQueries,
     private val htmlView: ContextAwareViewRender,
 ): HttpHandler {
+    companion object {
+        val dishNameLens= Query.string().optional("name")
+        val sortByPriceLens=Query.int().defaulted("flag",-1)
+        val minPriceLens=Query.int().optional("min")
+        val maxPriceLens=Query.int().optional("max")
+
+
+
+    }
     override fun invoke(request: Request): Response {
         val permissions = permissionsLens(request)
         if (!permissions.listDishes) {
             return Response(Status.UNAUTHORIZED)
         }
+        val dishName= lensOrNull(dishNameLens,request)
+        val flag= lensOrDefault(sortByPriceLens,request,-1)
+        val minPrice= lensOrNull(minPriceLens,request)
+        val maxPrice = lensOrNull(maxPriceLens,request)
+
         val restaurant = restaurantQueries.FetchRestaurantQ().invoke(UUID.fromString(request.path("restaurant").orEmpty()))
             ?: return Response(Status.BAD_REQUEST)
         return Response(Status.OK).with(
-            htmlView(request) of RestaurantVM(dishQueries.DishesOfRestaurantQ().invoke(restaurant.id), restaurant)
+            htmlView(request) of RestaurantVM(dishQueries.FilterByNameQ().invoke(dishName,restaurant.id,flag,minPrice,maxPrice),
+                restaurant,
+                name=dishName,
+                flag=flag)
         )
     }
 }

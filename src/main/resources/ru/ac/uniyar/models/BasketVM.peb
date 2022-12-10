@@ -1,10 +1,13 @@
-{% extends "./layout.peb" %}
-{% block content %}
-    {% for order in model.orders %}
+    {% extends "./layout.peb" %}
+    {% block content %}
+        {% if model.orders is empty%}
+            <div>Корзина пуста</div>
+        {% endif %}
+        {% for order in model.orders %}
         <div>
-            Заказ номер: {{ loop.index + 1}}
+            Заказ номер: {{ order.id}}
             <a href="/basket/{{ order.id }}">Больше</a>
             <a href="/basket/{{ order.id }}/accept" class="button">Подтвердить</a>
         </div>
-    {% endfor %}
-{% endblock %}
+            {% endfor %}
+    {% endblock %}

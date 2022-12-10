@@ -1,45 +1,105 @@
-{% extends "./layout.peb" %}
-{% block content %}
+    {% extends "./layout.peb" %}
+    {% block content %}
+
+    <form method="GET">
+        <div class="grid-x grid-padding-x align-bottom">
+            <div class="medium-4 cell">
+                <label>
+                    Название блюда:
+                    <input type="text" name="name"
+                           value="{{ model.name }}">
+                </label>
+            </div>
+            <div class="medium-4 cell">
+                <input type="submit" value="Поиск" class="button">
+                <a href="/{{model.restaurant.id}}/ListOfDishes" class="button">Сбросить</a>
+            </div>
+        </div>
+    </form>
+    <form method="GET">
+        <div class="grid-x grid-padding-x align-left">
+            <div class="medium-4 cell">
+                <input type="radio" id="max" name="flag" value="1" >
+                <label for="max">Сначала дорогие</label><br>
+            </div>
+            <div class="medium-4 cell">
+                <input type="radio" id="min" name="flag" value="0" >
+                <label for="min">Сначала дешевые</label><br>
+            </div>
+        </div>
+        <div class="grid-x grid-padding-x align-left">
+            <div class="medium-4 cell">
+                <label>
+                    Минимальная цена:
+                    <input type="number" name="min"
+                           value="{{ model.minPrice }}">
+                </label>
+            </div>
+            <div class="medium-4 cell">
+                <label>
+                    Максимальная цена:
+                    <input type="number" name="max"
+                           value="{{ model.maxPrice }}">
+                </label>
+            </div>
+        </div>
+
+            <input type="submit" value="Найти" class="button">
+
+    </form>
+    <div class="grid-x grid-padding-x">
+            {% if  model.dishes.size==0 %}
+            <div class="medium-12 cell">
+                <p>Не найдено блюд</p>
+            </div>
+
+            {% endif %}
+    </div>
+
     <form method="POST">
         <div>
-            {% if permissions.createDish %}<a href="/{{model.restaurant.id}}/ListOfDishes/new" class="button">Добавить</a>{% endif %}
+                {% if permissions.createDish %}<a href="/{{model.restaurant.id}}/ListOfDishes/new" class="button">Добавить</a>{% endif %}
         </div>
         {% for dish in model.dishes %}
             {% if permissions.editStopList %}
-            <div>
-                {{ dish.name }}: {{dish.ingredients}}, {{dish.description}}{% if dish.vegan %}, Вегетарианское {% endif %}
-                {% if permissions.createOrder %}
-                    <a href="/{{model.restaurant.id}}/{{dish.id}}/dishToOrder"class="button">Добавить в корзину</a>
-                {% endif %}
-                {% if permissions.editDish %}
-                    <a href="/{{model.restaurant.id}}/{{dish.id}}/edit"class="button">Редактировать</a>
-                {% endif %}
-                {% if permissions.deleteDish %}
-                    <a href="/{{model.restaurant.id }}/{{dish.id}}/delete"class="button">Удалить</a>
-                {% endif %}
-                {% if dish.availability %}
-                    <a href="/{{model.restaurant.id }}/{{dish.id}}/availability"class="button">Убрать из каталога</a>
-                {% endif %}
-                {% if not dish.availability %}
-                    <a href="/{{model.restaurant.id }}/{{dish.id}}/availability"class="button">Добавить в каталог</a>
-                {% endif %}
-            </div>
+                <div>
+                    {{ dish.name }}: {{dish.ingredients}}, {{dish.description}}{% if dish.vegan %},
+                    Вегетарианское {% endif %}, {{ dish.price }}
+                    {% if permissions.createOrder %}
+                        <a href="/{{model.restaurant.id}}/{{dish.id}}/dishToOrder" class="button">Добавить в корзину</a>
+                    {% endif %}
+                    {% if permissions.editDish %}
+                        <a href="/{{model.restaurant.id}}/{{dish.id}}/edit" class="button">Редактировать</a>
+                    {% endif %}
+                    {% if permissions.deleteDish %}
+                        <a href="/{{model.restaurant.id }}/{{dish.id}}/delete" class="button">Удалить</a>
+                    {% endif %}
+                    {% if dish.availability %}
+                        <a href="/{{model.restaurant.id }}/{{dish.id}}/availability" class="button">Убрать из
+                            каталога</a>
+                    {% endif %}
+                    {% if not dish.availability %}
+                        <a href="/{{model.restaurant.id }}/{{dish.id}}/availability" class="button">Добавить в
+                            каталог</a>
+                    {% endif %}
+                </div>
             {% endif %}
             {% if not permissions.editStopList and dish.availability %}
                 <div>
-                    {{ dish.name }}: {{dish.ingredients}}, {{dish.description}}{% if dish.vegan %}, Вегетарианское {% endif %}
+                    {{ dish.name }}: {{dish.ingredients}}, {{dish.description}}{% if dish.vegan %},
+                    Вегетарианское {% endif %}
                     {% if permissions.createOrder %}
-                        <a href="/{{model.restaurant.id}}/{{dish.id}}/dishToOrder"class="button">Добавить в корзину</a>
+                        <a href="/{{model.restaurant.id}}/{{dish.id}}/dishToOrder" class="button">Добавить в корзину</a>
                     {% endif %}
                     {% if permissions.editDish %}
-                        <a href="/{{model.restaurant.id}}/{{dish.id}}/edit"class="button">Редактировать</a>
+                        <a href="/{{model.restaurant.id}}/{{dish.id}}/edit" class="button">Редактировать</a>
                     {% endif %}
                     {% if permissions.deleteDish %}
-                        <a href="/{{model.restaurant.id }}/{{dish.id}}/delete"class="button">Удалить</a>
+                        <a href="/{{model.restaurant.id }}/{{dish.id}}/delete" class="button">Удалить</a>
                     {% endif %}
                 </div>
             {% endif %}
         {% endfor %}
     </form>
     <a class="button" href="/reviews/{{model.restaurant.id}}">Отзывы</a>
-{% endblock %}
+    {% endblock %}

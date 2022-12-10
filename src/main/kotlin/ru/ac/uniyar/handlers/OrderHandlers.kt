@@ -4,6 +4,7 @@ import org.http4k.core.*
 import org.http4k.core.body.form
 import org.http4k.lens.*
 import org.http4k.routing.path
+import ru.ac.uniyar.domain.Order
 import ru.ac.uniyar.domain.RolePermissions
 import ru.ac.uniyar.domain.User
 import ru.ac.uniyar.models.*
@@ -49,7 +50,7 @@ class OperatorOrdersH(
             return Response(Status.UNAUTHORIZED)
         }
         return Response(Status.OK).with(
-            htmlView(request) of OrdersVM(
+            htmlView(request) of OperatorOrdersVM(
                 orderQueries.OrdersForOperatorQ().invoke(user.restaurantId)
             )
         )
@@ -136,6 +137,8 @@ class OrderForOperatorH(
     private val permissionsLens: RequestContextLens<RolePermissions>,
     private val orderQueries: OrderQueries,
     private val dishQueries: DishQueries,
+    private val userQueries: UserQueries,
+    private val restaurantQueries: RestaurantQueries,
     private val htmlView: ContextAwareViewRender,
 ):HttpHandler{
     override fun invoke(request: Request): Response {
@@ -150,9 +153,11 @@ class OrderForOperatorH(
             return Response(Status.BAD_REQUEST)
         }
         var price = 29
+        val user = userQueries.FetchUserViaId().invoke(order.clientId)?: return Response(Status.BAD_REQUEST)
+        val restaurant=restaurantQueries.FetchRestaurantQ().invoke(order.restaurantId)?:return Response(Status.BAD_REQUEST)
         dishes.forEach { price += it!!.price }
         return Response(Status.OK).with(
-            htmlView(request) of OperatorOrderVM(order, dishes.map { it!! }, price)
+            htmlView(request) of OperatorOrderVM(order, dishes.map { it!! }, price,restaurant,user)
         )
     }
 }
@@ -260,7 +265,7 @@ class EditStatusByUserH(
             string = "В обработке",
         )
         return Response(Status.OK).with(
-            htmlView(request) of BasketVM(orderQueries.OrdersForUserQ().invoke(user.id))
+            htmlView(request) of BasketVM(orderQueries.WaitingOrdersQ().invoke(user.id))
         )
     }
 }

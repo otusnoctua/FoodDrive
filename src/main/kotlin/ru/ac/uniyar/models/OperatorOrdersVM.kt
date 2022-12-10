@@ -1,3 +1,6 @@
 package ru.ac.uniyar.models
 
-data class OperatorOrdersVM()
+import org.http4k.template.ViewModel
+import ru.ac.uniyar.domain.Order
+
+data class OperatorOrdersVM( val listOfOrders: List<Order>): ViewModel

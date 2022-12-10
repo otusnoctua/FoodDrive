@@ -8,6 +8,7 @@ import org.http4k.core.cookie.Cookie
 import org.http4k.core.cookie.SameSite
 import org.http4k.core.cookie.cookie
 import org.http4k.lens.*
+import ru.ac.uniyar.domain.EMPTY_UUID
 import ru.ac.uniyar.domain.JwtTools
 import ru.ac.uniyar.domain.RolePermissions
 import ru.ac.uniyar.domain.lensOrNull
@@ -81,11 +82,17 @@ class RegisterH(
                 firstPassword!!,
                 UUID.fromString(linkToRestaurantFormLens(form)),
             )
-            val token = jwtTools.create(userId.toString()) ?: return Response(Status.INTERNAL_SERVER_ERROR)
-            val authCookie = Cookie("token", token, httpOnly = true, sameSite = SameSite.Strict)
-            return Response(FOUND)
-                .header("Location", "/")
-                .cookie(authCookie)
+            if(UUID.fromString(linkToRestaurantFormLens(form))!= EMPTY_UUID ){
+                return Response(FOUND)
+                    .header("Location", "/")
+            }
+            else {
+                val token = jwtTools.create(userId.toString()) ?: return Response(Status.INTERNAL_SERVER_ERROR)
+                val authCookie = Cookie("token", token, httpOnly = true, sameSite = SameSite.Strict)
+                return Response(FOUND)
+                    .header("Location", "/")
+                    .cookie(authCookie)
+            }
         }
         else {
             return if (permissionsLens.invoke(request).createOperator) {

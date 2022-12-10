@@ -22,6 +22,7 @@ class HttpHandlerHolder(
     val homePageH = HomePageH(
         permissionLens,
         storeHolder.restaurantQueries,
+        storeHolder.reviewQueries,
         storeHolder.dishQueries,
         htmlView,
     )
@@ -191,6 +192,8 @@ class HttpHandlerHolder(
         permissionLens,
         storeHolder.orderQueries,
         storeHolder.dishQueries,
+        storeHolder.userQueries,
+        storeHolder.restaurantQueries,
         htmlView,
     )
 

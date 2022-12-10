@@ -1,13 +1,11 @@
 package ru.ac.uniyar.queries
 
-import ru.ac.uniyar.domain.EMPTY_UUID
-import ru.ac.uniyar.domain.Restaurant
-import ru.ac.uniyar.domain.RestaurantRepository
-import ru.ac.uniyar.domain.Store
+import ru.ac.uniyar.domain.*
 import java.util.*
 
 class RestaurantQueries(
     private val restaurantRepository: RestaurantRepository,
+    private val reviewQueries: ReviewQueries,
     private val store: Store,
 ) {
     inner class FetchRestaurantQ {
@@ -43,5 +41,27 @@ class RestaurantQueries(
             store.save()
         }
     }
+    inner class FilterByNameQ{
+        operator fun invoke(nameRestaurant: String?=null,flag:Int?):List<Restaurant>{
+            val name=nameRestaurant?: return FilterByRatingQ().invoke(flag)
+            return restaurantRepository.list().filter { it.name==name }
+        }
+    }
+    inner class FilterByRatingQ{
+        operator fun invoke(flag:Int?):List<Restaurant>{
+            val ratingComparator = Comparator {
+                    res1: Restaurant, res2:Restaurant -> (reviewQueries.RatingForRestaurantQ().invoke(res1.id)*100).toInt() -
+                    (reviewQueries.RatingForRestaurantQ().invoke(res2.id)*100).toInt() }
+            if(flag==0){
+                return restaurantRepository.list().sortedWith(ratingComparator)
+            }
+            if(flag==1){
+                return restaurantRepository.list().sortedWith(ratingComparator).reversed()
+            }
+            return restaurantRepository.list()
+        }
 
-}
+    }
+
+
+    }

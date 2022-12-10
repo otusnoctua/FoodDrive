@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {% extends "./layout.peb" %}
 {% block content %}
     <h2 class="text-center"> Заказ номер: {{ model.order.id }} </h2>
@@ -12,7 +11,7 @@
     <p>Содержимое: </p>
     {% for dish in model.dishes %}
         <div>
-            {{ dish.nameDish }}, {{ dish.price }} руб.
+            {{ dish.name }}: {{ dish.price }} руб.
         </div>
     {% endfor %}
     <p>Сервисный сбор: 29 руб.</p>
