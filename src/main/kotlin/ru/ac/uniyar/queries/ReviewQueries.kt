@@ -1,15 +1,20 @@
 package ru.ac.uniyar.queries
 
+import org.ktorm.database.Database
+import org.ktorm.dsl.eq
+import org.ktorm.entity.averageBy
+import org.ktorm.entity.filter
 import ru.ac.uniyar.domain.Review
 import ru.ac.uniyar.domain.ReviewRepository
 import ru.ac.uniyar.domain.Store
-import java.util.UUID
-
+import ru.ac.uniyar.domain.reviews
 
 class ReviewQueries(
     private val reviewRepository: ReviewRepository,
-    private val store: Store
+    private val store: Store,
+    private val database: Database
 ){
+    val db = database
 
     inner class ReviewsQ{
         operator fun invoke():List<Review>{
@@ -20,21 +25,11 @@ class ReviewQueries(
     inner class AddReviewQ{
         operator fun invoke(review: Review){
             reviewRepository.add(review)
-            store.save()
-
         }
     }
-    inner class RatingForRestaurantQ{
-        operator fun invoke(id:UUID):Double{
-            val list= reviewRepository.list().filter { it.restaurantId==id }
-                return getAverage(list)
-        }
-        private fun getAverage(list:List<Review>):Double{
-            var sum: Long = 0
-            for (i in list) {
-                sum += i.rating.toLong()
-            }
-            return if (list.isNotEmpty()) sum.toDouble() / list.size else 0.0
+    inner class RatingForRestaurantQ {
+        operator fun invoke(id : Int) : Double {
+            return db.reviews.filter { it.restaurant_id eq id }.averageBy { it.restaurant_rating } ?: return 0.0
         }
     }
 

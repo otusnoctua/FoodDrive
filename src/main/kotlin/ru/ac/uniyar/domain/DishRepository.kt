@@ -1,53 +1,63 @@
 package ru.ac.uniyar.domain
 
-import com.fasterxml.jackson.databind.JsonNode
-import org.http4k.format.Jackson.asJsonArray
-import java.util.*
+import org.ktorm.database.Database
+import org.ktorm.dsl.*
+import org.ktorm.entity.add
+import org.ktorm.entity.find
+import org.ktorm.entity.toList
 
 class DishRepository(
-    dish: Iterable<Dish> = emptyList()
-    ){
+    database: Database
+) {
+    private val db = database
 
-    private val allDishes = dish.associateBy { it.id }.toMutableMap()
+    fun fetch(id: Int): Dish? {
+        return db.dishes.find { it.id eq id }
+    }
 
-    companion object{
-        fun fromJson(node: JsonNode) : DishRepository {
-            val allDishes = node.map{
-                Dish.fromJson(it)
-            }
-            return DishRepository(allDishes)
+    fun add(dish: Dish): Int {
+        return db.dishes.add(dish)
+    }
+
+    fun delete(id: Int) {
+        db.delete(Dishes) { it.id eq id }
+    }
+
+    fun changeDish(
+        dishName: String,
+        ingredients: String,
+        vegan: Boolean,
+        dishDescription: String,
+        availability: Boolean,
+        price: Int,
+        imageUrl: String,
+        dish: Dish
+    ) {
+        val dishToEdit = db.dishes.find { it.id eq dish.id } ?: return
+        dishToEdit.dishName = dishName
+        dishToEdit.ingredients = ingredients
+        dishToEdit.vegan = vegan
+        dishToEdit.dishDescription = dishDescription
+        dishToEdit.availability = availability
+        dishToEdit.price = price
+        dishToEdit.imageUrl = imageUrl
+        dishToEdit.flushChanges()
+    }
+
+    fun editAvailability(dish : Dish){
+        val dishToChange = db.dishes.find { it.id eq dish.id } ?: return
+        if (dish.availability){
+            dishToChange.availability = true
+            dishToChange.flushChanges()
+        } else {
+            dishToChange.availability = true
+            dishToChange.flushChanges()
         }
     }
 
-    fun asJsonObject(): JsonNode {
-        return allDishes.values
-            .map{ it.asJsonObject() }
-            .asJsonArray()
+    fun list(): List<Dish> {
+        return db.dishes.toList()
     }
 
-    fun fetch(id: UUID): Dish? = allDishes[id]
 
-    fun add(dish: Dish): UUID {
-        var newId = dish.id
-        while (allDishes.containsKey(newId) || newId == EMPTY_UUID){
-            newId = UUID.randomUUID()
-        }
-        allDishes[newId] = dish.setUuid(newId)
-        return newId
-    }
-
-    fun delete(dish: Dish) {
-        allDishes.remove(dish.id)
-    }
-
-    fun changeDish(nameDish: String, ingredients: String, price: Int, description: String, vegan: Boolean, dish: Dish){
-        allDishes[dish.id] = dish.copy(name = nameDish, ingredients = ingredients, price = price, description = description, vegan = vegan)
-    }
-
-    fun list() = allDishes.values.toList()
-
-    fun update(dish: Dish){
-        val id=dish.id
-        allDishes[id]= dish
-    }
 }

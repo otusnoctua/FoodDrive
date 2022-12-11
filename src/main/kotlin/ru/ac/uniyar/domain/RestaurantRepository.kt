@@ -1,45 +1,45 @@
 package ru.ac.uniyar.domain
 
-import com.fasterxml.jackson.databind.JsonNode
-import org.http4k.format.Jackson.asJsonArray
-import java.util.*
+import org.ktorm.database.Database
+import org.ktorm.dsl.*
+import org.ktorm.entity.add
+import org.ktorm.entity.find
+import org.ktorm.entity.toList
 
-class RestaurantRepository(restaurant: Iterable<Restaurant> = emptyList()) {
-    private val allRestaurants = restaurant.associateBy { it.id }.toMutableMap()
+class RestaurantRepository(
+    database : Database
+) {
+    private val db = database
 
-    companion object{
+    fun fetch(id: Int): Restaurant? {
+        return db.restaurants.find { it.id eq id }
+    }
 
-        fun fromJson(node: JsonNode) : RestaurantRepository {
-            val allRestaurants = node.map{
-                Restaurant.fromJson(it)
-            }
-            return RestaurantRepository(allRestaurants)
+    fun add(nameRestaurant: String, logoUrlRestaurant: String): Int {
+        val restaurant = Restaurant {
+            restaurantName = nameRestaurant
+            logoUrl = logoUrlRestaurant
         }
+        return db.restaurants.add(restaurant)
     }
 
-    fun asJsonObject(): JsonNode {
-        return allRestaurants.values
-            .map{ it.asJsonObject() }
-            .asJsonArray()
+    fun delete(id: Int){
+        db.delete(Restaurants) { it.id eq id }
     }
 
-    fun fetch(id: UUID): Restaurant? = allRestaurants[id]
-
-    fun add(restaurant: Restaurant): UUID {
-        var newId = restaurant.id
-        while (allRestaurants.containsKey(newId) || newId == EMPTY_UUID){
-            newId = UUID.randomUUID()
-        }
-        allRestaurants[newId] = restaurant.setUuid(newId)
-        return newId
+    fun list() : List<Restaurant> {
+        return db.restaurants.toList()
     }
-    fun delete(id: UUID){
-        allRestaurants.remove(id)
-    }
-
-    fun list() = allRestaurants.values.toList()
 
     fun changeRestaurantName(nameRestaurant: String, restaurant: Restaurant){
-        allRestaurants[restaurant.id] = restaurant.copy(name = nameRestaurant)
+        val restaurantToRename = db.restaurants.find { it.id eq restaurant.id } ?: return
+        restaurantToRename.restaurantName = nameRestaurant
+        restaurantToRename.flushChanges()
+    }
+
+    fun changeRestaurantLogo(logoUrlRestaurant: String, restaurant: Restaurant){
+        val restaurantToChange = db.restaurants.find { it.id eq restaurant.id } ?: return
+        restaurantToChange.restaurantName = logoUrlRestaurant
+        restaurantToChange.flushChanges()
     }
 }

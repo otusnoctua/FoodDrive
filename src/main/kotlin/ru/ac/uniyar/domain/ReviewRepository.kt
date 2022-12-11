@@ -1,45 +1,40 @@
 package ru.ac.uniyar.domain
 
-import com.fasterxml.jackson.databind.JsonNode
-import org.http4k.format.Jackson.asJsonArray
-import java.util.*
+import org.ktorm.database.Database
+import org.ktorm.dsl.*
+import org.ktorm.entity.add
+import org.ktorm.entity.find
+import org.ktorm.entity.toList
 
-class ReviewRepository(review: Iterable<Review> = emptyList()) {
-    private val reviews = review.associateBy { it.id }.toMutableMap()
+class ReviewRepository(
+    database: Database
+) {
+    private val db = database
 
-    companion object{
-        fun fromJson(node: JsonNode) : ReviewRepository {
-            val reviews = node.map{
-                Review.fromJson(it)
-            }
-            return ReviewRepository(reviews)
-        }
+    fun fetch(id: Int): Review? {
+        return db.reviews.find { it.id eq id}
     }
 
-    fun asJsonObject(): JsonNode {
-        return reviews.values
-            .map{ it.asJsonObject() }
-            .asJsonArray()
+    fun add(review: Review): Int {
+        return db.reviews.add(review)
     }
 
-    fun fetch(id: UUID): Review? = reviews[id]
-
-    fun add(review: Review): UUID {
-        var newId = review.id
-        while (reviews.containsKey(newId) || newId == EMPTY_UUID){
-            newId = UUID.randomUUID()
-        }
-        reviews[newId] = review.setUuid(newId)
-        return newId
-    }
-
-    fun delete(id: UUID) {
-        reviews.remove(id)
+    fun delete(id: Int) {
+        val review = db.reviews.find { it.id eq id } ?: return
+        review.delete()
     }
 
     fun edit(review: Review){
-        reviews[review.id] = review
+        val reviewToEdit = db.reviews.find { it.id eq review.id } ?: return
+        reviewToEdit.user = review.user
+        reviewToEdit.restaurant = review.restaurant
+        reviewToEdit.reviewText = review.reviewText
+        reviewToEdit.restaurantRating = review.restaurantRating
+        reviewToEdit.addTime = review.addTime
+        reviewToEdit.flushChanges()
     }
 
-    fun list() = reviews.values.toList()
+    fun list() : List<Review> {
+        return db.reviews.toList()
+    }
 }

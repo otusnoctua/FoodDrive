@@ -38,10 +38,17 @@ class RestaurantH(
         val minPrice= lensOrNull(minPriceLens,request)
         val maxPrice = lensOrNull(maxPriceLens,request)
 
-        val restaurant = restaurantQueries.FetchRestaurantQ().invoke(UUID.fromString(request.path("restaurant").orEmpty()))
-            ?: return Response(Status.BAD_REQUEST)
+        val restaurant = restaurantQueries.FetchRestaurantQ().invoke(
+            request.path("restaurant")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
+        ) ?: return Response(Status.BAD_REQUEST)
         return Response(Status.OK).with(
-            htmlView(request) of RestaurantVM(dishQueries.FilterByNameQ().invoke(dishName,restaurant.id,flag,minPrice,maxPrice),
+            htmlView(request) of RestaurantVM(
+                dishQueries.FilterByNameQ().invoke(
+                    dishName,restaurant.id,
+                    flag,
+                    minPrice,
+                    maxPrice
+                ),
                 restaurant,
                 name=dishName,
                 flag=flag)
@@ -71,9 +78,11 @@ class AddRestaurantH(
 ): HttpHandler {
     companion object {
         val restaurantNameFormLens = FormField.string().required("name")
+        val logoUrlFormLens = FormField.string().required("logoUrl")
         val BodyRestaurantFormLens = Body.webForm(
             Validator.Feedback,
             restaurantNameFormLens,
+            logoUrlFormLens
         ).toLens()
     }
     override fun invoke(request: Request): Response {
@@ -83,7 +92,7 @@ class AddRestaurantH(
         }
         val webForm = BodyRestaurantFormLens(request)
         return if (webForm.errors.isEmpty()) {
-            restaurantQueries.AddRestaurantQ().invoke(restaurantNameFormLens(webForm))
+            restaurantQueries.AddRestaurantQ().invoke(restaurantNameFormLens(webForm), logoUrlFormLens(webForm))
             Response(Status.FOUND).header(
                 "Location", "/restaurants"
             )
@@ -127,7 +136,9 @@ class EditRestaurantH(
         if (!permissions.editRestaurant) {
             return Response(Status.UNAUTHORIZED)
         }
-        val restaurant = restaurantQueries.FetchRestaurantQ().invoke(UUID.fromString(request.path("restaurant").orEmpty()))
+        val restaurant = restaurantQueries.FetchRestaurantQ().invoke(
+            request.path("restaurant")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
+        )
             ?: return Response(Status.BAD_REQUEST)
         val webForm = BodyRestaurantFormLens(request)
         return if (webForm.errors.isEmpty()) {
@@ -153,9 +164,11 @@ class DeleteRestaurantH(
         if (!permissions.deleteRestaurant || !permissions.listRestaurants) {
             return Response(Status.UNAUTHORIZED)
         }
-        val restaurant = restaurantQueries.FetchRestaurantQ().invoke(UUID.fromString(request.path("restaurant").orEmpty()))
+        val restaurant = restaurantQueries.FetchRestaurantQ().invoke(
+            request.path("restaurant")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
+        )
             ?: return Response(Status.BAD_REQUEST)
-        val haveDishes = dishQueries.DishesOfRestaurantQ().invoke(restaurant.id).map { it.restaurantId }.contains(restaurant.id)
+        val haveDishes = dishQueries.DishesOfRestaurantQ().invoke(restaurant.id).map { it.restaurant.id }.contains(restaurant.id)
         if (haveDishes) {
             return Response(Status.BAD_REQUEST)
         }

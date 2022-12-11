@@ -1,69 +1,45 @@
 package ru.ac.uniyar.domain
 
-import com.fasterxml.jackson.databind.JsonNode
-import org.http4k.format.Jackson.asJsonArray
-import org.http4k.format.Jackson.asJsonObject
-import org.http4k.format.Jackson.asJsonValue
+import org.ktorm.database.Database
+import org.ktorm.dsl.*
+import org.ktorm.entity.*
+import org.ktorm.schema.*
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.*
 
-data class Order(
-    val id: UUID,
-    val clientId: UUID,
-    val restaurantId:UUID,
-    val status: String,
-    val timestamp:LocalDateTime,
-    val dishes: List<UUID>,
-    val price: Int
-){
-    companion object{
-        fun fromJson(node: JsonNode): Order {
-            val jsonObject = node.asJsonObject()
-            return Order(
-                UUID.fromString(jsonObject["id"].asText()),
-                UUID.fromString(jsonObject["clientId"].asText()),
-                UUID.fromString(jsonObject["restaurantId"].asText()),
-                jsonObject["status"].asText(),
-                LocalDateTime.parse(jsonObject["timestamp"].asText(), DateTimeFormatter.ISO_LOCAL_DATE_TIME),
-                jsonObject["dishes"].asJsonArray().map { UUID.fromString(it.asText()) },
-                jsonObject["price"].asInt(),
-                )
-        }
-    }
-    fun asJsonObject(): JsonNode {
-        return listOf(
-            "id" to id.toString().asJsonValue(),
-            "clientId" to clientId.toString().asJsonValue(),
-            "restaurantId" to restaurantId.toString().asJsonValue(),
-            "status" to status.asJsonValue(),
-            "timestamp" to timestamp.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).asJsonValue(),
-            "dishes" to dishes.asJsonObject(),
-            "price" to price.asJsonValue(),
-        ).asJsonObject()
-    }
+val db = Database.connect(
+    url = "jdbc:mysql://127.0.0.1:3306/fooddrive",
+    driver = "com.mysql.jdbc.Driver",
+    user = "fda",
+    password = "poorsara"
+)
 
-    fun setUuid(uuid: UUID): Order {
-        return this.copy(id = uuid)
-    }
-    fun addDish(dishId: UUID):Order{
-        val mas= this.dishes.toMutableList()
-        mas.add(dishId)
-        return this.copy(dishes = mas)
-    }
+interface Order : Entity<Order> {
+    companion object : Entity.Factory<Restaurant>()
+    val id: Int
+    var client: User
+    var restaurant: Restaurant
+    var orderStatus: String
+    var startTime: LocalDateTime
+    var endTime: LocalDateTime
+    val dishes get() = Dishes.getList { it.id eq id }
+    var orderCheck: Int
+}
 
-    fun deleteDish(dishId: UUID):Order{
-        val mas= this.dishes.toMutableList()
-        mas.remove(mas.last { it == dishId })
-        return this.copy(dishes = mas)
-    }
+object Orders : Table<Order>("orders"){
+    val id = int("id").primaryKey().bindTo { it.id }
+    val client_id = int("client_id").references(Users) { it.client }
+    val restaurant_id = int("restaurant_id").references(Restaurants) { it.restaurant }
+    val order_status = varchar("order_status").bindTo { it.orderStatus }
+    val start_time = datetime("start_time").bindTo { it.startTime }
+    val end_time = datetime("end_time").bindTo { it.endTime }
+    val dishes get() = OrderDishes.getList {it.order_id eq id }
+    val order_check = int("order_check").bindTo { it.orderCheck }
 
-    fun editStatus(status: String):Order{
-        return this.copy(status = status)
-    }
+    //add constraint
+}
 
-    fun setPrice(price: Int): Order{
-        return this.copy(price = price)
-    }
+val Database.orders get() = this.sequenceOf(Orders)
 
+inline fun <E : Any, T : BaseTable<E>> T.getList(predicate: (T) -> ColumnDeclaring<Boolean>): List<E> {
+    return db.sequenceOf(this).filter(predicate).toList()
 }

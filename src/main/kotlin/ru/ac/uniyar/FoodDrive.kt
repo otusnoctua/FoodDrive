@@ -12,6 +12,7 @@ import org.http4k.routing.routes
 import org.http4k.routing.static
 import org.http4k.server.Undertow
 import org.http4k.server.asServer
+import org.ktorm.database.Database
 import ru.ac.uniyar.domain.*
 import ru.ac.uniyar.handlers.HttpHandlerHolder
 import ru.ac.uniyar.models.template.ContextAwarePebbleTemplates
@@ -20,13 +21,20 @@ import java.nio.file.Path
 
 
 fun main() {
+
+    val database = Database.connect(
+        url = "jdbc:mysql://127.0.0.1:3306/fooddrive",
+        driver = "com.mysql.jdbc.Driver",
+        user = "fda",
+        password = "poorsara"
+    )
+
     val storeHolder = try {
-        StoreHolder(Path.of("storage.json"), Path.of("settings.json"))
+        StoreHolder(Path.of("settings.json"), database)
     }catch (error: SettingsFileError) {
         println(error.message)
         return
     }
-    Runtime.getRuntime().addShutdownHook(storeHolder.store.storeThread)
 
     val renderer = ContextAwarePebbleTemplates().HotReload("src/main/resources")
     val htmlView = ContextAwareViewRender(renderer, ContentType.TEXT_HTML)

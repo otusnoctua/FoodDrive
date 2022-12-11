@@ -1,48 +1,29 @@
 package ru.ac.uniyar.domain
 
-import com.fasterxml.jackson.databind.JsonNode
-import org.http4k.format.Jackson.asJsonObject
-import org.http4k.format.Jackson.asJsonValue
-import java.util.*
+import org.ktorm.database.Database
+import org.ktorm.entity.Entity
+import org.ktorm.entity.sequenceOf
+import org.ktorm.schema.*
 
-data class User(
-    val id: UUID,
-    val name: String,
-    val phone: String,
-    val email: String,
-    val password: String,
-    val roleId: UUID,
-    val restaurantId:UUID,
-
-    ){
-    companion object{
-        fun fromJson(node: JsonNode): User {
-            val user = node.asJsonObject()
-            return User(
-                UUID.fromString(user["id"].asText()),
-                user["name"].asText(),
-                user["phone"].asText(),
-                user["email"].asText(),
-                user["password"].asText(),
-                UUID.fromString(user["roleId"].asText()),
-                UUID.fromString(user["restaurantId"].asText()),
-            )
-        }
-    }
-
-    fun asJsonObject(): JsonNode {
-        return listOf(
-            "id" to id.toString().asJsonValue(),
-            "name" to name.asJsonValue(),
-            "phone" to phone.asJsonValue(),
-            "email" to email.asJsonValue(),
-            "password" to password.asJsonValue(),
-            "roleId" to roleId.toString().asJsonValue(),
-            "restaurantId" to restaurantId.toString().asJsonValue(),
-        ).asJsonObject()
-    }
-
-    fun setUuid(uuid: UUID): User {
-        return this.copy(id = uuid)
-    }
+interface User : Entity<User> {
+    companion object : Entity.Factory<User>()
+    val id: Int
+    var username: String
+    var phone: Long
+    var email: String
+    var hashedPassword: String
+    var roleId: Int
+    var restaurant: Restaurant?
 }
+
+object Users : Table<User>("users"){
+    val id = int("id").primaryKey().bindTo { it.id }
+    val username = varchar("username").bindTo { it.username }
+    val phone = long("phone").bindTo { it.phone }
+    val email = varchar("email").bindTo { it.email }
+    val hashed_password = text("hashed_password").bindTo { it.hashedPassword }
+    val role_id = int("role_id")
+    val restaurant_id = int("restaurant_id").references(Restaurants) { it.restaurant }
+}
+
+val Database.users get() = this.sequenceOf(Users)

@@ -4,5 +4,5 @@ import ru.ac.uniyar.domain.RolePermissionsRepository
 import java.util.*
 
 class FetchPermissionsQ(private val permissionsRepository: RolePermissionsRepository) {
-    operator fun invoke(roleId: UUID) = permissionsRepository.fetch(roleId)
+    operator fun invoke(roleId: Int) = permissionsRepository.fetch(roleId)
 }

@@ -1,51 +1,87 @@
 package ru.ac.uniyar.domain
 
-import com.fasterxml.jackson.databind.JsonNode
-import org.http4k.format.Jackson.asJsonArray
-import java.util.*
+import org.ktorm.database.Database
+import org.ktorm.dsl.*
+import org.ktorm.entity.*
+import java.time.LocalDateTime
 
-class OrderRepository(order:  Iterable<Order> = emptyList()) {
-    private val orders = order.associateBy { it.id }.toMutableMap()
+class OrderRepository(
+    database: Database
+) {
+    private val db = database
 
-    companion object{
-        fun fromJson(node: JsonNode) : OrderRepository {
-            val orders = node.map{
-                Order.fromJson(it)
-            }
-            return OrderRepository(orders)
+    fun getUserOrders(userId: Int): List<Order> {
+        return db.orders.filter { it.client_id eq userId }.toList()
+    }
+
+    fun getOrderStatus(id: Int): String {
+        return db.orders.find { it.id eq id }!!.orderStatus
+    }
+
+    fun fetch(id: Int): Order? {
+        return db.orders.find { it.id eq id }
+    }
+
+    fun add(order: Order) : Int {
+        return db.orders.add(order)
+    }
+
+    fun addDishToOrder(currentDishId: Int, currentOrderId: Int)  {
+        val orderDish = OrderDish {
+            dishId = currentDishId
+            orderId = currentOrderId
         }
+        db.order_dishes.add(orderDish)
     }
 
-    fun asJsonObject(): JsonNode {
-        return orders.values
-            .map{ it.asJsonObject() }
-            .asJsonArray()
-    }
+    fun deleteDishFromOrder(order: Order, dishId: Int) : Order {
+        db.useTransaction {
 
-    fun fetch(id: UUID): Order? = orders[id]
+            val dishToRemove = db
+                .order_dishes
+                .find { it.dish_id eq dishId and(it.order_id eq order.id) }!!
+                .dishId
 
-    fun add(order:  Order): UUID {
-        var newId = order.id
-        while (orders.containsKey(newId) || newId == EMPTY_UUID){
-            newId = UUID.randomUUID()
+            db.delete(OrderDishes) {it.id eq dishToRemove}
+
         }
-        orders[newId] = order.setUuid(newId)
-        return newId
+        return order
+
     }
 
-    fun update(order: Order){
-        val id=order.id
-        orders[id]= order
+    fun updateStatus(order: Order) {
+        val orderToChange = db.orders.find { it.id eq order.id } ?: return
+        orderToChange.orderStatus = order.orderStatus
+        orderToChange.flushChanges()
+
     }
 
-
-    fun delete(id: UUID) {
-        orders.remove(id)
+    fun delete(id: Int) {
+        val order = db.orders.find {it.id eq id}
+        order?.delete()
     }
 
-    fun edit(order: Order){
-        orders[order.id] = order
+    fun list() : List<Order> {
+        return db.orders.toList()
     }
 
-    fun list() = orders.values.toList()
+    fun editStatus(order: Order, status: String) : Order {
+        val orderToEdit = db.orders.find { it.id eq order.id } ?: return order
+        orderToEdit.orderStatus = status
+        orderToEdit.flushChanges()
+        return orderToEdit
+    }
+
+    fun setPrice(order: Order, price: Int) : Order {
+        val orderToEdit = db.orders.find { it.id eq order.id } ?: return order
+        orderToEdit.orderCheck = price
+        orderToEdit.flushChanges()
+        return orderToEdit
+    }
+
+    fun getOrderCheck(order: Order) : Int {
+        val dishes = db.orders.find { it.id eq order.id }?.dishes
+
+    }
+
 }

@@ -45,6 +45,21 @@
                     </div>
                 </label>
             </div>
+            <div class="medium-12 cell">
+                <label>Ссылка на изображение:
+                    <textarea name="imageUrl">{{model.form.fields["imageUrl"] | first }}</textarea>
+                </label>
+            </div>
+            <div class="medium-12 cell">
+                <label>Доступно:
+                    <div>
+                        <select name = "availability">
+                            <option selected  value="false">Нет</option>
+                            <option  value="true">Да</option>
+                        </select>
+                    </div>
+                </label>
+            </div>
             {% if model.isEdit %}
                 <input type="submit" value="Изменить" class="button">
             {% else %}

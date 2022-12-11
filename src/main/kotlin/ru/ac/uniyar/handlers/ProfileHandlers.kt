@@ -51,7 +51,7 @@ class EditProfileH(
 ): HttpHandler {
     companion object {
         val userNameFormLens = FormField.nonEmptyString().required("name")
-        val userPhoneFormLens = FormField.nonEmptyString().required("phone")
+        val userPhoneFormLens = FormField.long().required("phone")
         val userEmailFormLens = FormField.nonEmptyString().required("email")
         val BodyUserFormLens = Body.webForm(
             Validator.Feedback,

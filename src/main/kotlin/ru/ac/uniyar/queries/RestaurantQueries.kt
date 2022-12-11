@@ -1,5 +1,6 @@
 package ru.ac.uniyar.queries
 
+import org.ktorm.entity.sortedBy
 import ru.ac.uniyar.domain.*
 import java.util.*
 
@@ -9,7 +10,7 @@ class RestaurantQueries(
     private val store: Store,
 ) {
     inner class FetchRestaurantQ {
-        operator fun invoke(id: UUID): Restaurant? {
+        operator fun invoke(id: Int): Restaurant? {
             return restaurantRepository.fetch(id)
         }
     }
@@ -19,36 +20,31 @@ class RestaurantQueries(
         }
     }
     inner class DeleteRestaurantQ {
-        operator fun invoke(id:UUID){
-            store.restaurantRepository.delete(id)
-            store.save()
+        operator fun invoke(id: Int){
+            restaurantRepository.delete(id)
         }
     }
     inner class EditRestaurantQ {
         operator fun invoke(nameRestaurant: String, restaurant: Restaurant) {
             restaurantRepository.changeRestaurantName(nameRestaurant, restaurant)
-            store.save()
         }
     }
     inner class AddRestaurantQ{
-        operator fun invoke(nameRestaurant: String) {
-            restaurantRepository.add(
-                Restaurant(
-                    EMPTY_UUID,
-                    nameRestaurant
-                )
-            )
-            store.save()
+        operator fun invoke(nameRestaurant: String, logoUrlRestaurant: String) {
+            restaurantRepository.add(nameRestaurant, logoUrlRestaurant)
         }
     }
     inner class FilterByNameQ{
-        operator fun invoke(nameRestaurant: String?=null,flag:Int?):List<Restaurant>{
-            val name=nameRestaurant?: return FilterByRatingQ().invoke(flag)
-            return restaurantRepository.list().filter { it.name==name }
+        operator fun invoke(
+            nameRestaurant: String?=null,
+            flag:Int?
+        ) : List<Restaurant> {
+            val name = nameRestaurant?: return FilterByRatingQ().invoke(flag)
+            return restaurantRepository.list().filter { it.restaurantName == name }
         }
     }
-    inner class FilterByRatingQ{
-        operator fun invoke(flag:Int?):List<Restaurant>{
+    inner class FilterByRatingQ {
+        operator fun invoke(flag:Int?) : List<Restaurant> {
             val ratingComparator = Comparator {
                     res1: Restaurant, res2:Restaurant -> (reviewQueries.RatingForRestaurantQ().invoke(res1.id)*100).toInt() -
                     (reviewQueries.RatingForRestaurantQ().invoke(res2.id)*100).toInt() }
@@ -60,8 +56,6 @@ class RestaurantQueries(
             }
             return restaurantRepository.list()
         }
-
     }
-
 
     }

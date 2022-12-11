@@ -3,7 +3,6 @@ package ru.ac.uniyar.handlers
 import org.http4k.core.*
 import org.http4k.lens.*
 import org.http4k.routing.path
-import ru.ac.uniyar.domain.EMPTY_UUID
 import ru.ac.uniyar.domain.Review
 import ru.ac.uniyar.domain.RolePermissions
 import ru.ac.uniyar.domain.User
@@ -21,15 +20,16 @@ class ReviewsH(
     private val reviewQueries: ReviewQueries,
     private val restaurantQueries: RestaurantQueries,
     private val htmlView: ContextAwareViewRender,
-    ):HttpHandler {
+    ) : HttpHandler {
     override fun invoke(request: Request): Response {
-        val restaurant = restaurantQueries.FetchRestaurantQ().invoke(UUID.fromString(request.path("restaurant").orEmpty()))
-                ?: return Response(Status.BAD_REQUEST)
+        val restaurant = restaurantQueries.FetchRestaurantQ().invoke(
+            request.path("restaurant")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
+        ) ?: return Response(Status.BAD_REQUEST)
         val permissions = permissionsLens(request)
         if (!permissions.listReviews) {
             return Response(Status.UNAUTHORIZED)
         }
-        val reviews = reviewQueries.ReviewsQ().invoke().filter { it.restaurantId == restaurant.id }
+        val reviews = reviewQueries.ReviewsQ().invoke().filter { it.restaurant.id == restaurant.id }
         return Response(Status.OK).with(
             htmlView(request) of ReviewsVM(reviews, restaurant)
         )
@@ -79,25 +79,25 @@ class AddReviewH(
     }
     override fun invoke(request: Request): Response {
         val permissions = permissionsLens(request)
-        val user = curUserLens(request)
-        if (!permissions.createReview || user == null) {
+        val currentUser = curUserLens(request)
+        if (!permissions.createReview || currentUser == null) {
             return Response(Status.UNAUTHORIZED)
         }
-        val restaurant = restaurantQueries.FetchRestaurantQ().invoke(UUID.fromString(request.path("restaurant").orEmpty()))
-                ?: return Response(Status.BAD_REQUEST)
+        val currentRestaurant = restaurantQueries.FetchRestaurantQ().invoke(
+            request.path("restaurant")?.toInt() ?: return Response(Status.BAD_REQUEST)
+        ) ?: return Response(Status.BAD_REQUEST)
         val webForm = BodyReviewFormLens(request)
         return if (webForm.errors.isEmpty()) {
-            val review = Review(
-                EMPTY_UUID,
-                user.id,
-                restaurant.id,
-                textReviewFormLens(webForm),
-                ratingReviewFormLens(webForm),
-                LocalDateTime.now()
-            )
+            val review = Review {
+                user = currentUser
+                restaurant = currentRestaurant
+                reviewText = textReviewFormLens(webForm)
+                restaurantRating = ratingReviewFormLens(webForm)
+                addTime = LocalDateTime.now()
+            }
             reviewQueries.AddReviewQ().invoke(review)
             Response(Status.FOUND).header(
-                "Location", "/reviews/${restaurant.id}"
+                "Location", "/reviews/${currentRestaurant.id}"
             )
         } else {
             Response(Status.OK).with(
