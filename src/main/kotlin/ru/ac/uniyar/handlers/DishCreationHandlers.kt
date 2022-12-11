@@ -8,7 +8,6 @@ import ru.ac.uniyar.models.ShowDishFormVM
 import ru.ac.uniyar.models.ShowEditDishFormVM
 import ru.ac.uniyar.models.template.ContextAwareViewRender
 import ru.ac.uniyar.queries.*
-import java.util.*
 
 class ShowDishForm(
     private val permissionLens: RequestContextLens<RolePermissions>,
@@ -37,6 +36,9 @@ class AddDish(
         private val veganFormLens = FormField.boolean().required("vegan")
         private val ingredientsFormLens = FormField.string().required("ingredients")
         private val descriptionFormLens = FormField.string().required("description")
+        private val availabilityFormLens = FormField.boolean().required("availability")
+        private val priceFormLens = FormField.int().required("price")
+        private val imageUrlFormLens = FormField.string().required("imageUrl")
         private val BodyDishFormLens = Body.webForm(
             Validator.Feedback, dishNameFormLens,
         ).toLens()
@@ -55,7 +57,10 @@ class AddDish(
                 dishNameFormLens(webForm),
                 ingredientsFormLens(webForm),
                 veganFormLens(webForm),
-                descriptionFormLens(webForm)
+                descriptionFormLens(webForm),
+                availabilityFormLens(webForm),
+                priceFormLens(webForm),
+                imageUrlFormLens(webForm)
             )
             return Response(Status.FOUND).header("Location", "/${restaurant.id}/ListOfDishes")//<--пример
         } else {
@@ -75,6 +80,9 @@ class EditDish(
         private val veganFormLens = FormField.boolean().required("vegan")
         private val ingredientsFormLens = FormField.string().required("ingredients")
         private val descriptionFormLens = FormField.string().required("description")
+        private val availabilityFormLens = FormField.boolean().required("availability")
+        private val priceFormLens = FormField.int().required("price")
+        private val imageUrlFormLens = FormField.string().required("imageUrl")
         private val BodyDishFormLens = Body.webForm(
             Validator.Feedback, dishNameFormLens,
         ).toLens()
@@ -94,6 +102,9 @@ class EditDish(
                 ingredientsFormLens(webForm),
                 veganFormLens(webForm),
                 descriptionFormLens(webForm),
+                availabilityFormLens(webForm),
+                priceFormLens(webForm),
+                imageUrlFormLens(webForm),
                 dish)
             return Response(Status.FOUND).header("Location", "/${restaurant.id}/ListOfDishes")
         } else {
@@ -112,8 +123,11 @@ class ShowEditDishForm(
         if (!permissions.editDish)
             return Response(Status.UNAUTHORIZED)
         val id = request.path("restaurant")!!.toInt()
-        val restaurant =
-            restaurantQueries.FetchRestaurantViaId().invoke(id)
-        return Response(Status.OK).with(htmlView(request) of ShowEditDishFormVM(restaurant = restaurant))
+        val restaurant = restaurantQueries.FetchRestaurantViaId().invoke(id)
+        return if (restaurant != null) {
+            Response(Status.OK).with(htmlView(request) of ShowEditDishFormVM(restaurant = restaurant))
+        } else {
+            Response(Status.NOT_FOUND)
+        }
     }
 }

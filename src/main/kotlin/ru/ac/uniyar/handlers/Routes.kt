@@ -37,7 +37,7 @@ class ShowListOfRestaurants(
             restaurantQueries.ListOfRestaurantsQuery().invoke().map {
                 RestaurantInfo(
                     it,
-                    dishQueries.ListOfDishes().invoke(it.id).map { it.restaurantId }.contains(it.id)
+                    dishQueries.ListOfDishes().invoke(it.id).map { it.restaurant.id }.contains(it.id)
                 )
             })
         return Response(Status.OK).with(htmlView(request) of model)
@@ -55,7 +55,7 @@ class ShowListOfDishes(
             return Response(Status.UNAUTHORIZED)
         val id = request.path("restaurant")!!.toInt()
         val restaurant = restaurantQueries.FetchRestaurantViaId().invoke(id)
-        val model = ShowListOfDishesVM(dishQueries.ListOfDishes().invoke(restaurant.id), restaurant)
+        val model = ShowListOfDishesVM(dishQueries.ListOfDishes().invoke(restaurant!!.id), restaurant)
         return Response(Status.OK).with(htmlView(request) of model)
     }
 }

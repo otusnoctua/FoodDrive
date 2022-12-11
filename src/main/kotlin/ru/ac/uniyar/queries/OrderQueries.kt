@@ -1,7 +1,6 @@
 package ru.ac.uniyar.queries
 
 import ru.ac.uniyar.domain.*
-import java.sql.SQLException
 import java.time.LocalDateTime
 
 class OrderQueries(
@@ -29,37 +28,42 @@ class OrderQueries(
     }
 
     inner class CreateOrder{
-        operator fun invoke(userId: Int, dish: Dish):Order{
-            val listOfDishes= mutableListOf<Int>()
+        operator fun invoke(
+            userId: Int,
+            dish: Dish
+        ):Order{
+            val listOfDishes = mutableListOf<Int>()
             listOfDishes.add(dish.id)
-            val order: Order = Order(
-                0,
-                userId,
-                dish.restaurantId,
+
+            val order = Order {
+                0
+                client = userId
+                dish.restaurant.id,
                 "В ожидании",
                 LocalDateTime.now(),
                 listOfDishes,
-            )
+            }
+
             AddOrder().invoke(order)
             return order
         }
     }
     inner class CheckOrder{
         operator fun invoke(userId: Int) : Boolean{
-            return orderRepository.getUserOrders(userId).any { it.status == "В ожидании" }
+            return orderRepository.getUserOrders(userId).any { it.orderStatus == "В ожидании" }
         }
     }
 
     inner class AddDish{
         operator fun invoke(userId: Int, dishId: Int){
-            val order: Order = orderRepository.getUserOrders(userId).find { it.status == "В ожидании" }!!
+            val order: Order = orderRepository.getUserOrders(userId).find { it.orderStatus == "В ожидании" }!!
             return orderRepository.addDishToOrder(dishId, order.id)
         }
     }
 
     inner class FetchOrdersViaUserId{
         operator fun invoke(userId: Int):List<Order>{
-            return orderRepository.list().filter {it.clientId==userId}
+            return orderRepository.list().filter {it.client.id == userId}
         }
     }
     inner class FetchOrderViaId{

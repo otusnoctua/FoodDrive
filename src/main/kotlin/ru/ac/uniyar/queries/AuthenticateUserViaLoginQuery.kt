@@ -11,9 +11,9 @@ class AuthenticateUserViaLoginQuery(
 ) {
 
     operator fun invoke(name: String, password: String): String {
-        val user = usersRepository.list().find { it.name == name} ?: throw AuthenticationError()
+        val user = usersRepository.list().find { it.username == name} ?: throw AuthenticationError()
         val hashedPassword = hashPassword(password, settings.salt)
-        if (hashedPassword != user.password)
+        if (hashedPassword != user.hashedPassword)
             throw  AuthenticationError()
         return user.id.toString()
     }

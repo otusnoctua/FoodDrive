@@ -5,7 +5,6 @@ import org.http4k.core.Status.Companion.BAD_REQUEST
 import org.http4k.core.Status.Companion.FOUND
 import org.http4k.core.Status.Companion.OK
 import org.http4k.lens.*
-import ru.ac.uniyar.domain.EMPTY_UUID
 import ru.ac.uniyar.domain.lensOrNull
 import ru.ac.uniyar.models.ShowUserFormVM
 import ru.ac.uniyar.models.template.ContextAwareViewRender

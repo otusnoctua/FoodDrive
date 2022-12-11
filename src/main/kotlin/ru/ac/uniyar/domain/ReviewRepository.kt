@@ -2,35 +2,25 @@ package ru.ac.uniyar.domain
 
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
-import ru.ac.uniyar.database.Reviews
+import org.ktorm.entity.find
+import org.ktorm.entity.toList
 
 class ReviewRepository(
     database: Database
 ) {
     private val db = database
 
-    fun fetch(id: Int): Review {
-        return db
-            .from(Reviews)
-            .select()
-            .where{ Reviews.id.toInt() eq id }
-            .map { Review(
-                it.getInt(1),
-                it.getInt(2),
-                it.getInt(3),
-                it.getString(4)!!,
-                it.getInt(5),
-                it.getLocalDateTime(6)!!
-            ) }.first()
+    fun fetch(id: Int): Review? {
+        return db.reviews.find { it.id eq id}
     }
 
     fun add(review: Review): Int {
         return db.insertAndGenerateKey(Reviews) {
-            set(it.user_id, review.userId)
-            set(it.restaurant_id, review.restaurantId)
-            set(it.text, review.text)
-            set(it.rating, review.rating)
-            set(it.datetime, review.datetime)
+            set(it.user_id, review.user.id)
+            set(it.restaurant_id, review.restaurant.id)
+            set(it.review_text, review.reviewText)
+            set(it.restaurant_rating, review.restaurantRating)
+            set(it.add_time, review.addTime)
         }.toString().toInt()
     }
 
@@ -40,11 +30,11 @@ class ReviewRepository(
 
     fun edit(review: Review){
         db.update(Reviews){
-            set(it.user_id, review.userId)
-            set(it.restaurant_id, review.restaurantId)
-            set(it.text, review.text)
-            set(it.rating, review.rating)
-            set(it.datetime, review.datetime)
+            set(it.user_id, review.user.id)
+            set(it.restaurant_id, review.restaurant.id)
+            set(it.review_text, review.reviewText)
+            set(it.restaurant_rating, review.restaurantRating)
+            set(it.add_time, review.addTime)
             where {
                 it.id eq review.id
             }
@@ -52,15 +42,6 @@ class ReviewRepository(
     }
 
     fun list() : List<Review> {
-        return  db.from(Reviews).select().map {
-            Review(
-                it.getInt(1),
-                it.getInt(2),
-                it.getInt(3),
-                it.getString(4)!!,
-                it.getInt(5),
-                it.getLocalDateTime(6)!!
-            )
-        }
+        return db.reviews.toList()
     }
 }

@@ -17,6 +17,7 @@ import ru.ac.uniyar.domain.*
 import ru.ac.uniyar.handlers.HttpHandlerHolder
 import ru.ac.uniyar.models.template.ContextAwarePebbleTemplates
 import ru.ac.uniyar.models.template.ContextAwareViewRender
+import ru.ac.uniyar.routes.Router
 import java.nio.file.Path
 
 fun main() {

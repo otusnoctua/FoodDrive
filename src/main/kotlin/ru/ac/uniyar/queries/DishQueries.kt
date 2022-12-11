@@ -13,26 +13,38 @@ class DishQueries(
     }
     inner class FetchNameDishViaId{
         operator fun invoke(id: Int): String {
-            return dishRepository.fetch(id)?.name ?: ""
+            return dishRepository.fetch(id)?.dishName ?: ""
         }
     }
     inner class ListOfDishes {
         operator fun invoke(id: Int):List<Dish>{
-            return dishRepository.list().filter {it.restaurantId==id}
+            return dishRepository.list().filter { it.restaurant.id == id }
         }
     }
     inner class AddDishQuery{
-        operator fun invoke(restaurant: Restaurant, nameDish: String, ingredients: String, vegan: Boolean, description: String ){
-            dishRepository.add(
-                Dish(
-                    0,
-                    nameDish,
-                    restaurant.id,
-                    ingredients,
-                    vegan,
-                    description,
-                )
-            )
+        operator fun invoke(
+            currentDishRestaurant: Restaurant,
+            currentDishName: String,
+            currentDishIngredients: String,
+            currentDishVegan: Boolean,
+            currentDishDescription: String,
+            currentDishAvailability: Boolean,
+            currentDishPrice: Int,
+            currentDishImageUrl: String
+        ) {
+
+            val dish = Dish {
+                dishName = currentDishName
+                restaurant = currentDishRestaurant
+                ingredients = currentDishIngredients
+                vegan = currentDishVegan
+                dishDescription = currentDishDescription
+                availability = currentDishAvailability
+                price = currentDishPrice
+                imageUrl = currentDishImageUrl
+            }
+
+            dishRepository.add(dish)
         }
     }
      inner class DeleteDishQuery{
@@ -47,9 +59,22 @@ class DishQueries(
             name: String,
             ingredients: String,
             vegan: Boolean,
-            description: String,
-            dish: Dish) {
-            dishRepository.edit(name, ingredients, vegan, description, dish)
+            dishDescription: String,
+            availability: Boolean,
+            price: Int,
+            imageUrl: String,
+            dish: Dish
+        ) {
+            dishRepository.edit(
+                name,
+                ingredients,
+                vegan,
+                dishDescription,
+                availability,
+                price,
+                imageUrl,
+                dish
+            )
         }
     }
 }

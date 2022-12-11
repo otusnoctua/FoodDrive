@@ -2,141 +2,88 @@ package ru.ac.uniyar.domain
 
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
-import ru.ac.uniyar.database.OrderDish
-import ru.ac.uniyar.database.Orders
-import java.util.*
+import org.ktorm.entity.*
 
 class OrderRepository(
     database: Database
 ) {
     private val db = database
 
-    fun getUserOrders(userId: Int): List<Order>{
-            return db
-                .from(Orders)
-                .select()
-                .where { Orders.client_id.toInt() eq userId }
-                .map { order ->
-                    Order(
-                        order.getInt(1),
-                        order.getInt(2),
-                        order.getInt(3),
-                        order.getString(4)!!,
-                        order.getLocalDateTime(5)!!,
-                        db
-                            .from(OrderDish)
-                            .leftJoin(Orders, on = Orders.id eq OrderDish.order_id)
-                            .select(OrderDish.dish_id)
-                            .where { OrderDish.order_id eq order.getInt(1) }
-                            .map { it.getInt(1) }
-                            .toList()
-
-                    )
-                }.toList()
+    fun getUserOrders(userId: Int): List<Order> {
+        return db.orders.filter { it.client_id eq userId }.toList()
     }
 
     fun getOrderStatus(id: Int): String {
-        return db
-            .from(Orders)
-            .select(Orders.status)
-            .where{ Orders.id eq id }
-            .map {
-                it.getString(1)!!
-            }
-            .first()
+        return db.orders.find { it.id eq id }!!.orderStatus
     }
 
-    fun fetch(id: Int): Order {
-        db.useTransaction {
-            val dishIdList = db
-                .from(OrderDish)
-                .leftJoin(Orders, on = Orders.id eq OrderDish.order_id)
-                .select(OrderDish.dish_id)
-                .where { OrderDish.order_id eq id }
-                .map { it.getInt(1) }
-                .toList()
-            return db
-                .from(Orders)
-                .select()
-                .where { Orders.id.toInt() eq id }
-                .map {
-                    Order(
-                        it.getInt(1),
-                        it.getInt(2),
-                        it.getInt(3),
-                        it.getString(4)!!,
-                        it.getLocalDateTime(5)!!,
-                        dishIdList
-                    )
-                }.first()
-        }
+    fun fetch(id: Int): Order? {
+        return db.orders.find { it.id eq id }
     }
 
     fun add(order: Order): Int {
-        return db.insertAndGenerateKey(Orders){
-            set(it.client_id, order.clientId)
-            set(it.restaurant_id, order.restaurantId)
-            set(it.status, order.status)
-            set(it.datetime, order.datetime)
-        }.toString().toInt()
+
+        db.orders.add(order)
+        return order.id
+
+//        return db.insertAndGenerateKey(Orders){
+//            set(it.client_id, order.client.id)
+//            set(it.restaurant_id, order.restaurant.id)
+//            set(it.order_status, order.orderStatus)
+//            set(it.start_time, order.startTime)
+//            set(it.end_time, order.endTime)
+//            set(it.order_check, order.orderCheck)
+//        }.toString().toInt()
     }
 
-    fun addDishToOrder(dishId: Int, orderId: Int)  {
-        db.insertAndGenerateKey(OrderDish) {
-            set(it.dish_id, dishId)
-            set(it.order_id, orderId)
+    fun addDishToOrder(currentDishId: Int, currentOrderId: Int)  {
+
+        val orderDish = OrderDish {
+            dishId = currentDishId
+            orderId = currentOrderId
         }
+
+        db.order_dishes.add(orderDish)
+
+//        db.insertAndGenerateKey(OrderDishes) {
+//            set(it.dish_id, dishId)
+//            set(it.order_id, orderId)
+//        }
     }
 
     fun deleteDishFromOrder(order: Order, dishId: Int){
         db.useTransaction {
-            val dishToDeleteId = db
-                .from(OrderDish)
-                .select(OrderDish.id)
-                .where { OrderDish.dish_id eq dishId and(OrderDish.order_id eq order.id) }
-                .map { it.getInt(1) }
-                .first()
-            db.delete(OrderDish) {it.id eq dishToDeleteId}
+
+            val dishToRemove = db
+                .order_dishes
+                .find { it.dish_id eq dishId and(it.order_id eq order.id) }!!
+                .dishId
+
+            db.delete(OrderDishes) {it.id eq dishToRemove}
+
         }
 
     }
 
-    fun updateStatus(order: Order){
-        db.update(Orders){
-            set(it.status, order.status)
-            where {
-                it.id eq order.id
-            }
-        }
+    fun updateStatus(order: Order) {
+
+        /* Получение нужного заказа из БД по совпадающему id */
+        val orderToChange = db.orders.find { it.id eq order.id }
+
+        /* Изменение статуса заказа на соответствующий статусу order */
+        orderToChange?.orderStatus = order.orderStatus
+
+        /* Запись изменений в БД */
+        orderToChange?.flushChanges()
+
     }
 
     fun delete(id: Int) {
-        db.useTransaction {
-            db.delete(OrderDish) { it.order_id eq id }
-            db.delete(Orders) { it.id eq id }
-        }
+        val order = db.orders.find {it.id eq id}
+        order?.delete()
     }
 
     fun list() : List<Order> {
-        return db
-            .from(Orders)
-            .select()
-            .map { order ->
-                Order(
-                    order.getInt(1),
-                    order.getInt(2),
-                    order.getInt(3),
-                    order.getString(4)!!,
-                    order.getLocalDateTime(5)!!,
-                    db
-                        .from(OrderDish)
-                        .leftJoin(Orders, on = Orders.id eq OrderDish.order_id)
-                        .select(OrderDish.dish_id)
-                        .where { OrderDish.order_id eq order.getInt(1) }
-                        .map { it.getInt(1) }
-                        .toList()
-
-                )
-            }.toList()
+        return db.orders.toList()
     }
 }

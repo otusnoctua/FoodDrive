@@ -8,7 +8,7 @@
 </div>
     {% for dish in model.listOfDishes %}
         <div>
- {{ dish.nameDish }}: {{dish.ingredients}}, {{dish.description}}{% if dish.vegan == true %}, Вегетарианское{% endif %}
+ {{ dish.name }}: {{dish.ingredients}}, {{dish.description}}{% if dish.vegan == true %}, Вегетарианское{% endif %}
             <button name="id" class="button" type="submit" value={{ dish.id }}>В корзину</button>
 
 

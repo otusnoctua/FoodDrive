@@ -21,7 +21,7 @@ class DeleteRestaurant(
             restaurantQueries.FetchRestaurantViaId().invoke(restaurantId) ?: return Response(Status.BAD_REQUEST)
         val permissionsDelete = permissionLens(request)
         val haveDishes =
-            dishQueries.ListOfDishes().invoke(restaurant.id).map { it.restaurantId }.contains(restaurant.id)
+            dishQueries.ListOfDishes().invoke(restaurant.id).map { it.restaurant.id }.contains(restaurant.id)
         if (haveDishes)
             return Response(Status.BAD_REQUEST)
         if (!permissionsDelete.deleteRestaurant)

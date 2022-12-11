@@ -29,8 +29,9 @@ class AddRestaurant(
 ): HttpHandler {
     companion object {
         val restaurantNameFormLens = FormField.string().required("nameRestaurant")
+        val logoUrlFormLens = FormField.string().required("logoUrl")
         val BodyRestaurantFormLens = Body.webForm(
-            Validator.Feedback, restaurantNameFormLens,
+            Validator.Feedback, restaurantNameFormLens, logoUrlFormLens
         ).toLens()
     }
     override fun invoke(request: Request): Response {
@@ -39,7 +40,7 @@ class AddRestaurant(
             return Response(Status.UNAUTHORIZED)
         val webForm = BodyRestaurantFormLens(request)
         if (webForm.errors.isEmpty()) {
-            restaurantQueries.AddRestaurantQuery().invoke(restaurantNameFormLens(webForm))
+            restaurantQueries.AddRestaurantQuery().invoke(restaurantNameFormLens(webForm), logoUrlFormLens(webForm))
             return Response(Status.FOUND).header("Location", "/restaurants")
         } else {
             return Response(Status.OK).with(htmlView(request) of ShowRestaurantFormVM(webForm))
@@ -55,8 +56,9 @@ class EditRestaurant(
 ): HttpHandler {
     companion object {
         val restaurantNameFormLens = FormField.string().required("nameRestaurant")
+        val logoUrlFormLens = FormField.string().required("logoUrl")
         val BodyRestaurantFormLens = Body.webForm(
-            Validator.Feedback, restaurantNameFormLens,
+            Validator.Feedback, restaurantNameFormLens, logoUrlFormLens
         ).toLens()
     }
     override fun invoke(request: Request): Response {
@@ -68,7 +70,9 @@ class EditRestaurant(
             return Response(Status.UNAUTHORIZED)
         val webForm = BodyRestaurantFormLens(request)
         if (webForm.errors.isEmpty()) {
-            restaurantQueries.EditRestaurantQuery().invoke(restaurantNameFormLens(webForm), restaurant)
+            if (restaurant != null) {
+                restaurantQueries.EditRestaurantQuery().invoke(restaurantNameFormLens(webForm), restaurant)
+            }
             return Response(Status.FOUND).header("Location", "/restaurants")
         } else {
             return Response(Status.OK).with(htmlView(request) of ShowEditRestaurantFormVM(webForm))

@@ -1,4 +1,4 @@
-package ru.ac.uniyar
+package ru.ac.uniyar.routes
 
 import org.http4k.core.HttpHandler
 import org.http4k.core.Method

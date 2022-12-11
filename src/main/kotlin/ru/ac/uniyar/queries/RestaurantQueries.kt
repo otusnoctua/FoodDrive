@@ -9,7 +9,7 @@ class RestaurantQueries(
     private val store: Store,
 ) {
     inner class FetchRestaurantViaId {
-        operator fun invoke(id: Int): Restaurant {
+        operator fun invoke(id: Int): Restaurant? {
             return restaurantRepository.fetch(id)
         }
     }
@@ -29,9 +29,10 @@ class RestaurantQueries(
         }
     }
     inner class AddRestaurantQuery{
-        operator fun invoke(nameRestaurant: String) {
+        operator fun invoke(nameRestaurant: String, logoUrl: String) {
             restaurantRepository.add(
-                nameRestaurant
+                nameRestaurant,
+                logoUrl
             )
         }
     }

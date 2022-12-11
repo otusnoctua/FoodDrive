@@ -1,40 +1,42 @@
 package ru.ac.uniyar.domain
 
-import com.fasterxml.jackson.databind.BeanDescription
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
-import ru.ac.uniyar.database.Dishes
+import org.ktorm.entity.add
+import org.ktorm.entity.find
+import org.ktorm.entity.toList
 
 class DishRepository(
-    database: Database
+    //database: Database
 ) {
-    private val db = database
+    //private val db = database
+    val dbWithConn = Database.connect(
+        url = "jdbc:mysql://127.0.0.1:3306/fooddrive",
+        driver = "com.mysql.jdbc.Driver",
+        user = "fda",
+        password = "poorsara"
+    )
 
 
-    fun fetch(id: Int) : Dish {
-        return db
-            .from(Dishes)
-            .select()
-            .where{ Dishes.id.toInt() eq id }
-            .map {  Dish(
-                it.getInt(1),
-                it.getString(2)!!,
-                it.getInt(3),
-                it.getString(4)!!,
-                it.getBoolean(5),
-                it.getString(6)!!,
-            ) }.first()
-
+    fun fetch(id: Int): Dish? {
+        return db.dishes.find { it.id eq id }
     }
 
-    fun add(dish: Dish) : Int {
-        return db.insertAndGenerateKey(Dishes){
-            set(it.name, dish.name)
-            set(it.restaurant_id, dish.restaurantId)
-            set(it.ingredients, dish.ingredients)
-            set(it.vegan, dish.vegan)
-            set(it.description, dish.description)
-        }.toString().toInt()
+    fun add(dish: Dish): Int {
+
+        db.dishes.add(dish)
+        return dish.id
+
+//        return db.insertAndGenerateKey(Dishes) {
+//            set(it.dishName, dish.dishName)
+//            set(it.restaurant_id, dish.restaurant.id)
+//            set(it.ingredients, dish.ingredients)
+//            set(it.vegan, dish.vegan)
+//            set(it.dishDescription, dish.dishDescription)
+//            set(it.availability, dish.availability)
+//            set(it.price, dish.price)
+//            set(it.imageUrl, dish.imageUrl)
+//        }.toString().toInt()
     }
 
     fun delete(id: Int) {
@@ -42,33 +44,32 @@ class DishRepository(
     }
 
     fun edit(
-        name: String,
+        dishName: String,
         ingredients: String,
         vegan: Boolean,
-        description: String,
-        dish: Dish)
-    {
-        db.update(Dishes){
-            set(it.name, name)
+        dishDescription: String,
+        availability: Boolean,
+        price: Int,
+        imageUrl: String,
+        dish: Dish
+    ) {
+        db.update(Dishes) {
+            set(it.dishName, dishName)
             set(it.ingredients, ingredients)
             set(it.vegan, vegan)
-            set(it.description, description)
+            set(it.dishDescription, dishDescription)
+            set(it.availability, availability)
+            set(it.price, price)
+            set(it.imageUrl, imageUrl)
             where {
                 it.id eq dish.id
             }
         }
     }
 
-    fun list() : List<Dish> {
-        return db.from(Dishes).select().map {
-            Dish(
-                it.getInt(1),
-                it.getString(2)!!,
-                it.getInt(3),
-                it.getString(4)!!,
-                it.getBoolean(5),
-                it.getString(6)!!,
-            )
-        }
+    fun list(): List<Dish> {
+        return db.dishes.toList()
     }
+
+
 }

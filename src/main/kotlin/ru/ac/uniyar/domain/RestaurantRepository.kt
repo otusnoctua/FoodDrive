@@ -2,25 +2,22 @@ package ru.ac.uniyar.domain
 
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
-import ru.ac.uniyar.database.Restaurants
+import org.ktorm.entity.find
+import org.ktorm.entity.toList
 
 class RestaurantRepository(
     database : Database
 ) {
     private val db = database
 
-    fun fetch(id: Int): Restaurant {
-        val name = db
-            .from(Restaurants)
-            .select(Restaurants.name)
-            .where { Restaurants.id eq id }
-            .toString()
-        return Restaurant(id, name)
+    fun fetch(id: Int): Restaurant? {
+        return db.restaurants.find { it.id eq id }
     }
 
-    fun add(nameRestaurant: String): Int {
+    fun add(nameRestaurant: String, logoUrl: String): Int {
         return db.insertAndGenerateKey(Restaurants) {
-            set(it.name, nameRestaurant)
+            set(it.restaurant_name, nameRestaurant)
+            set(it.logo_url, logoUrl)
         }.toString().toInt()
     }
 
@@ -29,17 +26,13 @@ class RestaurantRepository(
     }
 
     fun list() : List<Restaurant> {
-        return db.from(Restaurants).select().map {
-            Restaurant(
-                it.getInt(1),
-                it.getString(2)!!
-            )
-        }
+        return db.restaurants.toList()
     }
 
+    //переписать с поддержкой обновления логотипа (logoUrl)
     fun changeRestaurantName(nameRestaurant: String, restaurant: Restaurant){
         db.update(Restaurants) {
-            set(it.name, nameRestaurant)
+            set(it.restaurant_name, nameRestaurant)
             where {
                 it.id eq restaurant.id
             }
