@@ -14,14 +14,14 @@ val db = Database.connect(
 )
 
 interface Order : Entity<Order> {
-    companion object : Entity.Factory<Restaurant>()
+    companion object : Entity.Factory<Order>()
     val id: Int
     var client: User
     var restaurant: Restaurant
     var orderStatus: String
     var startTime: LocalDateTime
     var endTime: LocalDateTime
-    val dishes get() = Dishes.getList { it.id eq id }
+    val dishes get() = getDishesViaOrderId(id)
     var orderCheck: Int
 }
 
@@ -32,7 +32,7 @@ object Orders : Table<Order>("orders"){
     val order_status = varchar("order_status").bindTo { it.orderStatus }
     val start_time = datetime("start_time").bindTo { it.startTime }
     val end_time = datetime("end_time").bindTo { it.endTime }
-    val dishes get() = OrderDishes.getList {it.order_id eq id }
+    val dishes get() = getDishesViaOrderId(id)
     val order_check = int("order_check").bindTo { it.orderCheck }
 
     //add constraint
@@ -42,4 +42,11 @@ val Database.orders get() = this.sequenceOf(Orders)
 
 inline fun <E : Any, T : BaseTable<E>> T.getList(predicate: (T) -> ColumnDeclaring<Boolean>): List<E> {
     return db.sequenceOf(this).filter(predicate).toList()
+}
+
+fun getDishesViaOrderId(id: Int) : List<Dish> {
+    db.useTransaction {
+        val dishIds = db.order_dishes.filter { it.order_id eq id }.map { it.dishId }
+        return dishIds.map { dishId -> db.dishes.find { it.id eq dishId }!! }
+    }
 }

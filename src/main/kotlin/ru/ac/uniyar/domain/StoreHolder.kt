@@ -14,7 +14,7 @@ class StoreHolder(
     val authenticateUserViaLoginQ = AuthenticateUserViaLoginQ(settings, store.userRepository)
     val fetchPermissionsViaQuery = FetchPermissionsQ(store.rolePermissionsRepository)
     val dishQueries = DishQueries(store.dishRepository, store)
-    val orderQueries = OrderQueries(store.orderRepository, store)
+    val orderQueries = OrderQueries(store.userRepository, store.orderRepository, store)
     val reviewQueries = ReviewQueries(store.reviewRepository, store, database)
     val restaurantQueries = RestaurantQueries(store.restaurantRepository, reviewQueries, store)
     val userQueries= UserQueries(store, settings, store.userRepository)

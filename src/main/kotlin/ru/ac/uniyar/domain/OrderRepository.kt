@@ -3,7 +3,6 @@ package ru.ac.uniyar.domain
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
 import org.ktorm.entity.*
-import java.time.LocalDateTime
 
 class OrderRepository(
     database: Database
@@ -26,12 +25,17 @@ class OrderRepository(
         return db.orders.add(order)
     }
 
-    fun addDishToOrder(currentDishId: Int, currentOrderId: Int)  {
+
+
+    fun addDishToOrder(currentDishId: Int, currentOrderId: Int) : Order {
         val orderDish = OrderDish {
             dishId = currentDishId
             orderId = currentOrderId
         }
-        db.order_dishes.add(orderDish)
+        db.useTransaction {
+            val query = db.order_dishes.add(orderDish)
+            return db.orders.find { it.id eq currentOrderId }!!
+        }
     }
 
     fun deleteDishFromOrder(order: Order, dishId: Int) : Order {
@@ -80,8 +84,21 @@ class OrderRepository(
     }
 
     fun getOrderCheck(order: Order) : Int {
-        val dishes = db.orders.find { it.id eq order.id }?.dishes
+        return db.orders
+            .find { it.id eq order.id }?.orderCheck ?: return 0
+    }
 
+
+    fun update(currentOrder: Order) {
+        val order = db.orders.find { it.id eq currentOrder.id } ?: return
+        order.client = currentOrder.client
+        order.restaurant = currentOrder.restaurant
+        order.orderStatus = currentOrder.orderStatus
+        order.startTime = currentOrder.startTime
+        order.endTime = currentOrder.endTime
+        //order.dishes = currentOrder.dishes
+        order.orderCheck = currentOrder.orderCheck
+        order.flushChanges()
     }
 
 }

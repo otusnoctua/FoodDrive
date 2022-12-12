@@ -46,12 +46,12 @@ class OperatorOrdersH(
     override fun invoke(request: Request): Response {
         val permissions = permissionsLens(request)
         val user = curUserLens(request)
-        if (!permissions.listOrders || user == null) {
+        if (!permissions.listOrders || user == null || user.restaurant == null) {
             return Response(Status.UNAUTHORIZED)
         }
         return Response(Status.OK).with(
             htmlView(request) of OperatorOrdersVM(
-                orderQueries.OrdersForOperatorQ().invoke(user.restaurant.id)
+                orderQueries.OrdersForOperatorQ().invoke(user.restaurant!!.id)
             )
         )
     }
@@ -123,7 +123,7 @@ class OrderFromBasketH(
         val order = orderQueries.FetchOrderQ().invoke(
             request.path("order")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
         ) ?: return Response(Status.BAD_REQUEST)
-        val dishes = order.dishes.map { dishQueries.FetchDishQ().invoke(it) }
+        val dishes = order.dishes.map { dishQueries.FetchDishQ().invoke(it.id) }
         if (dishes.contains(null)) {
             return Response(Status.BAD_REQUEST)
         }
@@ -156,8 +156,15 @@ class OrderForOperatorH(
 
         val user = userQueries.FetchUserViaId().invoke(order.client.id)?: return Response(Status.BAD_REQUEST)
         val restaurant=restaurantQueries.FetchRestaurantQ().invoke(order.restaurant.id)?:return Response(Status.BAD_REQUEST)
+        val orderCheck = orderQueries.FetchOrderCheck().invoke(order)
+        val orderDishes = orderQueries.FetchOrderDishes().invoke(order)
         return Response(Status.OK).with(
-            htmlView(request) of OperatorOrderVM(order, (блюда одного заказа), orderCheck, restaurant, user)
+            htmlView(request) of OperatorOrderVM(
+                order,
+                orderDishes,
+                orderCheck,
+                restaurant,
+                user)
         )
     }
 }
@@ -176,7 +183,7 @@ class OrderH(
         val order = orderQueries.FetchOrderQ().invoke(
             request.path("order")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
         ) ?: return Response(Status.BAD_REQUEST)
-        val dishes = order.dishes.map { dishQueries.FetchDishQ().invoke(it) }
+        val dishes = order.dishes.map { dishQueries.FetchDishQ().invoke(it.id) }
         if (dishes.contains(null)) {
             return Response(Status.BAD_REQUEST)
         }
@@ -231,7 +238,7 @@ class DeleteDishFromOrderH(
         ) ?: return Response(Status.BAD_REQUEST)
         val newOrder = orderQueries.DeleteDishQ().invoke(order, dish.id)
         orderQueries.UpdateOrderQ().invoke(newOrder)
-        val dishes = newOrder.dishes.map { dishQueries.FetchDishQ().invoke(it) }
+        val dishes = newOrder.dishes.map { dishQueries.FetchDishQ().invoke(it.id) }
         if (dishes.contains(null)) {
             return Response(Status.BAD_REQUEST)
         }
@@ -259,7 +266,7 @@ class EditStatusByUserH(
         val order = orderQueries.FetchOrderQ().invoke(
             request.path("order")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
         ) ?: return Response(Status.BAD_REQUEST)
-        val dishes = order.dishes.map { dishQueries.FetchDishQ().invoke(it) }
+        val dishes = order.dishes.map { dishQueries.FetchDishQ().invoke(it.id) }
         if (dishes.contains(null)) {
             return Response(Status.BAD_REQUEST)
         }

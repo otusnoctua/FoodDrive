@@ -41,6 +41,7 @@ class HttpHandlerHolder(
     val registerH = RegisterH(
         storeHolder.userQueries,
         permissionLens,
+        storeHolder.store.restaurantRepository,
         storeHolder.restaurantQueries,
         htmlView,
         jwtTools,

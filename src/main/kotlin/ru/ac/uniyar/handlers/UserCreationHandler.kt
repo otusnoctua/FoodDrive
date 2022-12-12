@@ -18,7 +18,6 @@ import ru.ac.uniyar.models.template.ContextAwareViewRender
 import ru.ac.uniyar.queries.RestaurantQueries
 import ru.ac.uniyar.queries.UserQueries
 
-
 class RegisterFormH(
     private val htmlView: ContextAwareViewRender,
 ): HttpHandler {
