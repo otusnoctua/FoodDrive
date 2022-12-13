@@ -24,9 +24,6 @@ class RestaurantH(
         val sortByPriceLens=Query.int().defaulted("flag",-1)
         val minPriceLens=Query.int().optional("min")
         val maxPriceLens=Query.int().optional("max")
-
-
-
     }
     override fun invoke(request: Request): Response {
         val permissions = permissionsLens(request)

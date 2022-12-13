@@ -9,8 +9,8 @@ import java.time.LocalDateTime
 val db = Database.connect(
     url = "jdbc:mysql://127.0.0.1:3306/fooddrive",
     driver = "com.mysql.jdbc.Driver",
-    user = "fda",
-    password = "poorsara"
+    user = "root",
+    password = "12345"
 )
 
 interface Order : Entity<Order> {
@@ -32,7 +32,6 @@ object Orders : Table<Order>("orders"){
     val order_status = varchar("order_status").bindTo { it.orderStatus }
     val start_time = datetime("start_time").bindTo { it.startTime }
     val end_time = datetime("end_time").bindTo { it.endTime }
-    val dishes get() = getDishesViaOrderId(id)
     val order_check = int("order_check").bindTo { it.orderCheck }
 
     //add constraint

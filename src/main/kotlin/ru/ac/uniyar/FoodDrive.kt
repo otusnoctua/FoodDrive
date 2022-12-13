@@ -25,8 +25,8 @@ fun main() {
     val database = Database.connect(
         url = "jdbc:mysql://127.0.0.1:3306/fooddrive",
         driver = "com.mysql.jdbc.Driver",
-        user = "fda",
-        password = "poorsara"
+        user = "root",
+        password = "12345"
     )
 
     val storeHolder = try {

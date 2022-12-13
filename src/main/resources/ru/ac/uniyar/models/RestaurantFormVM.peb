@@ -17,6 +17,9 @@
                 <label>Название ресторана:
                     <input name="name" type="text" value="{{model.form.fields["name"] | first }}">
                 </label>
+                <label>Ссылка на изображение:
+                    <input name="logoUrl" type="text" value="{{model.form.fields["logoUrl"] | first }}">
+                </label>
             </div>
             {% if model.isEdit %}
                 <input type="submit" value="Изменить" class="button">

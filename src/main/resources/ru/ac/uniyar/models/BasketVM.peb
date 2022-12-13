@@ -1,6 +1,6 @@
     {% extends "./layout.peb" %}
     {% block content %}
-        {% if model.orders is empty%}
+        {% if model.orders is empty %}
             <div>Корзина пуста</div>
         {% endif %}
         {% for order in model.orders %}

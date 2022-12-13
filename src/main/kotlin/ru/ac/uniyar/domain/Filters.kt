@@ -17,7 +17,7 @@ fun authenticationFilter(
         val requestWithUser = request.cookie("token")?.value?.let { token ->
             jwtTools.subject(token)
         }?.let { userId ->
-            fetchUserQ(userId)
+            fetchUserQ(userId.toInt())
         }?.let { user ->
             request.with( currentUser of user)
         }?: request
