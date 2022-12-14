@@ -1,9 +1,6 @@
 package ru.ac.uniyar
 
-import org.http4k.core.ContentType
-import org.http4k.core.HttpHandler
-import org.http4k.core.RequestContexts
-import org.http4k.core.then
+import org.http4k.core.*
 import org.http4k.filter.ServerFilters
 import org.http4k.lens.RequestContextKey
 import org.http4k.lens.RequestContextLens
@@ -12,10 +9,14 @@ import org.http4k.routing.routes
 import org.http4k.routing.static
 import org.http4k.server.Undertow
 import org.http4k.server.asServer
+import org.http4k.template.TemplateRenderer
 import org.ktorm.database.Database
 import ru.ac.uniyar.domain.*
 import ru.ac.uniyar.handlers.HttpHandlerHolder
+import ru.ac.uniyar.models.DishFormVM
+import ru.ac.uniyar.models.ErrorMessageVM
 import ru.ac.uniyar.models.template.ContextAwarePebbleTemplates
+import ru.ac.uniyar.models.template.ContextAwareTemplateRenderer
 import ru.ac.uniyar.models.template.ContextAwareViewRender
 import java.nio.file.Path
 
@@ -46,7 +47,7 @@ fun main() {
     val htmlViewWithContext = htmlView.associateContextLens("currentUser", curUserLens)
     val htmlViewPermissions= htmlView.associateContextLens("permissions", permissionsLens)
 
-    val jwtTools = JwtTools(storeHolder.settings.salt, "ru.ac.uniyar.AnimalsList2")
+    val jwtTools = JwtTools(storeHolder.settings.salt, "ru.ac.uniyar.FoodDrive")
 
     val handlerHolder = HttpHandlerHolder(
         jwtTools,
@@ -55,6 +56,20 @@ fun main() {
         htmlView,
         storeHolder,
     )
+
+    fun showErrorMessageFilter(
+        htmlView: ContextAwareViewRender,
+    ): Filter = Filter { next: HttpHandler -> //external error check
+        {request ->
+            val response = next(request)
+            if (response.status.successful){
+                response
+            } else {
+                response.with(htmlView(request) of ErrorMessageVM(request.uri))
+            }
+        }
+    }
+
     val routingHttpHandler = static(ResourceLoader.Classpath("/ru/ac/uniyar/public/"))
 
     val router = Router(
@@ -132,6 +147,7 @@ fun main() {
 
     val printingApp: HttpHandler =
         ServerFilters.InitialiseRequestContext(contexts)
+            .then(showErrorMessageFilter(htmlView))
             .then(app)
 
     val server = printingApp.asServer(Undertow(9000)).start()

@@ -22,7 +22,7 @@ object Users : Table<User>("users"){
     val phone = long("phone").bindTo { it.phone }
     val email = varchar("email").bindTo { it.email }
     val hashed_password = text("hashed_password").bindTo { it.hashedPassword }
-    val role_id = int("role_id")
+    val role_id = int("role_id").bindTo { it.roleId }
     val restaurant_id = int("restaurant_id").references(Restaurants) { it.restaurant }
 }
 

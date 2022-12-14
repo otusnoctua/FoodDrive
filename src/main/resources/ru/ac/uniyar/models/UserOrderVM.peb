@@ -5,7 +5,7 @@
     <p>Содержимое: </p>
     {% for dish in model.dishes %}
         <div>
-            {{ dish.name }}, {{ dish.price }} руб.
+            {{ dish.dishName }}, {{ dish.price }} руб.
             <a href="/basket/{{model.order.id}}/{{ dish.id }}/delete" class="button">Удалить блюдо</a>
         </div>
     {% endfor %}

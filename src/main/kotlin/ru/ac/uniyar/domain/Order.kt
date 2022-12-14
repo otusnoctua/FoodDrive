@@ -20,7 +20,7 @@ interface Order : Entity<Order> {
     var restaurant: Restaurant
     var orderStatus: String
     var startTime: LocalDateTime
-    var endTime: LocalDateTime
+    var endTime: LocalDateTime?
     val dishes get() = getDishesViaOrderId(id)
     var orderCheck: Int
 }

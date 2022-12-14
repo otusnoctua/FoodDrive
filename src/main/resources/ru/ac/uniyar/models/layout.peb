@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Food Drive{% endblock %}</title>
+    <title>{% block title %}FoodDrive{% endblock %}</title>
     <link rel="stylesheet" href="/css/foundation.css">
     <link rel="stylesheet" href="/css/app.css">
   </head>
@@ -31,7 +31,7 @@
                     <li><a href="/register">Зарегистрироваться</a></li>
                 {% endif %}
                 {% if currentUser is not null %}
-                    <li><a href="/profile">{{ currentUser.name}}</a></li><li><a href="/logout">Выйти</a></li>
+                    <li><a href="/profile">{{ currentUser.username}}</a></li><li><a href="/logout">Выйти</a></li>
                 {% else %}
                     <li><a href="/login">Войти</a></li>
                 {% endif %}
