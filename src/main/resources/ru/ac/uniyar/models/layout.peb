@@ -12,36 +12,40 @@
     <div class="top-bar">
         <div class="top-bar-left">
             <ul class="dropdown menu" data-dropdown-menu>
-                <li class="menu-text">Food Drive</li>
-                <li><a href="/restaurants">Список ресторанов</a></li>
-                {% if permissions.listOrders%}
-                    <li><a href="/orders">Заказы</a></li>
+                <li class="menu-text" style="font-size:1.5625rem">FoodDrive</li>
+                <li><a href="/restaurants" style="color: white"><h5>Список ресторанов</h5></a></li>
+                {% if permissions.listOrders and currentUser.restaurant is not null%}
+                    <li><a href="/orders" style="color: white"><h5>Заказы</h5></a></li>
                 {% endif %}
                 {% if permissions.createOperator%}
-                    <li><a href="/registerOperator">Создать оператора</a></li>
+                    <li><a href="/registerOperator" style="color: white"><h5>Создать оператора</h5></a></li>
                 {% endif %}
-                {% if currentUser is not null %}
-                    <li><a href="/basket/">Корзина</a></li>
+                {% if currentUser is not null and permissions.viewBusket %}
+                    <li><a href="/basket" style="color: white"><h5>Корзина</h5></a></li>
                 {% endif %}
             </ul>
         </div>
         <div class="top-bar-right">
             <ul class="dropdown menu" data-dropdown-menu>
                 {% if currentUser is null %}
-                    <li><a href="/register">Зарегистрироваться</a></li>
+                    <li><a href="/register" style="color: white"><h5>Зарегистрироваться</h5></a></li>
                 {% endif %}
                 {% if currentUser is not null %}
-                    <li><a href="/profile">{{ currentUser.username}}</a></li><li><a href="/logout">Выйти</a></li>
+                    <li><a href="/profile" style="color: white"><h5>{{ currentUser.username}}</h5></a></li>
+                    <li><a href="/logout" style="color: white"><h5>Выйти</h5></a></li>
                 {% else %}
-                    <li><a href="/login">Войти</a></li>
+                    <li><a href="/login" style="color: white"><h5>Войти</h5></a></li>
                 {% endif %}
             </ul>
         </div>
     </div>
+
     <div class="grid-container">
-        {% block content %}
-            Нет содержимого
-        {% endblock %}
+        <div style="background-color:white; padding:10px; height:100vh;">
+            {% block content %}
+                Нет содержимого
+            {% endblock %}
+        </div>
     </div>
     <script src="/js/vendor/jquery.js"></script>
     <script src="/js/vendor/what-input.js"></script>

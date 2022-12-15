@@ -9,4 +9,5 @@ data class RestaurantVM(
     val restaurant: Restaurant,
     val name:String?,
     val flag:Int?,
+    val rating: Double,
     ): ViewModel

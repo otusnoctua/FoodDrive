@@ -1,11 +1,27 @@
-    {% extends "./layout.peb" %}
-    {% block content %}
+{% extends "./layout.peb" %}
+{% block content %}
+    <h3 style="width: 100%;text-align:center;">
+        {{ model.restaurant.restaurantName }}
+    </h3>
+
+    <div class="grid-x grid-padding-x align-bottom" style="padding:10px;">
+        <div class="medium-4 cell">
+            <img src="{{ model.restaurant.logoUrl }}">
+        </div>
+        <div class="medium-4 cell">
+            Рейтинг: {{ model.rating }}
+        </div>
+        <div class="medium-4 cell">
+            <a class="button" href="/reviews/{{model.restaurant.id}}">Отзывы</a>
+        </div>
+    </div>
+    <hr/>
 
     <form method="GET">
         <div class="grid-x grid-padding-x align-bottom">
             <div class="medium-4 cell">
                 <label>
-                    Название блюда:
+                    Найти блюдо по названию:
                     <input type="text" name="name"
                            value="{{ model.name }}">
                 </label>
@@ -43,9 +59,11 @@
                 </label>
             </div>
         </div>
-
-            <input type="submit" value="Найти" class="button">
-
+        <div class="grid-x grid-padding-x align-left">
+            <div class="medium-4 cell">
+                <input type="submit" value="Найти" class="button">
+            </div>
+        </div>
     </form>
     <div class="grid-x grid-padding-x">
             {% if  model.dishes.size==0 %}
@@ -57,13 +75,19 @@
     </div>
 
     <form method="POST">
-        <div>
-                {% if permissions.createDish %}<a href="/{{model.restaurant.id}}/ListOfDishes/new" class="button">Добавить</a>{% endif %}
+        <div class="grid-x grid-padding-x align-left">
+            <div class="medium-4 cell">
+                {% if permissions.createDish %}<a href="/{{model.restaurant.id}}/ListOfDishes/new" class="button">Добавить блюдо</a>{% endif %}
+            </div>
         </div>
         {% for dish in model.dishes %}
             {% if permissions.editStopList %}
-                <div>
-                    {{ dish.name }}: {{dish.ingredients}}, {{dish.description}}{% if dish.vegan %},
+                <div class="grid-x grid-padding-x align-bottom" style="padding:10px;">
+                    <div class="medium-4 cell">
+                        <img src="{{ dish.imageUrl }}">
+                    </div>
+                    <div class="medium-8 cell">
+                    {{ dish.dishName }}: {{dish.ingredients}}, {{dish.dishDescription}}{% if dish.vegan %},
                     Вегетарианское {% endif %}, {{ dish.price }}
                     {% if permissions.createOrder %}
                         <a href="/{{model.restaurant.id}}/{{dish.id}}/dishToOrder" class="button">Добавить в корзину</a>
@@ -82,11 +106,16 @@
                         <a href="/{{model.restaurant.id }}/{{dish.id}}/availability" class="button">Добавить в
                             каталог</a>
                     {% endif %}
+                    </div>
                 </div>
             {% endif %}
             {% if not permissions.editStopList and dish.availability %}
-                <div>
-                    {{ dish.name }}: {{dish.ingredients}}, {{dish.description}}{% if dish.vegan %},
+                <div class="grid-x grid-padding-x align-bottom" style="padding:10px;">
+                    <div class="medium-4 cell">
+                        <img src="{{ dish.imageUrl }}">
+                    </div>
+                    <div class="medium-8 cell">
+                    {{ dish.dishName }}: {{dish.ingredients}}, {{dish.dishDescription}}{% if dish.vegan %},
                     Вегетарианское {% endif %}
                     {% if permissions.createOrder %}
                         <a href="/{{model.restaurant.id}}/{{dish.id}}/dishToOrder" class="button">Добавить в корзину</a>
@@ -97,9 +126,9 @@
                     {% if permissions.deleteDish %}
                         <a href="/{{model.restaurant.id }}/{{dish.id}}/delete" class="button">Удалить</a>
                     {% endif %}
+                    </div>
                 </div>
             {% endif %}
         {% endfor %}
     </form>
-    <a class="button" href="/reviews/{{model.restaurant.id}}">Отзывы</a>
-    {% endblock %}
+{% endblock %}

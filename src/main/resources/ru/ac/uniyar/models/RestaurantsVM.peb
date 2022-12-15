@@ -1,41 +1,39 @@
     {% extends "./layout.peb" %}
     {% block content %}
         {% if permissions.createRestaurant %}
-        <div>
-            <a href="/restaurants/new" class="button">Добавить</a>
-        </div>
-        {% endif %}
-    <form method="GET">
-        <div class="grid-x grid-padding-x align-bottom">
-            <div class="medium-4 cell">
-                <label>
-                    Название ресторана:
-                    <input type="text" name="name"
-                           value="{{ model.name }}">
-                </label>
+            <div class="grid-x grid-padding-x align-bottom">
+                <div class="medium-4 cell">
+                    <a href="/restaurants/new" class="button">Добавить</a>
+                </div>
             </div>
-            <div class="medium-4 cell">
+        {% endif %}
+    <div class="grid-x grid-padding-x align-bottom">
+        <div class="medium-4 cell">
+            <form method="GET">
+                <label>
+                    <h5>Поиск по названию:</h5>
+                    <input type="text" name="name" value="{{ model.name }}">
+                </label>
                 <input type="submit" value="Поиск" class="button">
                 <a href="/restaurants" class="button">Сбросить</a>
-            </div>
+            </form>
         </div>
-    </form>
-    <form method="GET">
-        <div class="grid-x grid-padding-x align-bottom">
-            <div class="medium-4 cell">
+    </div>
+    <div class="grid-x grid-padding-x align-bottom">
+        <div class="medium-3 cell">
+            <form method="GET">
                 <input type="submit" value="Максимальный рейтинг" class="button">
                 <input type="hidden" name="rating" value="1">
-            </div>
+            </form>
         </div>
-    </form>
-    <form method="GET">
-        <div class="grid-x grid-padding-x align-bottom">
-            <div class="medium-4 cell">
+        <div class="medium-3 cell">
+            <form method="GET">
                 <input type="submit" value="Минимальный рейтинг" class="button">
                 <input type="hidden" name="rating" value="0">
-            </div>
+            </form>
         </div>
-    </form>
+    </div>
+
     <div class="grid-x grid-padding-x">
             {% if  model.listOfRestaurants.size==0 %}
             <div class="medium-12 cell">
@@ -45,16 +43,24 @@
             {% endif %}
     </div>
     {% for restaurantInfo in model.listOfRestaurants %}
-    <div>
-        {{ restaurantInfo.restaurant.name }}: {{ restaurantInfo.rating }}
-        {% if permissions.editRestaurant %}
-            <a href="/{{restaurantInfo.restaurant.id}}/edit" class="button">Редактировать</a>
-        {% endif %}
-        {% if not restaurantInfo.haveDish and permissions.deleteRestaurant %}
-            <a href="/{{restaurantInfo.restaurant.id}}/delete" class="button">Удалить</a>
-        {% endif %}
-        <a href="/{{restaurantInfo.restaurant.id }}/ListOfDishes" class="button">К ресторану</a>
-    </div>
+        <div class="grid-x grid-padding-x" style="padding:10px;">
+            <div class="medium-4 cell">
+                <img src="{{ restaurantInfo.restaurant.logoUrl }}">
+            </div>
+            <div class="medium-8 cell">
+                <a href="/{{restaurantInfo.restaurant.id }}/ListOfDishes">
+                    <h4>{{ restaurantInfo.restaurant.restaurantName }}</h4>
+                </a>
+                Рейтинг: {{ restaurantInfo.rating }}
+
+                {% if permissions.editRestaurant %}
+                    <a href="/{{restaurantInfo.restaurant.id}}/edit" class="button">Редактировать</a>
+                {% endif %}
+                {% if not restaurantInfo.haveDish and permissions.deleteRestaurant %}
+                    <a href="/{{restaurantInfo.restaurant.id}}/delete" class="button">Удалить</a>
+                {% endif %}
+            </div>
+        </div>
     {% endfor %}
 
     {% endblock %}

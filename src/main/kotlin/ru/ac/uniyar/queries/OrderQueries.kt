@@ -28,8 +28,6 @@ class OrderQueries(
 
         inner class CreateOrderQ {
             operator fun invoke(user: User, dish: Dish): Order {
-                val listOfDishes = mutableListOf<Dish>()
-                listOfDishes.add(dish)
                 val order = Order {
                     client = user
                     restaurant = dish.restaurant
@@ -38,7 +36,8 @@ class OrderQueries(
                     orderCheck = 0
 
                 }
-                return AddOrderQ().invoke(order)
+                AddOrderQ().invoke(order)
+                return orderRepository.addDishToOrder(dish.id, order.id)
             }
         }
 
@@ -86,7 +85,7 @@ class OrderQueries(
         inner class OrdersForOperatorQ {
             operator fun invoke(restaurantId: Int): List<Order> {
                 return orderRepository.list()
-                    .filter { it.orderStatus != "В ожидании" && it.restaurant.id == restaurantId }
+                    .filter { it.orderStatus != "В ожидании" && it.orderStatus != "Готов" && it.restaurant.id == restaurantId }
             }
         }
 
@@ -109,8 +108,8 @@ class OrderQueries(
         }
 
         inner class DeleteOrderQ {
-            operator fun invoke(id: Int) {
-                orderRepository.delete(id)
+            operator fun invoke(order: Order) {
+                orderRepository.delete(order)
             }
         }
 
@@ -129,6 +128,12 @@ class OrderQueries(
         inner class SetPriceQ {
             operator fun invoke(order: Order, price: Int): Order {
                 return orderRepository.setPrice(order, price)
+            }
+        }
+
+        inner class SetEndTimeQ {
+            operator fun invoke(order: Order): Order {
+                return orderRepository.setEndTime(order)
             }
         }
     }
