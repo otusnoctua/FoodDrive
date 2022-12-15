@@ -391,6 +391,105 @@ class DatabaseTest {
         }
     }
 
+    /** Проверка получения списка ресторанов*/
+    @Test
+    fun listOfRestaurants(){
+        database.useTransaction {
+            restaurantQueries.AddRestaurantQ().invoke(
+                "kfc",
+                "link1"
+            )
+            val restaurantKfc = database.restaurants.find { it.restaurant_name eq "kfc" }!!
+            restaurantQueries.AddRestaurantQ().invoke(
+                "Burger King",
+                "link2"
+            )
+            val restaurantBurgerKing = database.restaurants.find { it.restaurant_name eq "Burger King" }!!
+            restaurantQueries.AddRestaurantQ().invoke(
+                "Bazar",
+                "link3"
+            )
+            val restaurantBazar = database.restaurants.find { it.restaurant_name eq "Bazar" }!!
+            val listOfRestaurants = mutableListOf(restaurantKfc, restaurantBurgerKing, restaurantBazar)
+            val listOfRestaurantsQuery = restaurantQueries.RestaurantsQ().invoke()
+            assertEquals(listOfRestaurants, listOfRestaurantsQuery)
+        }
+    }
+
+    /*
+    /** Добавление нового заказа и добавление блюда в заказ */
+    @Test
+    fun createOrderWithDishes(){
+
+        val cafe = Restaurant {
+            restaurantName = "cafe"
+            logoUrl = "logo_here"
+        }
+
+        database.restaurants.add(cafe)
+        val cafeFromDB = database.restaurants.find { it.restaurant_name eq "cafe" }!!
+
+        dishQueries.AddDishQ().invoke(
+            cafeFromDB,
+            "salad",
+            true,
+            "vegetables",
+            "salad",
+            true,
+            100,
+            "link here"
+        )
+        val saladFromDB = db.dishes.find { it.dishName eq "salad" }
+
+        dishQueries.AddDishQ().invoke(
+            cafeFromDB,
+            "soup",
+            false,
+            "vegetables and meat",
+            "yummy",
+            true,
+            160,
+            "link here"
+        )
+        val soupFromDB = db.dishes.find {it.dishName eq "soup"}
+
+        userQueries.AddUserQ().invoke(
+            "Alice",
+            123,
+            "alice@example.com",
+            "hashed_password_here",
+            null,
+        )
+
+        val clientFromDB = database.users.find { it.username eq "Alice" }!!
+
+        val order = Order {
+            client = clientFromDB
+            restaurant = cafeFromDB
+            orderStatus = "В ожидании"
+            startTime = LocalDateTime.now()
+            orderCheck = 0
+        }
+
+        val orderDish1 = OrderDish {
+            orderId = database.orders.find { it.id eq orderQueries.AddOrderQ().invoke(order).id }!!.id
+            dishId = saladFromDB!!.id
+        }
+        database.order_dishes.add(orderDish1)
+
+        val orderFromDB = database.orders.find { it.client_id eq clientFromDB.id }
+
+        assertNotEquals(orderFromDB, null)
+
+        val orderDishesFromDB = orderQueries.FetchOrderDishes().invoke(orderFromDB!!)
+
+        assertNotEquals(orderDishesFromDB.find { it.dishName == "salad" }, null)
+
+        //добавить заказ
+        //получить dish из order
+        //проверить orders и ordersDish
+    }
+     */
     @BeforeEach
     fun clearDatabase(){
         database.deleteAll(OrderDishes)
