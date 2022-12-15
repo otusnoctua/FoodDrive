@@ -4,6 +4,7 @@ import org.http4k.core.*
 import org.http4k.lens.*
 import org.http4k.routing.path
 import ru.ac.uniyar.domain.RolePermissions
+import ru.ac.uniyar.domain.User
 import ru.ac.uniyar.models.DishFormVM
 import ru.ac.uniyar.models.template.ContextAwareViewRender
 import ru.ac.uniyar.queries.*
@@ -227,12 +228,14 @@ class DeleteDishH(
 
 class EditAvailabilityH(
     private val permissionLens: RequestContextLens<RolePermissions>,
+    private val curUserLens: RequestContextLens<User?>,
     private val dishQueries: DishQueries,
     private val restaurantQueries: RestaurantQueries,
 ): HttpHandler{
     override fun invoke(request: Request): Response {
         val permissions = permissionLens(request)
-        if (!permissions.editStopList || permissions.listDishes) {
+        val curUser = curUserLens(request)
+        if (!permissions.editStopList  || curUser == null) {
             return Response(Status.UNAUTHORIZED)
         }
         val dish = dishQueries.FetchDishQ().invoke(
@@ -241,6 +244,9 @@ class EditAvailabilityH(
         val restaurant = restaurantQueries.FetchRestaurantQ().invoke(
             request.path("restaurant")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
         ) ?: return Response(Status.BAD_REQUEST)
+        if (curUser.restaurant != restaurant && permissions != RolePermissions.ADMIN_ROLE) {
+            return Response(Status.UNAUTHORIZED)
+        }
         dishQueries.EditAvailability().invoke(dish)
         return Response(Status.FOUND).header(
             "Location", "/${restaurant.id}/ListOfDishes"

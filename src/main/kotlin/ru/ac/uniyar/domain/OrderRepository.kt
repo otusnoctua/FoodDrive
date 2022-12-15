@@ -3,6 +3,7 @@ package ru.ac.uniyar.domain
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
 import org.ktorm.entity.*
+import java.time.LocalDateTime
 
 class OrderRepository(
     database: Database
@@ -25,8 +26,6 @@ class OrderRepository(
         return db.orders.add(order)
     }
 
-
-
     fun addDishToOrder(currentDishId: Int, currentOrderId: Int) : Order {
         val orderDish = OrderDish {
             dishId = currentDishId
@@ -40,17 +39,15 @@ class OrderRepository(
 
     fun deleteDishFromOrder(order: Order, dishId: Int) : Order {
         db.useTransaction {
-
             val dishToRemove = db
                 .order_dishes
                 .find { it.dish_id eq dishId and(it.order_id eq order.id) }!!
-                .dishId
+                .id
 
             db.delete(OrderDishes) {it.id eq dishToRemove}
 
         }
         return order
-
     }
 
     fun updateStatus(order: Order) {
@@ -60,9 +57,11 @@ class OrderRepository(
 
     }
 
-    fun delete(id: Int) {
-        val order = db.orders.find {it.id eq id}
-        order?.delete()
+    fun delete(order: Order) {
+        order.dishes.forEach{ dish ->
+            db.delete(OrderDishes) {it.order_id eq order.id and(it.dish_id eq dish.id)}
+        }
+        db.delete(Orders) {it.id eq order.id}
     }
 
     fun list() : List<Order> {
@@ -88,7 +87,6 @@ class OrderRepository(
             .find { it.id eq order.id }?.orderCheck ?: return 0
     }
 
-
     fun update(currentOrder: Order) {
         val order = db.orders.find { it.id eq currentOrder.id } ?: return
         order.client = currentOrder.client
@@ -101,4 +99,10 @@ class OrderRepository(
         order.flushChanges()
     }
 
+    fun setEndTime(order: Order): Order{
+        val orderToEdit = db.orders.find { it.id eq order.id } ?: return order
+        orderToEdit.endTime = LocalDateTime.now()
+        orderToEdit.flushChanges()
+        return orderToEdit
+    }
 }

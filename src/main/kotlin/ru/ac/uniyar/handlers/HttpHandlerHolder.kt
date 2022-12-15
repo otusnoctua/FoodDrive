@@ -31,6 +31,7 @@ class HttpHandlerHolder(
         permissionLens,
         storeHolder.dishQueries,
         storeHolder.restaurantQueries,
+        storeHolder.reviewQueries,
         htmlView,
     )
 
@@ -130,6 +131,7 @@ class HttpHandlerHolder(
         permissionLens,
         storeHolder.orderQueries,
         storeHolder.dishQueries,
+        storeHolder.restaurantQueries,
         htmlView,
     )
 
@@ -152,6 +154,7 @@ class HttpHandlerHolder(
         curUserLens,
         storeHolder.orderQueries,
         storeHolder.dishQueries,
+        storeHolder.restaurantQueries,
         htmlView,
     )
 
@@ -192,7 +195,6 @@ class HttpHandlerHolder(
     val orderForOperatorH = OrderForOperatorH(
         permissionLens,
         storeHolder.orderQueries,
-        storeHolder.dishQueries,
         storeHolder.userQueries,
         storeHolder.restaurantQueries,
         htmlView,
@@ -200,11 +202,13 @@ class HttpHandlerHolder(
 
     val editStatusByOperatorH = EditStatusByOperatorH(
         permissionLens,
+        curUserLens,
         storeHolder.orderQueries,
     )
 
     val editAvailabilityH = EditAvailabilityH(
         permissionLens,
+        curUserLens,
         storeHolder.dishQueries,
         storeHolder.restaurantQueries,
     )
@@ -245,6 +249,7 @@ class HttpHandlerHolder(
         curUserLens,
         storeHolder.orderQueries,
         storeHolder.dishQueries,
+        storeHolder.restaurantQueries,
         htmlView,
     )
 }

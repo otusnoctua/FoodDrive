@@ -8,10 +8,7 @@ import org.http4k.core.cookie.Cookie
 import org.http4k.core.cookie.SameSite
 import org.http4k.core.cookie.cookie
 import org.http4k.lens.*
-import ru.ac.uniyar.domain.JwtTools
-import ru.ac.uniyar.domain.RestaurantRepository
-import ru.ac.uniyar.domain.RolePermissions
-import ru.ac.uniyar.domain.lensOrNull
+import ru.ac.uniyar.domain.*
 import ru.ac.uniyar.models.RegisterOperatorVM
 import ru.ac.uniyar.models.RegisterVM
 import ru.ac.uniyar.models.template.ContextAwareViewRender
@@ -97,9 +94,10 @@ class RegisterH(
         }
         else {
             return if (permissionsLens.invoke(request).createOperator) {
-                Response(BAD_REQUEST).with(
+                Response(Status.OK).with(
                     htmlView(request) of RegisterOperatorVM(
                         restaurantQueries.RestaurantsQ().invoke(),
+                        form = form,
                     )
                 )
             } else {

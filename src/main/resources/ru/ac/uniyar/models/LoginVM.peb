@@ -26,11 +26,11 @@
                     <input name="password" type="password" value="{{model.form.fields["password"] | first }}">
                 </label>
             </div>
-            <div class="grid-x grid-padding-x">
-                <div class="medium-12 cell align-center">
-                    <input type="submit" value="Войти" class="button">
-                    <a href="/"class="button">На главную страницу</a>
-                </div>
+        </div>
+        <div class="grid-x grid-padding-x">
+            <div class="medium-12 cell align-center">
+                <input type="submit" value="Войти" class="button">
+                <a href="/"class="button">На главную страницу</a>
             </div>
         </div>
     </form>

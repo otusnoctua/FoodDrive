@@ -117,7 +117,7 @@ data class RolePermissions(
             viewRestaurant = true,
             viewDish = true,
             viewReview = true,
-            editOrder = false,
+            editOrder = true,
             editUser = false,
             editRestaurant = false,
             editDish = false,

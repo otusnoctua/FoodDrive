@@ -3,7 +3,7 @@
 
         {% for order in model.listOfOrders %}
         <div>
-            Заказ номер: {{ order.id }}
+            Заказ номер: {{ order.id }}, Заказчик: {{ order.client.username }}, Время начала: {{ order.startTime }}
             <a href="/orders/{{ order.id }}">Больше</a>
         </div>
         {% endfor %}

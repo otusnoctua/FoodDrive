@@ -62,6 +62,8 @@ fun main() {
     ): Filter = Filter { next: HttpHandler -> //external error check
         {request ->
             val response = next(request)
+            val curUser = curUserLens(request)
+            val role = permissionsLens(request)
             if (response.status.successful){
                 response
             } else {

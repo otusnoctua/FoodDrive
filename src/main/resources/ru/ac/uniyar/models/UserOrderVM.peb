@@ -1,7 +1,7 @@
 {% extends "./layout.peb" %}
 {% block content %}
-    <p>Время добавления: {{ model.order.timestamp }} </p>
-    <p>Ресторан: {{ model.restaurant.name}} </p>
+    <p>Время добавления: {{ model.order.startTime }} </p>
+    <p>Ресторан: {{ model.restaurant.restaurantName}} </p>
     <p>Содержимое: </p>
     {% for dish in model.dishes %}
         <div>

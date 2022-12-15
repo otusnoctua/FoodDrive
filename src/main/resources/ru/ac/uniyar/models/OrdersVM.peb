@@ -6,7 +6,7 @@
         </div>
         {% for order in model.newOrders %}
             <div>
-               Заказ номер: {{ loop.index + 1}}
+                {{ order.restaurant.restaurantName }}: {{ order.orderCheck }}р. {{ order.startTime }}
                 <a href="/profile/orders/{{ order.id }}">Больше</a>
             </div>
         {% endfor %}
@@ -17,7 +17,7 @@
         </div>
         {% for order in model.oldOrders %}
             <div>
-                Заказ номер: {{ loop.index + 1}}
+                {{ order.restaurant.restaurantName }}: {{ order.orderCheck }}р. {{ order.endTime }}
                 <a href="/profile/orders/{{ order.id }}">Больше</a>
             </div>
         {% endfor %}

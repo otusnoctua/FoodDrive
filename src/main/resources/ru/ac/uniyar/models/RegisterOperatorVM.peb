@@ -5,7 +5,7 @@
             <div class="medium-12 cell warning">
                 <ul>
                     {% for error in model.form.errors %}
-                        <li>{{ error }}</li>
+                        <li>{{ error.meta.description }}</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -47,11 +47,11 @@
                     </select>
                 </label>
             </div>
-            <div class="grid-x grid-padding-x">
-                <div class="medium-12 cell align-center">
-                    <input type="submit" value="Зарегистрироваться" class="button">
-                    <a href="/"class="button">На главную страницу</a>
-                </div>
+        </div>
+        <div class="grid-x grid-padding-x">
+            <div class="medium-12 cell align-center">
+                <input type="submit" value="Зарегистрироваться" class="button">
+                <a href="/"class="button">На главную страницу</a>
             </div>
         </div>
     </form>

@@ -11,12 +11,14 @@ import ru.ac.uniyar.models.RestaurantVM
 import ru.ac.uniyar.models.template.ContextAwareViewRender
 import ru.ac.uniyar.queries.DishQueries
 import ru.ac.uniyar.queries.RestaurantQueries
+import ru.ac.uniyar.queries.ReviewQueries
 import java.util.*
 
 class RestaurantH(
     private val permissionsLens: RequestContextLens<RolePermissions>,
     private val dishQueries: DishQueries,
     private val restaurantQueries: RestaurantQueries,
+    private val reviewQueries: ReviewQueries,
     private val htmlView: ContextAwareViewRender,
 ): HttpHandler {
     companion object {
@@ -48,7 +50,9 @@ class RestaurantH(
                 ),
                 restaurant,
                 name=dishName,
-                flag=flag)
+                flag=flag,
+                reviewQueries.RatingForRestaurantQ().invoke(restaurant.id),
+            )
         )
     }
 }

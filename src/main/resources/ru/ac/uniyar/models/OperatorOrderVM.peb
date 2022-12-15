@@ -6,7 +6,7 @@
     <p>Телефон: {{ model.user.phone }} </p>
     <p>Email: {{ model.user.email }} </p>
     <h3 class="text-left">Информация о заказе:  </h3>
-    <p>Время добавления: {{ model.order.timestamp }} </p>
+    <p>Время добавления: {{ model.order.startTime }} </p>
     <p>Ресторан: {{ model.restaurant.name }} </p>
     <p>Содержимое: </p>
     {% for dish in model.dishes %}
@@ -16,8 +16,7 @@
     {% endfor %}
     <p>Сервисный сбор: 29 руб.</p>
     <p>Итоговая цена: {{ model.price }} руб.</p>
-    <p>Статус: {{ model.order.status }}.</p>
-    <h3 class="text-left">Статус: {{ model.order.status }}</h3>
+    <h4 class="text-left">Статус: {{ model.order.orderStatus }}</h4>
     <form method="POST">
         <div class="grid-x grid-padding-x">
             <div class="medium-12 cell">
@@ -32,6 +31,6 @@
         <input type="submit" value="Изменить" class="button">
     </form>
     <div>
-        <a class="button" href="/profile/orders">К списку заказов</a>
+        <a class="button" href="/orders">К списку заказов</a>
     </div>
 {% endblock %}
