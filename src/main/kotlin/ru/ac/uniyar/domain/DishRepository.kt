@@ -47,7 +47,7 @@ class DishRepository(
     fun editAvailability(dish : Dish){
         val dishToChange = db.dishes.find { it.id eq dish.id } ?: return
         if (dish.availability){
-            dishToChange.availability = true
+            dishToChange.availability = false
             dishToChange.flushChanges()
         } else {
             dishToChange.availability = true

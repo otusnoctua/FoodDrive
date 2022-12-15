@@ -20,8 +20,8 @@ class RestaurantQueries(
         }
     }
     inner class DeleteRestaurantQ {
-        operator fun invoke(id: Int){
-            restaurantRepository.delete(id)
+        operator fun invoke(restaurant: Restaurant){
+            restaurantRepository.delete(restaurant.id)
         }
     }
     inner class EditRestaurantQ {

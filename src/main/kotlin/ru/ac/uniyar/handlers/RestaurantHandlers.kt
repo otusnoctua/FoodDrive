@@ -169,7 +169,7 @@ class DeleteRestaurantH(
         if (haveDishes) {
             return Response(Status.BAD_REQUEST)
         }
-        restaurantQueries.DeleteRestaurantQ().invoke(restaurant.id)
+        restaurantQueries.DeleteRestaurantQ().invoke(restaurant)
         return Response(Status.FOUND).header(
             "Location", "/restaurants"
         )
