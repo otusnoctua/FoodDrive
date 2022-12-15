@@ -249,6 +249,56 @@ class DatabaseTest {
             assertEquals(database.dishes.find { it.dishName eq "Бургер" }?.availability, false)
         }
     }
+    @Test
+    fun fetchRestaurant(){
+        database.useTransaction {
+            restaurantQueries.AddRestaurantQ().invoke(
+                "kfc",
+                "link"
+            )
+            val restaurantId = database.restaurants.find { it.restaurant_name eq "kfc" }?.id!!
+            val fetchRestaurant = restaurantQueries.FetchRestaurantQ().invoke(restaurantId)
+            assertEquals(database.restaurants.find { it.restaurant_name eq "kfc" }, fetchRestaurant)
+        }
+    }
+    @Test
+    fun fetchDish(){
+        database.useTransaction {
+            restaurantQueries.AddRestaurantQ().invoke(
+                "kfc",
+                "link"
+            )
+            val restaurantToAdd = database.restaurants.find { it.restaurant_name eq "kfc" }!!
+            dishQueries.AddDishQ().invoke(
+                restaurantToAdd,
+                "Бургер",
+                false,
+                "Булка, курица",
+                "1",
+                true,
+                100,
+                "link"
+            )
+            val dishId = database.dishes.find { it.dishName eq "Бургер" }?.id!!
+            val fetchDish = dishQueries.FetchDishQ().invoke(dishId)
+            assertEquals(database.dishes.find { it.dishName eq "Бургер" }, fetchDish)
+        }
+    }
+    @Test
+    fun fetchUserViaId(){
+        database.useTransaction {
+            userQueries.AddUserQ().invoke(
+                "Alice",
+                123,
+                "alice@example.com",
+                "hashed_password_here",
+                null
+            )
+            val userId = database.users.find { it.username eq "Alice" }?.id!!
+            val fetchUser = userQueries.FetchUserViaId().invoke(userId)
+            assertEquals(database.users.find { it.username eq "Alice" }, fetchUser)
+        }
+    }
     @BeforeEach
     fun clearDatabase(){
         database.deleteAll(OrderDishes)
