@@ -17,7 +17,7 @@ class UserQueries (
             userRestaurant : Restaurant?
         ): Int {
             val userHashedPassword = hashPassword(userPassword, settings.salt)
-            val userRoleId = if(userRestaurant?.id == -1) {
+            val userRoleId = if(userRestaurant?.id == null) {
                 1
             } else {
                 2
