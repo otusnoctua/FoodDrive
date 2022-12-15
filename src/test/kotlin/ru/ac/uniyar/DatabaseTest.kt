@@ -8,6 +8,7 @@ import org.ktorm.database.Database
 import org.ktorm.dsl.delete
 import org.ktorm.dsl.deleteAll
 import org.ktorm.dsl.eq
+import org.ktorm.entity.add
 import org.ktorm.entity.find
 import ru.ac.uniyar.domain.*
 import ru.ac.uniyar.queries.*
@@ -35,7 +36,7 @@ class DatabaseTest {
     val fetchPermissionsQueries = FetchPermissionsQ(store.rolePermissionsRepository)
     val authenticateUserViaLoginQueries = AuthenticateUserViaLoginQ(settings, store.userRepository)
 
-    /* Проверяет добавление пользователя и соответствие роли клиента, если пользователю не назначен ресторан */
+    /** Проверяет добавление пользователя и соответствие роли клиента, если пользователю не назначен ресторан */
     @Test
     fun addNewUser() {
         database.useTransaction {
@@ -51,6 +52,8 @@ class DatabaseTest {
         }
 
     }
+
+    /** Проверка добавления ресторана*/
     @Test
     fun addNewRestaurant(){
         database.useTransaction {
@@ -61,6 +64,8 @@ class DatabaseTest {
             assertNotEquals(database.restaurants.find { it.restaurant_name eq "kfc" }, null)
         }
     }
+
+    /** Проверка добавления блюда*/
     @Test
     fun addNewDish(){
         database.useTransaction {
@@ -82,6 +87,8 @@ class DatabaseTest {
             assertNotEquals(database.dishes.find { it.dishName eq "Бургер" }, null)
         }
     }
+
+    /** Проверка добавления отзыва*/
     @Test
     fun addNewReview() {
         database.useTransaction {
@@ -112,6 +119,8 @@ class DatabaseTest {
             assertNotEquals(database.reviews.find { it.review_text eq "Отзыв" }, null)
         }
     }
+
+    /** Проверка удаления блюда*/
     @Test
     fun deleteDish(){
         database.useTransaction {
@@ -134,6 +143,8 @@ class DatabaseTest {
             assertEquals(database.dishes.find { it.dishName eq "Бургер" }, null)
         }
     }
+
+    /** Проверка удаления ресторана*/
     @Test
     fun deleteRestaurant(){
         database.useTransaction {
@@ -145,6 +156,8 @@ class DatabaseTest {
             assertEquals(database.restaurants.find { it.restaurant_name eq "kfc" }, null)
         }
     }
+
+    /** Проверка редактирования ресторана (его имени)*/
     @Test
     fun editRestaurant(){
         database.useTransaction {
@@ -160,6 +173,8 @@ class DatabaseTest {
             assertEquals(database.restaurants.find { it.id eq restaurantId }?.restaurantName, "Burger King")
         }
     }
+
+    /** Проверка редактирования блюда (его имени, отметки "Вегетарианское", ингредиентов, описания, цены, ссылки на фото, отметки "В стоп-листе")*/
     @Test
     fun editDish(){
         database.useTransaction {
@@ -201,6 +216,8 @@ class DatabaseTest {
             assertEquals(database.dishes.find { it.id eq dishToEditId }?.imageUrl, "linkS")
         }
     }
+
+    /** Проверка редактирования пользователя (его имени, телефона, почты)*/
     @Test
     fun editUser(){
         database.useTransaction {
@@ -225,6 +242,8 @@ class DatabaseTest {
             assertEquals(database.users.find { it.id eq userId }?.email, "bob@example.com")
         }
     }
+
+    /** Проверка удаления и добавления в стоп-лист*/
     @Test
     fun editAvailability(){
         database.useTransaction {
@@ -243,12 +262,28 @@ class DatabaseTest {
                 100,
                 "link"
             )
+            dishQueries.AddDishQ().invoke(
+                restaurantToAdd,
+                "Салат",
+                true,
+                "Огурец, помидор",
+                "2",
+                false,
+                30,
+                "link2"
+            )
             dishQueries.EditAvailability().invoke(
                 database.dishes.find { it.dishName eq "Бургер" }!!
             )
+            dishQueries.EditAvailability().invoke(
+                database.dishes.find { it.dishName eq "Салат" }!!
+            )
             assertEquals(database.dishes.find { it.dishName eq "Бургер" }?.availability, false)
+            assertEquals(database.dishes.find { it.dishName eq "Салат" }?.availability, true)
         }
     }
+
+    /** Проверка получения ресторана по id*/
     @Test
     fun fetchRestaurant(){
         database.useTransaction {
@@ -261,6 +296,8 @@ class DatabaseTest {
             assertEquals(database.restaurants.find { it.restaurant_name eq "kfc" }, fetchRestaurant)
         }
     }
+
+    /** Проверка получения блюда по id*/
     @Test
     fun fetchDish(){
         database.useTransaction {
@@ -284,6 +321,8 @@ class DatabaseTest {
             assertEquals(database.dishes.find { it.dishName eq "Бургер" }, fetchDish)
         }
     }
+
+    /** Проверка получения пользователя по id*/
     @Test
     fun fetchUserViaId(){
         database.useTransaction {
@@ -299,6 +338,59 @@ class DatabaseTest {
             assertEquals(database.users.find { it.username eq "Alice" }, fetchUser)
         }
     }
+
+    /** Проверка получения списка блюд конкретного ресторана*/
+    @Test
+    fun dishesOfRestaurant(){
+        database.useTransaction {
+            restaurantQueries.AddRestaurantQ().invoke(
+                "kfc",
+                "link"
+            )
+            val restaurantKfc = database.restaurants.find { it.restaurant_name eq "kfc" }!!
+            restaurantQueries.AddRestaurantQ().invoke(
+                "Burger King",
+                "link2"
+            )
+            val restaurantBurgerKing = database.restaurants.find { it.restaurant_name eq "Burger King" }!!
+            dishQueries.AddDishQ().invoke(
+                restaurantKfc,
+                "Бургер",
+                false,
+                "Булка, курица",
+                "1",
+                true,
+                100,
+                "linkBurger"
+            )
+            dishQueries.AddDishQ().invoke(
+                restaurantKfc,
+                "Курица",
+                false,
+                "Курица",
+                "2",
+                true,
+                150,
+                "linkChicken"
+            )
+            dishQueries.AddDishQ().invoke(
+                restaurantBurgerKing,
+                "Креветки",
+                false,
+                "Креветки, масло",
+                "5",
+                true,
+                200,
+                "linkBK"
+            )
+            val dishOfKfc = mutableListOf(database.dishes.find { it.dishName eq "Бургер" }!!,
+                database.dishes.find { it.dishName eq "Курица" }!!)
+            val restaurantKfcId = database.restaurants.find { it.restaurant_name eq "kfc" }?.id!!
+            val dishOfKfcQuery = dishQueries.DishesOfRestaurantQ().invoke(restaurantKfcId)
+            assertEquals(dishOfKfc, dishOfKfcQuery )
+        }
+    }
+
     @BeforeEach
     fun clearDatabase(){
         database.deleteAll(OrderDishes)
