@@ -11,7 +11,9 @@ import org.http4k.server.Http4kServer
 import org.http4k.server.Undertow
 import org.http4k.server.asServer
 import org.ktorm.database.Database
+import org.ktorm.dsl.delete
 import org.ktorm.dsl.deleteAll
+import org.ktorm.dsl.eq
 import ru.ac.uniyar.domain.*
 import ru.ac.uniyar.domain.Store
 import ru.ac.uniyar.handlers.HttpHandlerHolder
@@ -177,10 +179,34 @@ fun fillingTables() {
 
 
     database.useTransaction {
+        database.deleteAll(OrderDishes)
+        database.deleteAll(Orders)
+        database.deleteAll(Reviews)
         database.deleteAll(Users)
+        database.deleteAll(Dishes)
+        database.deleteAll(Restaurants)
+
+        userQueries.AddUserQ().invoke(
+            "admin",123,"admin@examole.com","123",null
+        )
         userQueries.AddUserQ().invoke(
             "Alice", 123, "alice@example.com", "123", null
         )
+        restaurantQueries.AddRestaurantQ().invoke(
+            "TestRestaurant", "1"
+        )
+        dishQueries.AddDishQ().invoke(
+            restaurantQueries.FetchRestaurantQ().invoke(1)!!,
+            "TestDish",
+            true,
+            "something",
+            "something",
+            true,
+            100,
+            "1",
+        )
+
+
 
     }
 }
@@ -207,6 +233,8 @@ fun deletingTables() {
 
     database.useTransaction {
         database.deleteAll(Users)
+        database.deleteAll(Restaurants)
+        database.deleteAll(Dishes)
 
     }
 

@@ -15,33 +15,33 @@
         <div class="grid-x grid-padding-x">
             <div class="medium-12 cell">
                 <label>Имя:
-                    <input name="name" type="text" value="{{model.form.fields["name"] | first }}">
+                    <input name="name" id="login-input-field" type="text" value="{{model.form.fields["name"] | first }}">
                 </label>
             </div>
             <div class="medium-6 cell">
                 <label>Телефон:
-                    <input name="phone" type="tel" value="{{model.form.fields["phone"] | first }}">
+                    <input name="phone" id="phone-input-field" type="tel" value="{{model.form.fields["phone"] | first }}">
                 </label>
             </div>
             <div class="medium-6 cell">
                 <label>Почта:
-                    <input name="email" type="email" value="{{model.form.fields["email"] | first }}">
+                    <input name="email" id="mail-input-field" type="email" value="{{model.form.fields["email"] | first }}">
                 </label>
             </div>
             <div class="medium-6 cell">
                 <label>Пароль:
-                    <input name="passwordOne" type="password" value="{{model.form.fields["passwordOne"] | first }}">
+                    <input name="passwordOne" id="pass-input-field" type="password" value="{{model.form.fields["passwordOne"] | first }}">
                 </label>
             </div>
             <div class="medium-6 cell">
                 <label>Повтор пароля:
-                    <input name="passwordTwo" type="password" value="{{model.form.fields["passwordTwo"] | first }}">
+                    <input name="passwordTwo" id="replay-pass-input-field" type="password" value="{{model.form.fields["passwordTwo"] | first }}">
                 </label>
             </div>
         </div>
         <div class="grid-x grid-padding-x">
             <div class="medium-12 cell align-center">
-                <input type="submit" value="Зарегистрироваться" class="button">
+                <input type="submit" id="submit-button" value="Зарегистрироваться" class="button">
                 <a href="/"class="button">На главную страницу</a>
             </div>
         </div>

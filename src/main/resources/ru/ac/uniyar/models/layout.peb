@@ -13,7 +13,7 @@
         <div class="top-bar-left">
             <ul class="dropdown menu" data-dropdown-menu>
                 <li class="menu-text" style="font-size:1.5625rem">FoodDrive</li>
-                <li><a href="/restaurants" style="color: white"><h5>Список ресторанов</h5></a></li>
+                <li><a id="listofrestaurants" href="/restaurants" style="color: white"><h5>Список ресторанов</h5></a></li>
                 {% if permissions.listOrders and currentUser.restaurant is not null%}
                     <li><a href="/orders" style="color: white"><h5>Заказы</h5></a></li>
                 {% endif %}
@@ -21,7 +21,7 @@
                     <li><a href="/registerOperator" style="color: white"><h5>Создать оператора</h5></a></li>
                 {% endif %}
                 {% if currentUser is not null and permissions.viewBasket %}
-                    <li><a href="/basket" style="color: white"><h5>Корзина</h5></a></li>
+                    <li><a id="basket" href="/basket" style="color: white"><h5>Корзина</h5></a></li>
                 {% endif %}
             </ul>
         </div>

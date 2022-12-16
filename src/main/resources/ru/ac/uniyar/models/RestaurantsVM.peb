@@ -48,7 +48,7 @@
                 <img src="{{ restaurantInfo.restaurant.logoUrl }}">
             </div>
             <div class="medium-8 cell">
-                <a href="/{{restaurantInfo.restaurant.id }}/ListOfDishes">
+                <a id="restaurant" href="/{{restaurantInfo.restaurant.id }}/ListOfDishes">
                     <h4>{{ restaurantInfo.restaurant.restaurantName }}</h4>
                 </a>
                 Рейтинг: {{ restaurantInfo.rating }}
