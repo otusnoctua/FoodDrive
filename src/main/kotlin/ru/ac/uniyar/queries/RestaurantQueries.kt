@@ -1,13 +1,11 @@
 package ru.ac.uniyar.queries
 
-import org.ktorm.entity.sortedBy
 import ru.ac.uniyar.domain.*
 import java.util.*
 
 class RestaurantQueries(
     private val restaurantRepository: RestaurantRepository,
     private val reviewQueries: ReviewQueries,
-    private val store: Store,
 ) {
     inner class FetchRestaurantQ {
         operator fun invoke(id: Int): Restaurant? {

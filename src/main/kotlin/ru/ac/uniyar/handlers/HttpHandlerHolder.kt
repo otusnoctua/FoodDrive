@@ -21,6 +21,7 @@ class HttpHandlerHolder(
 
     val homePageH = HomePageH(
         permissionLens,
+        curUserLens,
         storeHolder.restaurantQueries,
         storeHolder.reviewQueries,
         storeHolder.dishQueries,
@@ -102,13 +103,11 @@ class HttpHandlerHolder(
     val editDishH = EditDishH(
         permissionLens,
         storeHolder.dishQueries,
-        storeHolder.restaurantQueries,
         htmlView,
     )
 
     val editDishFormH = EditDishFormH(
         permissionLens,
-        storeHolder.restaurantQueries,
         storeHolder.dishQueries,
         htmlView,
     )
@@ -124,14 +123,11 @@ class HttpHandlerHolder(
         curUserLens,
         storeHolder.orderQueries,
         storeHolder.dishQueries,
-        storeHolder.restaurantQueries,
     )
 
     val orderH = OrderH(
         permissionLens,
         storeHolder.orderQueries,
-        storeHolder.dishQueries,
-        storeHolder.restaurantQueries,
         htmlView,
     )
 
@@ -146,7 +142,6 @@ class HttpHandlerHolder(
         permissionLens,
         curUserLens,
         storeHolder.orderQueries,
-        htmlView,
     )
 
     val deleteDishFromOrderH = DeleteDishFromOrderH(
@@ -154,7 +149,6 @@ class HttpHandlerHolder(
         curUserLens,
         storeHolder.orderQueries,
         storeHolder.dishQueries,
-        storeHolder.restaurantQueries,
         htmlView,
     )
 
@@ -162,7 +156,6 @@ class HttpHandlerHolder(
         permissionLens,
         curUserLens,
         storeHolder.orderQueries,
-        storeHolder.dishQueries,
         htmlView,
     )
 
@@ -198,8 +191,6 @@ class HttpHandlerHolder(
     val orderForOperatorH = OrderForOperatorH(
         permissionLens,
         storeHolder.orderQueries,
-        storeHolder.userQueries,
-        storeHolder.restaurantQueries,
         htmlView,
     )
 
@@ -251,8 +242,6 @@ class HttpHandlerHolder(
         permissionLens,
         curUserLens,
         storeHolder.orderQueries,
-        storeHolder.dishQueries,
-        storeHolder.restaurantQueries,
         htmlView,
     )
 }

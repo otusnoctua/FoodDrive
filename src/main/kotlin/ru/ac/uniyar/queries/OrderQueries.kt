@@ -2,20 +2,16 @@ package ru.ac.uniyar.queries
 
 import ru.ac.uniyar.domain.*
 import java.time.LocalDateTime
-import java.util.*
-
 
 class OrderQueries(
-    private val userRepository: UserRepository,
     private val orderRepository: OrderRepository,
-    private val store: Store,
 ) {
 
     inner class AddOrderQ {
         operator fun invoke(order: Order): Order { //нужно тестирование!
             db.useTransaction {
-                val orderQuery = orderRepository.add(order)
-                return orderRepository.fetch(orderQuery)!!
+                orderRepository.add(order)
+                return order
             }
         }
     }
@@ -34,7 +30,6 @@ class OrderQueries(
                     orderStatus = "В ожидании"
                     startTime = LocalDateTime.now()
                     orderCheck = 0
-
                 }
                 AddOrderQ().invoke(order)
                 return orderRepository.addDishToOrder(dish.id, order.id)
@@ -42,8 +37,8 @@ class OrderQueries(
         }
 
         inner class CheckOrderQ {
-            operator fun invoke(userId: Int): Boolean {
-                return orderRepository.list().any { it.client.id == userId && it.orderStatus == "В ожидании" }
+            operator fun invoke(userId: Int, restaurantId: Int): Boolean {
+                return orderRepository.list().any { it.client.id == userId && it.orderStatus == "В ожидании" && it.restaurant.id == restaurantId}
             }
         }
 

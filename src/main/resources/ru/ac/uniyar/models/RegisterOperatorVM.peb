@@ -42,7 +42,7 @@
                 <label>Выбор ресторана
                     <select name="restaurant">
                         {% for restaurant in model.restaurants %}
-                            <option  value={{ restaurant.id }}>{{restaurant.name}}</option>
+                            <option  value={{ restaurant.id }}>{{restaurant.restaurantName}}</option>
                         {% endfor %}
                     </select>
                 </label>

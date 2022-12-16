@@ -6,12 +6,7 @@ import org.ktorm.entity.*
 import org.ktorm.schema.*
 import java.time.LocalDateTime
 
-val db = Database.connect(
-    url = "jdbc:mysql://127.0.0.1:3306/fooddrive",
-    driver = "com.mysql.jdbc.Driver",
-    user = "root",
-    password = "12345"
-)
+val db = Store.db
 
 interface Order : Entity<Order> {
     companion object : Entity.Factory<Order>()

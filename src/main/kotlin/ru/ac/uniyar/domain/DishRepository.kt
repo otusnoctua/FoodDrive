@@ -2,9 +2,7 @@ package ru.ac.uniyar.domain
 
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
-import org.ktorm.entity.add
-import org.ktorm.entity.find
-import org.ktorm.entity.toList
+import org.ktorm.entity.*
 
 class DishRepository(
     database: Database
@@ -20,6 +18,7 @@ class DishRepository(
     }
 
     fun delete(id: Int) {
+        db.delete(OrderDishes) {it.dish_id eq id}
         db.delete(Dishes) { it.id eq id }
     }
 
@@ -48,6 +47,11 @@ class DishRepository(
         val dishToChange = db.dishes.find { it.id eq dish.id } ?: return
         if (dish.availability){
             dishToChange.availability = false
+            val orders = db.order_dishes
+                .filter { it.dish_id eq dish.id }
+                .map { orderDish -> db.orders.find { it.id eq orderDish.orderId }!!}
+                .filter { it.orderStatus == "В ожидании" }
+            orders.forEach { order -> db.delete(OrderDishes) { it.dish_id eq dish.id and(it.order_id eq order.id)} }
             dishToChange.flushChanges()
         } else {
             dishToChange.availability = true

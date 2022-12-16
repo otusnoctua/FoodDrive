@@ -6,7 +6,9 @@
     {% for dish in model.dishes %}
         <div>
             {{ dish.dishName }}, {{ dish.price }} руб.
-            <a href="/basket/{{model.order.id}}/{{ dish.id }}/delete" class="button">Удалить блюдо</a>
+            {% if model.order.orderStatus == "В ожидании" %}
+                <a href="/basket/{{model.order.id}}/{{ dish.id }}/delete" class="button">Удалить блюдо</a>
+            {% endif %}
         </div>
     {% endfor %}
     <div>
@@ -15,7 +17,13 @@
     <div>
         Итоговая цена: {{ model.price }} руб.
     </div>
-    <div>
-        <a href="/basket/delete/{{model.order.id}}" class="button">Удалить заказ</a>
-    </div>
+    {% if model.order.orderStatus == "В ожидании" %}
+        <div>
+            <a href="/basket/delete/{{model.order.id}}" class="button">Удалить заказ</a>
+        </div>
+    {% elseif model.order.orderStatus != "Готово"%}
+        <div>
+            <a href="/basket/delete/{{model.order.id}}" class="button">Отказаться</a>
+        </div>
+    {% endif %}
 {% endblock %}

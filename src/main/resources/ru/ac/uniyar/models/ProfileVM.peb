@@ -9,7 +9,9 @@
             <a href="/profile/edit"class="button">Редактировать</a>
         {% endif %}
     </div>
-    <div>
-        <a href="/profile/orders">Список заказов</a>
-    </div>
+    {% if permissions.viewBasket %}
+        <div>
+            <a href="/profile/orders">Список заказов</a>
+        </div>
+    {% endif %}
 {% endblock %}

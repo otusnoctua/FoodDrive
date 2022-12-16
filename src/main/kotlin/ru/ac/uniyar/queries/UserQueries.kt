@@ -4,7 +4,6 @@ import ru.ac.uniyar.domain.*
 import ru.ac.uniyar.queries.computations.hashPassword
 
 class UserQueries (
-    private val store: Store,
     private val settings: Settings,
     private val userRepository : UserRepository
 ) {

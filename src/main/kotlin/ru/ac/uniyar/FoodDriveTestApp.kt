@@ -31,7 +31,7 @@ fun createApplication(): Http4kServer? {
 
 
     val storeHolder = try {
-        StoreHolder(Path.of("settings.json"), database)
+        StoreHolder(Path.of("settings.json"))
     } catch (error: SettingsFileError) {
         println(error.message)
         return null
@@ -162,15 +162,15 @@ fun fillingTables() {
         user = "root",
         password = "12345"
     )
-    val store = Store(database)
+    val store = Store()
     val settings = Settings(Path.of("settings.json"))
 
-    val userQueries = UserQueries(store, settings, store.userRepository)
+    val userQueries = UserQueries(settings, store.userRepository)
 
-    val reviewQueries = ReviewQueries(store.reviewRepository, store, database)
-    val restaurantQueries = RestaurantQueries(store.restaurantRepository, reviewQueries, store)
-    val dishQueries = DishQueries(store.dishRepository, store)
-    val orderQueries = OrderQueries(store.userRepository, store.orderRepository, store)
+    val reviewQueries = ReviewQueries(store.reviewRepository)
+    val restaurantQueries = RestaurantQueries(store.restaurantRepository, reviewQueries)
+    val dishQueries = DishQueries(store.dishRepository)
+    val orderQueries = OrderQueries(store.orderRepository)
     val fetchUserQueries = FetchUserQ(store.userRepository)
     val fetchPermissionsQueries = FetchPermissionsQ(store.rolePermissionsRepository)
     val authenticateUserViaLoginQueries = AuthenticateUserViaLoginQ(settings, store.userRepository)
@@ -192,15 +192,15 @@ fun deletingTables() {
         user = "root",
         password = "12345"
     )
-    val store = Store(database)
+    val store = Store()
     val settings = Settings(Path.of("settings.json"))
 
-    val userQueries = UserQueries(store, settings, store.userRepository)
+    val userQueries = UserQueries(settings, store.userRepository)
 
-    val reviewQueries = ReviewQueries(store.reviewRepository, store, database)
-    val restaurantQueries = RestaurantQueries(store.restaurantRepository, reviewQueries, store)
-    val dishQueries = DishQueries(store.dishRepository, store)
-    val orderQueries = OrderQueries(store.userRepository, store.orderRepository, store)
+    val reviewQueries = ReviewQueries(store.reviewRepository)
+    val restaurantQueries = RestaurantQueries(store.restaurantRepository, reviewQueries)
+    val dishQueries = DishQueries(store.dishRepository)
+    val orderQueries = OrderQueries(store.orderRepository)
     val fetchUserQueries = FetchUserQ(store.userRepository)
     val fetchPermissionsQueries = FetchPermissionsQ(store.rolePermissionsRepository)
     val authenticateUserViaLoginQueries = AuthenticateUserViaLoginQ(settings, store.userRepository)

@@ -89,7 +89,7 @@ data class RolePermissions(
             editRestaurant = false,
             editDish = false,
             editReview = true,
-            deleteOrder = false,
+            deleteOrder = true,
             deleteUser = false,
             deleteRestaurant = false,
             deleteDish = false,

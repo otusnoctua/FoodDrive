@@ -97,27 +97,26 @@ class AddDishH(
 
 class EditDishFormH(
     private val permissionLens: RequestContextLens<RolePermissions>,
-    private val restaurantQueries: RestaurantQueries,
     private val dishQueries: DishQueries,
     private val htmlView: ContextAwareViewRender,
 ): HttpHandler {
     companion object {
-        private val dishNameFormLens = FormField.string().required("name")
-        private val veganFormLens = FormField.boolean().required("vegan")
-        private val ingredientsFormLens = FormField.string().required("ingredients")
-        private val descriptionFormLens = FormField.string().required("description")
-        private val availabilityFormLens = FormField.boolean().required("availability")
+        private val dishNameFormLens = FormField.nonEmptyString().required("name")
+        private val ingredientsFormLens = FormField.nonEmptyString().required("ingredients")
         private val priceFormLens = FormField.int().required("price")
-        private val imageUrlFormLens = FormField.string().required("imageUrl")
+        private val descriptionFormLens = FormField.nonEmptyString().required("description")
+        private val veganFormLens = FormField.boolean().required("vegan")
+        private val imageUrlFormLens = FormField.nonEmptyString().required("imageUrl")
+        private val availabilityFormLens = FormField.boolean().required("availability")
         private val BodyDishFormLens = Body.webForm(
             Validator.Feedback,
             dishNameFormLens,
-            veganFormLens,
             ingredientsFormLens,
-            descriptionFormLens,
-            availabilityFormLens,
             priceFormLens,
-            imageUrlFormLens
+            descriptionFormLens,
+            veganFormLens,
+            imageUrlFormLens,
+            availabilityFormLens,
         ).toLens()
     }
 
@@ -129,10 +128,7 @@ class EditDishFormH(
         val dish = dishQueries.FetchDishQ().invoke(
             request.path("dish")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
         ) ?: return Response(Status.BAD_REQUEST)
-        val restaurant = restaurantQueries.FetchRestaurantQ().invoke(
-            request.path("restaurant")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
-        ) ?: return Response(Status.BAD_REQUEST)
-        val webForm = BodyDishFormLens(request)
+        val restaurant = dish.restaurant
 
         return Response(Status.OK).with(
             htmlView(request) of DishFormVM(
@@ -146,26 +142,25 @@ class EditDishFormH(
 class EditDishH(
     private val permissionLens: RequestContextLens<RolePermissions>,
     private val dishQueries: DishQueries,
-    private val restaurantQueries: RestaurantQueries,
     private val htmlView: ContextAwareViewRender,
 ): HttpHandler{
     companion object {
-        private val dishNameFormLens = FormField.string().required("name")
-        private val veganFormLens = FormField.boolean().required("vegan")
-        private val ingredientsFormLens = FormField.string().required("ingredients")
-        private val descriptionFormLens = FormField.string().required("description")
-        private val availabilityFormLens = FormField.boolean().required("availability")
+        private val dishNameFormLens = FormField.nonEmptyString().required("name")
+        private val ingredientsFormLens = FormField.nonEmptyString().required("ingredients")
         private val priceFormLens = FormField.int().required("price")
-        private val imageUrlFormLens = FormField.string().required("imageUrl")
+        private val descriptionFormLens = FormField.nonEmptyString().required("description")
+        private val veganFormLens = FormField.boolean().required("vegan")
+        private val imageUrlFormLens = FormField.nonEmptyString().required("imageUrl")
+        private val availabilityFormLens = FormField.boolean().required("availability")
         private val BodyDishFormLens = Body.webForm(
             Validator.Feedback,
             dishNameFormLens,
-            veganFormLens,
             ingredientsFormLens,
-            descriptionFormLens,
-            availabilityFormLens,
             priceFormLens,
-            imageUrlFormLens
+            descriptionFormLens,
+            veganFormLens,
+            imageUrlFormLens,
+            availabilityFormLens,
         ).toLens()
     }
     override fun invoke(request: Request): Response {
@@ -176,9 +171,7 @@ class EditDishH(
         val dish = dishQueries.FetchDishQ().invoke(
             request.path("dish")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
         ) ?: return Response(Status.BAD_REQUEST)
-        val restaurant = restaurantQueries.FetchRestaurantQ().invoke(
-            request.path("restaurant")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
-        ) ?: return Response(Status.BAD_REQUEST)
+        val restaurant = dish.restaurant
         val webForm = BodyDishFormLens(request)
         return if (webForm.errors.isEmpty()) {
             dishQueries.EditDishQ().invoke(
@@ -241,9 +234,7 @@ class EditAvailabilityH(
         val dish = dishQueries.FetchDishQ().invoke(
             request.path("dish")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
         ) ?: return Response(Status.BAD_REQUEST)
-        val restaurant = restaurantQueries.FetchRestaurantQ().invoke(
-            request.path("restaurant")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
-        ) ?: return Response(Status.BAD_REQUEST)
+        val restaurant = dish.restaurant
         if (curUser.restaurant != restaurant && permissions != RolePermissions.ADMIN_ROLE) {
             return Response(Status.UNAUTHORIZED)
         }

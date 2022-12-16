@@ -9,29 +9,18 @@ import org.http4k.routing.routes
 import org.http4k.routing.static
 import org.http4k.server.Undertow
 import org.http4k.server.asServer
-import org.http4k.template.TemplateRenderer
-import org.ktorm.database.Database
 import ru.ac.uniyar.domain.*
 import ru.ac.uniyar.handlers.HttpHandlerHolder
-import ru.ac.uniyar.models.DishFormVM
 import ru.ac.uniyar.models.ErrorMessageVM
 import ru.ac.uniyar.models.template.ContextAwarePebbleTemplates
-import ru.ac.uniyar.models.template.ContextAwareTemplateRenderer
 import ru.ac.uniyar.models.template.ContextAwareViewRender
 import java.nio.file.Path
 
 
 fun main() {
 
-    val database = Database.connect(
-        url = "jdbc:mysql://127.0.0.1:3306/fooddrive",
-        driver = "com.mysql.jdbc.Driver",
-        user = "root",
-        password = "12345"
-    )
-
     val storeHolder = try {
-        StoreHolder(Path.of("settings.json"), database)
+        StoreHolder(Path.of("settings.json"))
     }catch (error: SettingsFileError) {
         println(error.message)
         return
@@ -44,8 +33,8 @@ fun main() {
     val curUserLens: RequestContextLens<User?> = RequestContextKey.optional(contexts, name = "user")
     val permissionsLens: RequestContextLens<RolePermissions> =
         RequestContextKey.required(contexts, name = "permissions")
-    val htmlViewWithContext = htmlView.associateContextLens("currentUser", curUserLens)
-    val htmlViewPermissions= htmlView.associateContextLens("permissions", permissionsLens)
+    htmlView.associateContextLens("currentUser", curUserLens)
+    htmlView.associateContextLens("permissions", permissionsLens)
 
     val jwtTools = JwtTools(storeHolder.settings.salt, "ru.ac.uniyar.FoodDrive")
 
@@ -62,8 +51,6 @@ fun main() {
     ): Filter = Filter { next: HttpHandler -> //external error check
         {request ->
             val response = next(request)
-            val curUser = curUserLens(request)
-            val role = permissionsLens(request)
             if (response.status.successful){
                 response
             } else {
@@ -149,7 +136,7 @@ fun main() {
 
     val printingApp: HttpHandler =
         ServerFilters.InitialiseRequestContext(contexts)
-            .then(showErrorMessageFilter(htmlView))
+            //.then(showErrorMessageFilter(htmlView))
             .then(app)
 
     val server = printingApp.asServer(Undertow(9000)).start()

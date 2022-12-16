@@ -1,12 +1,10 @@
 package ru.ac.uniyar.queries
 
 import ru.ac.uniyar.domain.*
-
 import java.util.*
 
 class DishQueries(
     private val dishRepository: DishRepository,
-    private val store: Store
 ) {
     inner class FetchDishQ{
         operator fun invoke(id:Int):Dish?{
@@ -45,7 +43,7 @@ class DishQueries(
     }
      inner class DeleteDishQ{
          operator fun invoke(dish: Dish) {
-             store.dishRepository.delete(dish.id)
+             dishRepository.delete(dish.id)
          }
      }
 

@@ -86,7 +86,6 @@ class AddDishToOrderH(
     private val curUserLens: RequestContextLens<User?>,
     private val orderQueries: OrderQueries,
     private val dishQueries: DishQueries,
-    private val restaurantQueries: RestaurantQueries,
 ): HttpHandler {
     override fun invoke(request: Request): Response {
         val permissions = permissionsLens(request)
@@ -97,10 +96,8 @@ class AddDishToOrderH(
         val dish = dishQueries.FetchDishQ().invoke(
             request.path("dish")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
         ) ?: return Response(Status.BAD_REQUEST)
-        val restaurant = restaurantQueries.FetchRestaurantQ().invoke(
-            request.path("restaurant")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
-        ) ?: return Response(Status.BAD_REQUEST)
-        val order = if (!orderQueries.CheckOrderQ().invoke(user.id)) {
+        val restaurant = dish.restaurant
+        val order = if (!orderQueries.CheckOrderQ().invoke(user.id,restaurant.id)) {
             orderQueries.CreateOrderQ().invoke(user, dish)
         } else {
             orderQueries.AddDishQ().invoke(user.id, dish)
@@ -116,8 +113,6 @@ class OrderFromBasketH(
     private val permissionsLens: RequestContextLens<RolePermissions>,
     private val curUserLens: RequestContextLens<User?>,
     private val orderQueries: OrderQueries,
-    private val dishQueries: DishQueries,
-    private val restaurantQueries: RestaurantQueries,
     private val htmlView: ContextAwareViewRender,
 ): HttpHandler {
     override fun invoke(request: Request): Response {
@@ -129,16 +124,11 @@ class OrderFromBasketH(
         val order = orderQueries.FetchOrderQ().invoke(
             request.path("order")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
         ) ?: return Response(Status.BAD_REQUEST)
-        val restaurant = restaurantQueries.FetchRestaurantQ().invoke(order.restaurant.id)?: return Response(Status.BAD_REQUEST)
-        val dishes = order.dishes.map { dishQueries.FetchDishQ().invoke(it.id) }
-        if (dishes.contains(null)) {
-            return Response(Status.BAD_REQUEST)
-        }
-        var price = 29
-        dishes.forEach { price += it!!.price }
-
+        val restaurant = order.restaurant
+        val dishes = order.dishes
+        val price = dishes.sumOf { it.price } + 29
         return Response(Status.OK).with(
-            htmlView(request) of UserOrderVM(order, dishes.map { it!! }, price, restaurant)
+            htmlView(request) of UserOrderVM(order, dishes.map { it }, price, restaurant)
         )
     }
 }
@@ -146,8 +136,6 @@ class OrderFromBasketH(
 class OrderForOperatorH(
     private val permissionsLens: RequestContextLens<RolePermissions>,
     private val orderQueries: OrderQueries,
-    private val userQueries: UserQueries,
-    private val restaurantQueries: RestaurantQueries,
     private val htmlView: ContextAwareViewRender,
 ):HttpHandler{
     override fun invoke(request: Request): Response {
@@ -160,8 +148,8 @@ class OrderForOperatorH(
         )
             ?: return Response(Status.BAD_REQUEST)
 
-        val user = userQueries.FetchUserViaId().invoke(order.client.id)?: return Response(Status.BAD_REQUEST)
-        val restaurant=restaurantQueries.FetchRestaurantQ().invoke(order.restaurant.id)?:return Response(Status.BAD_REQUEST)
+        val user = order.client
+        val restaurant = order.restaurant
         val orderCheck = orderQueries.FetchOrderCheck().invoke(order)
         val orderDishes = orderQueries.FetchOrderDishes().invoke(order)
         return Response(Status.OK).with(
@@ -178,8 +166,6 @@ class OrderForOperatorH(
 class OrderH(
     private val permissionsLens: RequestContextLens<RolePermissions>,
     private val orderQueries: OrderQueries,
-    private val dishQueries: DishQueries,
-    private val restaurantQueries: RestaurantQueries,
     private val htmlView: ContextAwareViewRender,
 ): HttpHandler {
     override fun invoke(request: Request): Response {
@@ -190,15 +176,11 @@ class OrderH(
         val order = orderQueries.FetchOrderQ().invoke(
             request.path("order")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
         ) ?: return Response(Status.BAD_REQUEST)
-        val restaurant = restaurantQueries.FetchRestaurantQ().invoke(order.restaurant.id)?: return Response(Status.BAD_REQUEST)
-        val dishes = order.dishes.map { dishQueries.FetchDishQ().invoke(it.id) }
-        if (dishes.contains(null)) {
-            return Response(Status.BAD_REQUEST)
-        }
-        var price = 29
-        dishes.forEach { price += it!!.price }
+        val restaurant = order.restaurant
+        val dishes = order.dishes
+        val price = dishes.sumOf { it.price } + 29
         return Response(Status.OK).with(
-            htmlView(request) of UserOrderVM(order, dishes.map { it!! }, price, restaurant)
+            htmlView(request) of UserOrderVM(order, dishes.map { it }, price, restaurant)
         )
     }
 }
@@ -207,7 +189,6 @@ class DeleteOrderH(
     private val permissionsLens: RequestContextLens<RolePermissions>,
     private val curUserLens: RequestContextLens<User?>,
     private val orderQueries: OrderQueries,
-    private val htmlView: ContextAwareViewRender,
 ): HttpHandler {
     override fun invoke(request: Request): Response {
         val permissions = permissionsLens(request)
@@ -219,14 +200,8 @@ class DeleteOrderH(
             request.path("order")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
         ) ?: return Response(Status.BAD_REQUEST)
         orderQueries.DeleteOrderQ().invoke(order)
-        return Response(Status.OK).with(
-            htmlView(request) of BasketVM(
-                orderQueries.WaitingOrdersQ().invoke(user.id).map {
-                    OrderInfo(
-                        it,
-                        it.dishes.sumOf { dish -> dish.price }+29
-                    ) }
-            )
+        return Response(Status.FOUND).header(
+            "Location", "/"
         )
     }
 }
@@ -236,7 +211,6 @@ class DeleteDishFromOrderH(
     private val curUserLens: RequestContextLens<User?>,
     private val orderQueries: OrderQueries,
     private val dishQueries: DishQueries,
-    private val restaurantQueries: RestaurantQueries,
     private val htmlView: ContextAwareViewRender,
 ):HttpHandler {
     override fun invoke(request: Request): Response {
@@ -248,20 +222,16 @@ class DeleteDishFromOrderH(
         val order = orderQueries.FetchOrderQ().invoke(
             request.path("order")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
         ) ?: return Response(Status.BAD_REQUEST)
-        val restaurant = restaurantQueries.FetchRestaurantQ().invoke(order.restaurant.id)?: return Response(Status.BAD_REQUEST)
+        val restaurant = order.restaurant
         val dish = dishQueries.FetchDishQ().invoke(
             request.path("dish")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
         ) ?: return Response(Status.BAD_REQUEST)
         val newOrder = orderQueries.DeleteDishQ().invoke(order, dish.id)
         orderQueries.UpdateOrderQ().invoke(newOrder)
-        val dishes = newOrder.dishes.map { dishQueries.FetchDishQ().invoke(it.id) }
-        if (dishes.contains(null)) {
-            return Response(Status.BAD_REQUEST)
-        }
-        var price = 29
-        dishes.forEach { price += it!!.price }
+        val dishes = newOrder.dishes
+        val price = dishes.sumOf { it.price } + 29
         return Response(Status.OK).with(
-            htmlView(request) of UserOrderVM(newOrder, dishes.map { it!! }, price, restaurant)
+            htmlView(request) of UserOrderVM(newOrder, dishes.map { it }, price, restaurant)
         )
     }
 }
@@ -270,7 +240,6 @@ class EditStatusByUserH(
     private val permissionsLens: RequestContextLens<RolePermissions>,
     private val curUserLens: RequestContextLens<User?>,
     private val orderQueries: OrderQueries,
-    private val dishQueries: DishQueries,
     private val htmlView: ContextAwareViewRender,
 ):HttpHandler {
     override fun invoke(request: Request): Response {
@@ -282,12 +251,8 @@ class EditStatusByUserH(
         val order = orderQueries.FetchOrderQ().invoke(
             request.path("order")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
         ) ?: return Response(Status.BAD_REQUEST)
-        val dishes = order.dishes.map { dishQueries.FetchDishQ().invoke(it.id) }
-        if (dishes.contains(null)) {
-            return Response(Status.BAD_REQUEST)
-        }
-        var price = 29
-        dishes.forEach { price += it!!.price }
+        val dishes = order.dishes
+        val price = dishes.sumOf { it.price } + 29
         orderQueries.EditStatusQ().invoke(
             order = orderQueries.SetPriceQ().invoke(order, price),
             string = "В обработке",

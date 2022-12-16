@@ -5,6 +5,7 @@ import org.http4k.format.JsonType
 import org.http4k.lens.*
 import ru.ac.uniyar.domain.RestaurantInfo
 import ru.ac.uniyar.domain.RolePermissions
+import ru.ac.uniyar.domain.User
 import ru.ac.uniyar.domain.lensOrNull
 import ru.ac.uniyar.models.RestaurantsVM
 import ru.ac.uniyar.models.template.ContextAwareViewRender
@@ -28,6 +29,7 @@ class RedirectToHomePage(): HttpHandler {
 
 class HomePageH(
     private val permissionsLens: RequestContextLens<RolePermissions>,
+    private val curUserLens:RequestContextLens<User?>,
     private val restaurantQueries: RestaurantQueries,
     private val reviewQueries: ReviewQueries,
     private val dishQueries: DishQueries,
@@ -40,20 +42,34 @@ class HomePageH(
     }
     override fun invoke(request: Request): Response {
         val permissions = permissionsLens(request)
+        val curUser = curUserLens(request)
         if (!permissions.listRestaurants) {
             return Response(Status.UNAUTHORIZED)
         }
         val restaurantName= lensOrNull(restaurantNameLens,request)
         val flag = lensOrNull(flagLens,request)
-        val model = RestaurantsVM(
-            restaurantQueries.FilterByNameQ().invoke(restaurantName,flag).map {
-                RestaurantInfo(
-                    it,
-                    dishQueries.DishesOfRestaurantQ().invoke(it.id).isNotEmpty(),
-                    reviewQueries.RatingForRestaurantQ().invoke(it.id)
-                )
-            },
-        name = restaurantName)
+        val model = if(curUser != null && permissions == RolePermissions.OPERATOR_ROLE){
+             RestaurantsVM(
+                restaurantQueries.FilterByNameQ().invoke(restaurantName,flag).filter { it == curUser.restaurant }.map {
+                    RestaurantInfo(
+                        it,
+                        dishQueries.DishesOfRestaurantQ().invoke(it.id).isNotEmpty(),
+                        reviewQueries.RatingForRestaurantQ().invoke(it.id)
+                    )
+                },
+                name = restaurantName)
+        }else {
+             RestaurantsVM(
+                restaurantQueries.FilterByNameQ().invoke(restaurantName, flag).map {
+                    RestaurantInfo(
+                        it,
+                        dishQueries.DishesOfRestaurantQ().invoke(it.id).isNotEmpty(),
+                        reviewQueries.RatingForRestaurantQ().invoke(it.id)
+                    )
+                },
+                name = restaurantName
+            )
+        }
         return Response(Status.OK).with(
             htmlView(request) of model)
 

@@ -1,11 +1,15 @@
-    {% extends "./layout.peb" %}
-    {% block content %}
+{% extends "./layout.peb" %}
+{% block content %}
 
-        {% for order in model.listOfOrders %}
-        <div>
-            Заказ номер: {{ order.id }}, Заказчик: {{ order.client.username }}, Время начала: {{ order.startTime }}
-            <a href="/orders/{{ order.id }}">Больше</a>
-        </div>
-        {% endfor %}
+    {% if model.orders is empty %}
+        <h3>Сейчас заказов нет</h3>
+    {% endif %}
 
-    {% endblock %}
+    {% for order in model.orders %}
+    <div>
+        Заказ номер: {{ order.id }}, Заказчик: {{ order.client.username }}, Время начала: {{ order.startTime }}
+        <a href="/orders/{{ order.id }}">Больше</a>
+    </div>
+    {% endfor %}
+
+{% endblock %}

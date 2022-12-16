@@ -1,6 +1,5 @@
 package ru.ac.uniyar.queries
 
-import org.ktorm.database.Database
 import org.ktorm.dsl.eq
 import org.ktorm.entity.averageBy
 import org.ktorm.entity.filter
@@ -11,10 +10,8 @@ import ru.ac.uniyar.domain.reviews
 
 class ReviewQueries(
     private val reviewRepository: ReviewRepository,
-    private val store: Store,
-    private val database: Database
 ){
-    val db = database
+    val db = Store.db
 
     inner class ReviewsQ{
         operator fun invoke():List<Review>{
