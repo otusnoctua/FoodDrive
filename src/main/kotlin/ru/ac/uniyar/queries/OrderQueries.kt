@@ -1,10 +1,12 @@
 package ru.ac.uniyar.queries
 
+import org.ktorm.database.Database
 import ru.ac.uniyar.domain.*
 import java.time.LocalDateTime
 
 class OrderQueries(
     private val orderRepository: OrderRepository,
+    private val db: Database,
 ) {
 
     inner class AddOrderQ {

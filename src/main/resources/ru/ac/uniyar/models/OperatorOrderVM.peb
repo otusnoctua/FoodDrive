@@ -11,7 +11,7 @@
     <p>Содержимое: </p>
     {% for dish in model.dishes %}
         <div>
-            {{ dish.name }}: {{ dish.price }} руб.
+            {{ dish.dishName }}: {{ dish.price }} руб.
         </div>
     {% endfor %}
     <p>Сервисный сбор: 29 руб.</p>

@@ -84,24 +84,20 @@ class AddReviewH(
     }
     override fun invoke(request: Request): Response {
         val permissions = permissionsLens(request)
-        val currentUser = curUserLens(request)
-        if (!permissions.createReview || currentUser == null) {
+        val curUser = curUserLens(request)
+        if (!permissions.createReview || curUser == null) {
             return Response(Status.UNAUTHORIZED)
         }
         val currentRestaurant = restaurantQueries.FetchRestaurantQ().invoke(
             request.path("restaurant")?.toInt() ?: return Response(Status.BAD_REQUEST)
         ) ?: return Response(Status.BAD_REQUEST)
-        if (!orderQueries.AcceptedOrdersFromRestaurantQ().invoke(currentUser.id, currentRestaurant.id)) {
+        if (!orderQueries.AcceptedOrdersFromRestaurantQ().invoke(curUser.id, currentRestaurant.id)) {
             return Response(Status.BAD_REQUEST)
-        }
-        if (reviewQueries.CheckReviewQ().invoke(currentUser.id, currentRestaurant.id)) {
-            val reviewToEdit = db.reviews.find { it.user_id eq currentUser.id }?.id!!
-            reviewQueries.DeleteReviewQ().invoke(reviewToEdit)
         }
         val webForm = BodyReviewFormLens(request)
         return if (webForm.errors.isEmpty()) {
             val review = Review {
-                user = currentUser
+                user = curUser
                 restaurant = currentRestaurant
                 reviewText = textReviewFormLens(webForm)
                 restaurantRating = ratingReviewFormLens(webForm)

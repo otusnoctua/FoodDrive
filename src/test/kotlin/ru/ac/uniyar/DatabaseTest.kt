@@ -27,11 +27,11 @@ class DatabaseTest {
     private val store = Store(database)
     private val settings = Settings(Path.of("settings.json"))
 
-    val userQueries = UserQueries(store, settings, store.userRepository)
-    val reviewQueries = ReviewQueries(store.reviewRepository, store, database)
-    val restaurantQueries = RestaurantQueries(store.restaurantRepository, reviewQueries, store)
-    val dishQueries = DishQueries(store.dishRepository, store)
-    val orderQueries = OrderQueries(store.userRepository, store.orderRepository, store)
+    val userQueries = UserQueries(settings, store.userRepository)
+    val reviewQueries = ReviewQueries(store.reviewRepository)
+    val restaurantQueries = RestaurantQueries(store.restaurantRepository, reviewQueries)
+    val dishQueries = DishQueries(store.dishRepository)
+    val orderQueries = OrderQueries(store.orderRepository,database)
     val fetchUserQueries = FetchUserQ(store.userRepository)
     val fetchPermissionsQueries = FetchPermissionsQ(store.rolePermissionsRepository)
     val authenticateUserViaLoginQueries = AuthenticateUserViaLoginQ(settings, store.userRepository)
@@ -170,6 +170,7 @@ class DatabaseTest {
             val restaurantId = database.restaurants.find { it.restaurant_name eq "kfc" }?.id!!
             restaurantQueries.EditRestaurantQ().invoke(
                 "Burger King",
+                database.restaurants.find { it.restaurant_name eq "kfc" }!!.logoUrl,
                 database.restaurants.find { it.restaurant_name eq "kfc" }!!)
             assertEquals(restaurantId, database.restaurants.find {it.restaurant_name eq "Burger King"}?.id)
             assertEquals(database.restaurants.find { it.id eq restaurantId }?.restaurantName, "Burger King")
@@ -418,7 +419,6 @@ class DatabaseTest {
         }
     }
 
-    /*
     /** Добавление нового заказа и добавление блюда в заказ */
     @Test
     fun createOrderWithDishes(){
@@ -441,7 +441,7 @@ class DatabaseTest {
             100,
             "link here"
         )
-        val saladFromDB = db.dishes.find { it.dishName eq "salad" }
+        val saladFromDB = database.dishes.find { it.dishName eq "salad" }
 
         dishQueries.AddDishQ().invoke(
             cafeFromDB,
@@ -453,7 +453,7 @@ class DatabaseTest {
             160,
             "link here"
         )
-        val soupFromDB = db.dishes.find {it.dishName eq "soup"}
+        val soupFromDB = database.dishes.find {it.dishName eq "soup"}
 
         userQueries.AddUserQ().invoke(
             "Alice",
@@ -491,7 +491,7 @@ class DatabaseTest {
         //получить dish из order
         //проверить orders и ordersDish
     }
-     */
+
     @BeforeEach
     fun clearDatabase(){
         database.deleteAll(OrderDishes)

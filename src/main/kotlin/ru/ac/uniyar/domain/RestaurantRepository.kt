@@ -31,15 +31,10 @@ class RestaurantRepository(
         return db.restaurants.toList()
     }
 
-    fun changeRestaurantName(nameRestaurant: String, restaurant: Restaurant){
-        val restaurantToRename = db.restaurants.find { it.id eq restaurant.id } ?: return
-        restaurantToRename.restaurantName = nameRestaurant
-        restaurantToRename.flushChanges()
-    }
-
-    fun changeRestaurantLogo(logoUrlRestaurant: String, restaurant: Restaurant){
+    fun changeRestaurant(nameRestaurant: String,logoUrlRestaurant: String, restaurant: Restaurant){
         val restaurantToChange = db.restaurants.find { it.id eq restaurant.id } ?: return
-        restaurantToChange.restaurantName = logoUrlRestaurant
+        restaurantToChange.restaurantName = nameRestaurant
+        restaurantToChange.logoUrl = logoUrlRestaurant
         restaurantToChange.flushChanges()
     }
 }
