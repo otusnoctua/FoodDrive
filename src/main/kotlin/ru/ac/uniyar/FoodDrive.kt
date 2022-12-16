@@ -9,6 +9,7 @@ import org.http4k.routing.routes
 import org.http4k.routing.static
 import org.http4k.server.Undertow
 import org.http4k.server.asServer
+import org.ktorm.database.Database
 import ru.ac.uniyar.domain.*
 import ru.ac.uniyar.handlers.HttpHandlerHolder
 import ru.ac.uniyar.models.ErrorMessageVM
@@ -18,9 +19,15 @@ import java.nio.file.Path
 
 
 fun main() {
+    val db = Database.connect(
+        url = "jdbc:mysql://127.0.0.1:3306/fooddrive",
+        driver = "com.mysql.jdbc.Driver",
+        user = "root",
+        password = "12345"
+    )
 
     val storeHolder = try {
-        StoreHolder(Path.of("settings.json"))
+        StoreHolder(Path.of("settings.json"),db)
     }catch (error: SettingsFileError) {
         println(error.message)
         return

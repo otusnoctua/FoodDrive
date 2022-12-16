@@ -37,4 +37,8 @@ class ReviewRepository(
     fun list() : List<Review> {
         return db.reviews.toList()
     }
+
+    fun reviewByUserAndRestaurant(userId: Int, restaurantId: Int): Review?{
+        return db.reviews.find { it.user_id eq userId and(it.restaurant_id eq restaurantId) }
+    }
 }

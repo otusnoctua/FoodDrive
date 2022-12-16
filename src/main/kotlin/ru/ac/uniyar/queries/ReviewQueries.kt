@@ -21,6 +21,10 @@ class ReviewQueries(
 
     inner class AddReviewQ{
         operator fun invoke(review: Review){
+            val oldReview = reviewRepository.reviewByUserAndRestaurant(review.user.id,review.restaurant.id)
+            if (oldReview != null ){
+                DeleteReviewQ().invoke(oldReview.id)
+            }
             reviewRepository.add(review)
         }
     }

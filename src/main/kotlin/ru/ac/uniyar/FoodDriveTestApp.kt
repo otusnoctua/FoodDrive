@@ -31,7 +31,7 @@ fun createApplication(): Http4kServer? {
 
 
     val storeHolder = try {
-        StoreHolder(Path.of("settings.json"))
+        StoreHolder(Path.of("settings.json"),database)
     } catch (error: SettingsFileError) {
         println(error.message)
         return null
@@ -162,7 +162,7 @@ fun fillingTables() {
         user = "root",
         password = "12345"
     )
-    val store = Store()
+    val store = Store(database)
     val settings = Settings(Path.of("settings.json"))
 
     val userQueries = UserQueries(settings, store.userRepository)
@@ -170,7 +170,7 @@ fun fillingTables() {
     val reviewQueries = ReviewQueries(store.reviewRepository)
     val restaurantQueries = RestaurantQueries(store.restaurantRepository, reviewQueries)
     val dishQueries = DishQueries(store.dishRepository)
-    val orderQueries = OrderQueries(store.orderRepository)
+    val orderQueries = OrderQueries(store.orderRepository,database)
     val fetchUserQueries = FetchUserQ(store.userRepository)
     val fetchPermissionsQueries = FetchPermissionsQ(store.rolePermissionsRepository)
     val authenticateUserViaLoginQueries = AuthenticateUserViaLoginQ(settings, store.userRepository)
@@ -192,7 +192,7 @@ fun deletingTables() {
         user = "root",
         password = "12345"
     )
-    val store = Store()
+    val store = Store(database)
     val settings = Settings(Path.of("settings.json"))
 
     val userQueries = UserQueries(settings, store.userRepository)
@@ -200,7 +200,7 @@ fun deletingTables() {
     val reviewQueries = ReviewQueries(store.reviewRepository)
     val restaurantQueries = RestaurantQueries(store.restaurantRepository, reviewQueries)
     val dishQueries = DishQueries(store.dishRepository)
-    val orderQueries = OrderQueries(store.orderRepository)
+    val orderQueries = OrderQueries(store.orderRepository,database)
     val fetchUserQueries = FetchUserQ(store.userRepository)
     val fetchPermissionsQueries = FetchPermissionsQ(store.rolePermissionsRepository)
     val authenticateUserViaLoginQueries = AuthenticateUserViaLoginQ(settings, store.userRepository)

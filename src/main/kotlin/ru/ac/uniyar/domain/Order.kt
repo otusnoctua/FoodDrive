@@ -6,8 +6,6 @@ import org.ktorm.entity.*
 import org.ktorm.schema.*
 import java.time.LocalDateTime
 
-val db = Store.db
-
 interface Order : Entity<Order> {
     companion object : Entity.Factory<Order>()
     val id: Int
@@ -16,7 +14,7 @@ interface Order : Entity<Order> {
     var orderStatus: String
     var startTime: LocalDateTime
     var endTime: LocalDateTime?
-    val dishes get() = getDishesViaOrderId(id)
+    val dishes get() = Store.getDishesViaOrderId(id)
     var orderCheck: Int
 }
 
@@ -33,14 +31,3 @@ object Orders : Table<Order>("orders"){
 }
 
 val Database.orders get() = this.sequenceOf(Orders)
-
-inline fun <E : Any, T : BaseTable<E>> T.getList(predicate: (T) -> ColumnDeclaring<Boolean>): List<E> {
-    return db.sequenceOf(this).filter(predicate).toList()
-}
-
-fun getDishesViaOrderId(id: Int) : List<Dish> {
-    db.useTransaction {
-        val dishIds = db.order_dishes.filter { it.order_id eq id }.map { it.dishId }
-        return dishIds.map { dishId -> db.dishes.find { it.id eq dishId }!! }
-    }
-}

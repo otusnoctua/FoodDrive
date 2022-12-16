@@ -128,9 +128,11 @@ class EditRestaurantH(
 ): HttpHandler {
     companion object {
         val restaurantNameFormLens = FormField.string().required("name")
+        val restaurantLogoUrlFormLens = FormField.string().required("logoUrl")
         val BodyRestaurantFormLens = Body.webForm(
             Validator.Feedback,
             restaurantNameFormLens,
+            restaurantLogoUrlFormLens,
         ).toLens()
     }
     override fun invoke(request: Request): Response {
@@ -144,7 +146,7 @@ class EditRestaurantH(
             ?: return Response(Status.BAD_REQUEST)
         val webForm = BodyRestaurantFormLens(request)
         return if (webForm.errors.isEmpty()) {
-            restaurantQueries.EditRestaurantQ().invoke(restaurantNameFormLens(webForm), restaurant)
+            restaurantQueries.EditRestaurantQ().invoke(restaurantNameFormLens(webForm), restaurantLogoUrlFormLens(webForm), restaurant)
             Response(Status.FOUND).header(
                 "Location", "/restaurants"
             )

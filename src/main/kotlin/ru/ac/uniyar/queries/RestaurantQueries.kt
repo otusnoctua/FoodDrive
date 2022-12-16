@@ -23,8 +23,8 @@ class RestaurantQueries(
         }
     }
     inner class EditRestaurantQ {
-        operator fun invoke(nameRestaurant: String, restaurant: Restaurant) {
-            restaurantRepository.changeRestaurantName(nameRestaurant, restaurant)
+        operator fun invoke(nameRestaurant: String,logoUrlRestaurant: String, restaurant: Restaurant) {
+            restaurantRepository.changeRestaurant(nameRestaurant, logoUrlRestaurant, restaurant)
         }
     }
     inner class AddRestaurantQ{
