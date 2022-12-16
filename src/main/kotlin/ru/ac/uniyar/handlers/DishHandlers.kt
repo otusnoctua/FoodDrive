@@ -210,7 +210,7 @@ class DeleteDishH(
 ): HttpHandler {
     override fun invoke(request: Request): Response {
         val permissions = permissionLens(request)
-        if (!permissions.deleteDish || permissions.listDishes) {
+        if (!permissions.deleteDish) {
             return Response(Status.UNAUTHORIZED)
         }
         val dish = dishQueries.FetchDishQ().invoke(

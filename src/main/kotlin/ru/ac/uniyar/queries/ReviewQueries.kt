@@ -32,5 +32,15 @@ class ReviewQueries(
             return db.reviews.filter { it.restaurant_id eq id }.averageBy { it.restaurant_rating } ?: return 0.0
         }
     }
+    inner class CheckReviewQ {
+        operator fun invoke(userId: Int, restaurantId: Int): Boolean {
+            return reviewRepository.list().any { it.user.id == userId && it.reviewText != "" && it.restaurant.id == restaurantId }
+        }
+    }
+    inner class DeleteReviewQ {
+        operator fun invoke(id: Int) {
+            reviewRepository.delete(id)
+        }
+    }
 
 }

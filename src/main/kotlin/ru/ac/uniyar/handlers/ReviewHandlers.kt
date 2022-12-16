@@ -3,9 +3,9 @@ package ru.ac.uniyar.handlers
 import org.http4k.core.*
 import org.http4k.lens.*
 import org.http4k.routing.path
-import ru.ac.uniyar.domain.Review
-import ru.ac.uniyar.domain.RolePermissions
-import ru.ac.uniyar.domain.User
+import org.ktorm.dsl.eq
+import org.ktorm.entity.find
+import ru.ac.uniyar.domain.*
 import ru.ac.uniyar.models.ReviewsVM
 import ru.ac.uniyar.models.ReviewFormVM
 import ru.ac.uniyar.models.template.ContextAwareViewRender
@@ -86,6 +86,10 @@ class AddReviewH(
         val currentRestaurant = restaurantQueries.FetchRestaurantQ().invoke(
             request.path("restaurant")?.toInt() ?: return Response(Status.BAD_REQUEST)
         ) ?: return Response(Status.BAD_REQUEST)
+        if (reviewQueries.CheckReviewQ().invoke(currentUser.id, currentRestaurant.id)) {
+            val reviewToEdit = db.reviews.find { it.user_id eq currentUser.id }?.id!!
+            reviewQueries.DeleteReviewQ().invoke(reviewToEdit)
+        }
         val webForm = BodyReviewFormLens(request)
         return if (webForm.errors.isEmpty()) {
             val review = Review {
