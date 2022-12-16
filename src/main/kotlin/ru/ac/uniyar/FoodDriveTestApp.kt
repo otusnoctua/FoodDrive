@@ -192,11 +192,11 @@ fun fillingTables() {
         userQueries.AddUserQ().invoke(
             "Alice", 123, "alice@example.com", "123", null
         )
-        restaurantQueries.AddRestaurantQ().invoke(
+        val restaurantId = restaurantQueries.AddRestaurantQ().invoke(
             "TestRestaurant", "1"
         )
         dishQueries.AddDishQ().invoke(
-            restaurantQueries.FetchRestaurantQ().invoke(1)!!,
+            restaurantQueries.FetchRestaurantQ().invoke(restaurantId)!!,
             "TestDish",
             true,
             "something",
@@ -233,8 +233,8 @@ fun deletingTables() {
 
     database.useTransaction {
         database.deleteAll(Users)
-        database.deleteAll(Restaurants)
         database.deleteAll(Dishes)
+        database.deleteAll(Restaurants)
 
     }
 

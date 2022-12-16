@@ -20,7 +20,8 @@ class RestaurantRepository(
             restaurantName = nameRestaurant
             logoUrl = logoUrlRestaurant
         }
-        return db.restaurants.add(restaurant)
+        db.restaurants.add(restaurant)
+        return restaurant.id
     }
 
     fun delete(id: Int){

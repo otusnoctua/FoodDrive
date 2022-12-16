@@ -28,8 +28,8 @@ class RestaurantQueries(
         }
     }
     inner class AddRestaurantQ{
-        operator fun invoke(nameRestaurant: String, logoUrlRestaurant: String) {
-            restaurantRepository.add(nameRestaurant, logoUrlRestaurant)
+        operator fun invoke(nameRestaurant: String, logoUrlRestaurant: String): Int {
+            return restaurantRepository.add(nameRestaurant, logoUrlRestaurant)
         }
     }
     inner class FilterByNameQ{
