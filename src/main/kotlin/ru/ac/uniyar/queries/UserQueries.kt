@@ -17,10 +17,13 @@ class UserQueries (
             userRestaurant : Restaurant?
         ): Int {
             val userHashedPassword = hashPassword(userPassword, settings.salt)
-            val userRoleId = if(userRestaurant?.id == null) {
+            var userRoleId = if(userRestaurant?.id == null) {
                 1
             } else {
                 2
+            }
+            if(ListOfUsersQuery().invoke().isEmpty()){
+                userRoleId = RolePermissions.ADMIN_ROLE.id
             }
             val id = userRepository.add(
                 User {

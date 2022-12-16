@@ -20,7 +20,7 @@
                 {% if permissions.createOperator%}
                     <li><a href="/registerOperator" style="color: white"><h5>Создать оператора</h5></a></li>
                 {% endif %}
-                {% if currentUser is not null and permissions.viewBusket %}
+                {% if currentUser is not null and permissions.viewBasket %}
                     <li><a href="/basket" style="color: white"><h5>Корзина</h5></a></li>
                 {% endif %}
             </ul>
@@ -31,7 +31,7 @@
                     <li><a href="/register" style="color: white"><h5>Зарегистрироваться</h5></a></li>
                 {% endif %}
                 {% if currentUser is not null %}
-                    <li><a href="/profile" style="color: white"><h5>{{ currentUser.username}}</h5></a></li>
+                    <li><a id="current-username" href="/profile" style="color: white"><h5>{{ currentUser.username}}</h5></a></li>
                     <li><a href="/logout" style="color: white"><h5>Выйти</h5></a></li>
                 {% else %}
                     <li><a href="/login" style="color: white"><h5>Войти</h5></a></li>

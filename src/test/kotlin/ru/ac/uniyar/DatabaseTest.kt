@@ -48,7 +48,7 @@ class DatabaseTest {
                 null
             )
             assertEquals(database.users.find { it.username eq "Alice" }?.username, "Alice")
-            assertEquals(database.users.find { it.username eq "Alice" }?.roleId, 1)
+            assertEquals(database.users.find { it.username eq "Alice" }?.roleId, RolePermissions.ADMIN_ROLE.id)
         }
 
     }

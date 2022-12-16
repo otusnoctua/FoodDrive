@@ -43,7 +43,8 @@ class RestaurantH(
         return Response(Status.OK).with(
             htmlView(request) of RestaurantVM(
                 dishQueries.FilterByNameQ().invoke(
-                    dishName,restaurant.id,
+                    dishName,
+                    restaurant.id,
                     flag,
                     minPrice,
                     maxPrice

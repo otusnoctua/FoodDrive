@@ -49,4 +49,7 @@ dependencies {
     testImplementation "org.http4k:http4k-testing-kotest:${http4kVersion}"
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
     testImplementation "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+    testImplementation 'org.seleniumhq.selenium:selenium-java:4.7.0'
+    testImplementation("org.assertj:assertj-core:3.23.1")
+    implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.3.1'
 }

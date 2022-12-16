@@ -88,7 +88,7 @@
                     </div>
                     <div class="medium-8 cell">
                     {{ dish.dishName }}: {{dish.ingredients}}, {{dish.dishDescription}}{% if dish.vegan %},
-                    Вегетарианское {% endif %}, {{ dish.price }}
+                    Вегетарианское {% endif %}, {{ dish.price }}р.
                     {% if permissions.createOrder %}
                         <a href="/{{model.restaurant.id}}/{{dish.id}}/dishToOrder" class="button">Добавить в корзину</a>
                     {% endif %}
@@ -116,7 +116,7 @@
                     </div>
                     <div class="medium-8 cell">
                     {{ dish.dishName }}: {{dish.ingredients}}, {{dish.dishDescription}}{% if dish.vegan %},
-                    Вегетарианское {% endif %}
+                    Вегетарианское {% endif %}, {{ dish.price }}р.
                     {% if permissions.createOrder %}
                         <a href="/{{model.restaurant.id}}/{{dish.id}}/dishToOrder" class="button">Добавить в корзину</a>
                     {% endif %}
