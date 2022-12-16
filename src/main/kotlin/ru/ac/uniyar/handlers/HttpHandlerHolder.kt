@@ -168,8 +168,10 @@ class HttpHandlerHolder(
 
     val reviewsH = ReviewsH(
         permissionLens,
+        curUserLens,
         storeHolder.reviewQueries,
         storeHolder.restaurantQueries,
+        storeHolder.orderQueries,
         htmlView,
     )
 
@@ -183,6 +185,7 @@ class HttpHandlerHolder(
         curUserLens,
         storeHolder.reviewQueries,
         storeHolder.restaurantQueries,
+        storeHolder.orderQueries,
         htmlView,
     )
 

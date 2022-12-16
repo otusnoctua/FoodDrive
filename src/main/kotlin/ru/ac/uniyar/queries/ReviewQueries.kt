@@ -34,7 +34,7 @@ class ReviewQueries(
     }
     inner class CheckReviewQ {
         operator fun invoke(userId: Int, restaurantId: Int): Boolean {
-            return reviewRepository.list().any { it.user.id == userId && it.reviewText != "" && it.restaurant.id == restaurantId }
+            return reviewRepository.list().any { it.user.id == userId && it.restaurant.id == restaurantId }
         }
     }
     inner class DeleteReviewQ {

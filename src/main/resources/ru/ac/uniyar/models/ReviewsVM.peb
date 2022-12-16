@@ -19,5 +19,5 @@
             {% endfor %}
         </tbody>
     </table>
-    <a href="/{{model.restaurant.id }}/addReview"class="button">Оставить отзыв</a>
+    {% if model.userReview %}<a href="/{{model.restaurant.id }}/addReview"class="button">Оставить отзыв</a>{% endif %}
 {% endblock %}

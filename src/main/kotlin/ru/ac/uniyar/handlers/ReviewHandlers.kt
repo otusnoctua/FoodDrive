@@ -9,6 +9,7 @@ import ru.ac.uniyar.domain.*
 import ru.ac.uniyar.models.ReviewsVM
 import ru.ac.uniyar.models.ReviewFormVM
 import ru.ac.uniyar.models.template.ContextAwareViewRender
+import ru.ac.uniyar.queries.OrderQueries
 import ru.ac.uniyar.queries.RestaurantQueries
 import ru.ac.uniyar.queries.ReviewQueries
 
@@ -17,11 +18,14 @@ import java.util.*
 
 class ReviewsH(
     private val permissionsLens: RequestContextLens<RolePermissions>,
+    private val curUserLens: RequestContextLens<User?>,
     private val reviewQueries: ReviewQueries,
     private val restaurantQueries: RestaurantQueries,
+    private val orderQueries: OrderQueries,
     private val htmlView: ContextAwareViewRender,
     ) : HttpHandler {
     override fun invoke(request: Request): Response {
+        val currentUser = curUserLens(request)
         val restaurant = restaurantQueries.FetchRestaurantQ().invoke(
             request.path("restaurant")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST)
         ) ?: return Response(Status.BAD_REQUEST)
@@ -31,7 +35,7 @@ class ReviewsH(
         }
         val reviews = reviewQueries.ReviewsQ().invoke().filter { it.restaurant.id == restaurant.id }
         return Response(Status.OK).with(
-            htmlView(request) of ReviewsVM(reviews, restaurant)
+            htmlView(request) of ReviewsVM(reviews, restaurant, orderQueries.AcceptedOrdersFromRestaurantQ().invoke(currentUser?.id?:-1, restaurant.id))
         )
     }
 }
@@ -66,6 +70,7 @@ class AddReviewH(
     private val curUserLens: RequestContextLens<User?>,
     private val reviewQueries: ReviewQueries,
     private val restaurantQueries: RestaurantQueries,
+    private val orderQueries: OrderQueries,
     private val htmlView: ContextAwareViewRender,
 ):HttpHandler {
     companion object{
@@ -86,6 +91,9 @@ class AddReviewH(
         val currentRestaurant = restaurantQueries.FetchRestaurantQ().invoke(
             request.path("restaurant")?.toInt() ?: return Response(Status.BAD_REQUEST)
         ) ?: return Response(Status.BAD_REQUEST)
+        if (!orderQueries.AcceptedOrdersFromRestaurantQ().invoke(currentUser.id, currentRestaurant.id)) {
+            return Response(Status.BAD_REQUEST)
+        }
         if (reviewQueries.CheckReviewQ().invoke(currentUser.id, currentRestaurant.id)) {
             val reviewToEdit = db.reviews.find { it.user_id eq currentUser.id }?.id!!
             reviewQueries.DeleteReviewQ().invoke(reviewToEdit)

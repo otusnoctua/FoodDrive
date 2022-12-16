@@ -101,6 +101,12 @@ class OrderQueries(
             }
         }
 
+        inner class AcceptedOrdersFromRestaurantQ {
+            operator fun invoke(userId: Int, restaurantId: Int): Boolean {
+                return orderRepository.list().any { it.client.id == userId && it.restaurant.id == restaurantId}
+            }
+        }
+
         inner class FetchOrderQ {
             operator fun invoke(id: Int): Order? {
                 return orderRepository.fetch(id)
