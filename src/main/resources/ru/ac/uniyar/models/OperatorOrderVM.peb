@@ -21,9 +21,10 @@
         <div class="grid-x grid-padding-x">
             <div class="medium-12 cell">
                     <select id="table" name = "status" >
-                        <option id="1"  value="В обработке">В обработке</option>
-                        <option id="2"  value="Готов">Готов</option>
-                        <option  id="3" value="Отменен">Отменен</option>
+                        <option id="1" value="В обработке">В обработке</option>
+                        <option id="2" value="Готовится">Готовится</option>
+                        <option id="3" value="Передан курьеру">Передан курьеру</option>
+                        <option id="4" value="Готов">Готов</option>
                     </select >
                 </label>
             </div>

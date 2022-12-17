@@ -1,5 +1,6 @@
 {% extends "./layout.peb" %}
 {% block content %}
+    <h4>Статус: {{ model.order.orderStatus }} </h4>
     <p>Время добавления: {{ model.order.startTime }} </p>
     <p>Ресторан: {{ model.restaurant.restaurantName}} </p>
     <p>Содержимое: </p>
@@ -21,7 +22,7 @@
         <div>
             <a id="delete-button" href="/basket/delete/{{model.order.id}}" class="button">Удалить заказ</a>
         </div>
-    {% elseif model.order.orderStatus != "Готово"%}
+    {% elseif model.order.orderStatus == "В обработке"%}
         <div>
             <a id="rejection-button" href="/basket/delete/{{model.order.id}}" class="button">Отказаться</a>
         </div>

@@ -31,7 +31,7 @@ class OrdersH(
         }
         return Response(Status.OK).with(
             htmlView(request) of OrdersVM(
-                orderQueries.AcceptedOrdersQ().invoke(user.id).filter { it.orderStatus == "В обработке" },
+                orderQueries.AcceptedOrdersQ().invoke(user.id).filter { it.orderStatus != "В ожидании" || it.orderStatus != "Готов" },
                 orderQueries.AcceptedOrdersQ().invoke(user.id).filter { it.orderStatus == "Готов" },
             )
         )

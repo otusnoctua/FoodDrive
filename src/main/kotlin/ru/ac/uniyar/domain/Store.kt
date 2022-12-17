@@ -12,7 +12,7 @@ class Store(
 
     companion object{
         val db = Database.connect(
-            url = "jdbc:mysql://127.0.0.1:3305/fooddrive",
+            url = "jdbc:mysql://127.0.0.1:3306/fooddrive",
             driver = "com.mysql.jdbc.Driver",
             user = "root",
             password = "12345"

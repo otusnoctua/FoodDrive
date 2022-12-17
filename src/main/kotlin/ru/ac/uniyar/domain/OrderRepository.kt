@@ -54,13 +54,10 @@ class OrderRepository(
         val orderToChange = db.orders.find { it.id eq order.id } ?: return
         orderToChange.orderStatus = order.orderStatus
         orderToChange.flushChanges()
-
     }
 
     fun delete(order: Order) {
-        order.dishes.forEach{ dish ->
-            db.delete(OrderDishes) {it.order_id eq order.id and(it.dish_id eq dish.id)}
-        }
+        db.delete(OrderDishes) {it.order_id eq order.id}
         db.delete(Orders) {it.id eq order.id}
     }
 
