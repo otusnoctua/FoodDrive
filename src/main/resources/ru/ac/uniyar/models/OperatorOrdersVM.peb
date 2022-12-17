@@ -6,9 +6,9 @@
     {% endif %}
 
     {% for order in model.orders %}
-    <div>
+    <div id="orders">
         Заказ номер: {{ order.id }}, Заказчик: {{ order.client.username }}, Время начала: {{ order.startTime }}
-        <a href="/orders/{{ order.id }}">Больше</a>
+        <a id="info" href="/orders/{{ order.id }}">Больше</a>
     </div>
     {% endfor %}
 

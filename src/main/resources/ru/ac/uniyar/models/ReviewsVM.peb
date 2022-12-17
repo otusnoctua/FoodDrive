@@ -1,7 +1,7 @@
 {% extends "./layout.peb" %}
 {% block content %}
     <a href="/{{ model.restaurant.id }}/ListOfDishes" class="button">Вернуться к ресторану</a>
-    <table>
+    <table id="tableOfReviews" >
         <thead>
             <tr>
                 <th width="200">Номер отзыва</th>
@@ -19,5 +19,5 @@
             {% endfor %}
         </tbody>
     </table>
-    {% if model.userReview %}<a href="/{{model.restaurant.id }}/addReview"class="button">Оставить отзыв</a>{% endif %}
+{% if model.userReview  %} <a id="giveReview" href="/{{model.restaurant.id }}/addReview"class="button">Оставить отзыв</a>{% endif %}
 {% endblock %}

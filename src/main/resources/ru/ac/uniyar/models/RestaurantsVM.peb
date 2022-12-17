@@ -43,7 +43,7 @@
             {% endif %}
     </div>
     {% for restaurantInfo in model.listOfRestaurants %}
-        <div class="grid-x grid-padding-x" style="padding:10px;">
+        <div id="restaurants" class="grid-x grid-padding-x" style="padding:10px;">
             <div class="medium-4 cell">
                 <img src="{{ restaurantInfo.restaurant.logoUrl }}">
             </div>

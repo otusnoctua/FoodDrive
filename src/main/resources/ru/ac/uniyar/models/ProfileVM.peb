@@ -6,12 +6,12 @@
         <p>Телефон: {{currentUser.phone}}</p>
         <p>Почта: {{currentUser.email}}</p>
         {% if permissions.editUser %}
-            <a href="/profile/edit"class="button">Редактировать</a>
+            <a id="edit" href="/profile/edit"class="button">Редактировать</a>
         {% endif %}
     </div>
     {% if permissions.viewBasket %}
         <div>
-            <a href="/profile/orders">Список заказов</a>
+            <a id="orders" href="/profile/orders">Список заказов</a>
         </div>
     {% endif %}
 {% endblock %}

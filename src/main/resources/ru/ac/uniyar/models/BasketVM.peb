@@ -7,7 +7,7 @@
         <div>
             {{ orderInfo.order.restaurant.restaurantName}}: {{ orderInfo.orderCheck }}р.
             <a href="/basket/{{ orderInfo.order.id }}">Больше</a>
-            <a href="/basket/{{ orderInfo.order.id }}/accept" class="button">Подтвердить</a>
+            <a id="acceptOrder" href="/basket/{{ orderInfo.order.id }}/accept" class="button">Подтвердить</a>
         </div>
     {% endfor %}
 {% endblock %}

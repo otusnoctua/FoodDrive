@@ -109,6 +109,38 @@ public class UnauthorizedUserTests {
         assertThat(driver.findElement(By.id("imageUrl")).isDisplayed()).isEqualTo(true);
     }
 
+    @Test
+    /**
+     * Неавторизованный пользователь может просматривать отзывы к ресторану
+     */
+    void canWatchReviews(){
+        driver.get("http://localhost:5000/restaurants");
+        driver.findElement(By.id("restaurant")).click();
+        driver.findElement(By.id("review")).click();
+        assertThat(driver.findElement(By.id("tableOfReviews")).isDisplayed()).isEqualTo(true);
+    }
+
+    @Test
+    /**
+     * Неавторизованный пользователь может просматривать список ресторанов и каждый ресторан по отдельности
+     */
+    void canWatchRestaurants(){
+        driver.get("http://localhost:5000/restaurants");
+        assertThat(driver.findElement(By.id("restaurants")).isDisplayed()).isEqualTo(true);
+        driver.findElement(By.id("restaurant")).click();
+        assertThat(driver.findElement(By.id("restaurantName")).isDisplayed()).isEqualTo(true);
+    }
+    @Test
+    /**
+     * Неавторизованный пользователь может просматривать список блюд и каждое блюдо по отдельности
+     */
+    void canWatchDishes(){
+        driver.get("http://localhost:5000/restaurants");
+        assertThat(driver.findElement(By.id("restaurants")).isDisplayed()).isEqualTo(true);
+        driver.findElement(By.id("restaurant")).click();
+        assertThat(driver.findElement(By.id("dishes")).isDisplayed()).isEqualTo(true);
+    }
+
     void registerTestUser(){
         driver.get("http://localhost:5000/register");
         WebElement login = driver.findElement(By.id("login-input-field"));

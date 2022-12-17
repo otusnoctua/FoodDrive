@@ -26,8 +26,8 @@ class DishQueries(
             currentDishAvailability : Boolean,
             currentDishPrice : Int,
             currentDishImageUrl : String,
-        ) {
-            dishRepository.add(
+        ):Int {
+          return  dishRepository.add(
                 Dish {
                     restaurant = currentDishRestaurant
                     dishName = currentDishName

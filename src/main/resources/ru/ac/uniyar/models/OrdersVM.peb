@@ -1,16 +1,16 @@
 {% extends "./layout.peb" %}
 {% block content %}
     {% if model.newOrders is empty and  model.oldOrders is empty %}
-        <h3>Вы ещё ничего не заказывали</h3>
+        <h3 id="emptyList"> Вы ещё ничего не заказывали</h3>
     {% endif %}
     {% if model.newOrders is not empty %}
         <div>
             Заказы в процессе
         </div>
         {% for order in model.newOrders %}
-            <div>
+            <div id="listOfOrders">
                 {{ order.restaurant.restaurantName }}: {{ order.orderCheck }}р. {{ order.startTime }}
-                <a href="/profile/orders/{{ order.id }}">Больше</a>
+                <a id="expectedOrder" href="/profile/orders/{{ order.id }}">Больше</a>
             </div>
         {% endfor %}
     {% endif %}
@@ -21,7 +21,7 @@
         {% for order in model.oldOrders %}
             <div>
                 {{ order.restaurant.restaurantName }}: {{ order.orderCheck }}р. {{ order.endTime }}
-                <a href="/profile/orders/{{ order.id }}">Больше</a>
+                <a id="completedOrder" href="/profile/orders/{{ order.id }}">Больше</a>
             </div>
         {% endfor %}
     {% endif %}

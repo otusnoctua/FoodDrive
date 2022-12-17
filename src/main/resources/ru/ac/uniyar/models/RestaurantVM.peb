@@ -1,6 +1,6 @@
 {% extends "./layout.peb" %}
 {% block content %}
-    <h3 style="width: 100%;text-align:center;">
+    <h3 id="restaurantName" style="width: 100%;text-align:center;">
         {{ model.restaurant.restaurantName }}
     </h3>
 
@@ -12,7 +12,7 @@
             Рейтинг: {{ model.rating }}
         </div>
         <div class="medium-4 cell">
-            <a class="button" href="/reviews/{{model.restaurant.id}}">Отзывы</a>
+            <a id="review" class="button" href="/reviews/{{model.restaurant.id}}">Отзывы</a>
         </div>
     </div>
     <hr/>
@@ -82,7 +82,7 @@
         </div>
         {% for dish in model.dishes %}
             {% if permissions.editStopList %}
-                <div class="grid-x grid-padding-x align-bottom" style="padding:10px;">
+                <div id="dishes" class="grid-x grid-padding-x align-bottom" style="padding:10px;">
                     <div class="medium-4 cell">
                         <img id="imageUrl" src="{{ dish.imageUrl }}">
                     </div>
@@ -99,18 +99,18 @@
                         <a href="/{{model.restaurant.id }}/{{dish.id}}/delete" class="button">Удалить</a>
                     {% endif %}
                     {% if dish.availability %}
-                        <a href="/{{model.restaurant.id }}/{{dish.id}}/availability" class="button">Убрать из
+                        <a id="remove" href="/{{model.restaurant.id }}/{{dish.id}}/availability" class="button">Убрать из
                             каталога</a>
                     {% endif %}
                     {% if not dish.availability %}
-                        <a href="/{{model.restaurant.id }}/{{dish.id}}/availability" class="button">Добавить в
+                        <a id="adding" href="/{{model.restaurant.id }}/{{dish.id}}/availability" class="button">Добавить в
                             каталог</a>
                     {% endif %}
                     </div>
                 </div>
             {% endif %}
             {% if not permissions.editStopList and dish.availability %}
-                <div class="grid-x grid-padding-x align-bottom" style="padding:10px;">
+                <div id="dishes" class="grid-x grid-padding-x align-bottom" style="padding:10px;">
                     <div class="medium-4 cell">
                         <img id="imageUrl" src="{{ dish.imageUrl }}">
                     </div>

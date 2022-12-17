@@ -14,7 +14,8 @@ class DishRepository(
     }
 
     fun add(dish: Dish): Int {
-        return db.dishes.add(dish)
+         db.dishes.add(dish)
+        return dish.id
     }
 
     fun delete(id: Int) {

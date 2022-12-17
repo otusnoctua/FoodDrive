@@ -189,13 +189,13 @@ fun fillingTables() {
         userQueries.AddUserQ().invoke(
             "admin",123,"admin@examole.com","123",null
         )
-        userQueries.AddUserQ().invoke(
+      val userId =  userQueries.AddUserQ().invoke(
             "Alice", 123, "alice@example.com", "123", null
         )
         val restaurantId = restaurantQueries.AddRestaurantQ().invoke(
-            "TestRestaurant", "1"
-        )
-        dishQueries.AddDishQ().invoke(
+            "TestRestaurant", "1")
+
+       val dishId = dishQueries.AddDishQ().invoke(
             restaurantQueries.FetchRestaurantQ().invoke(restaurantId)!!,
             "TestDish",
             true,
@@ -205,6 +205,13 @@ fun fillingTables() {
             100,
             "1",
         )
+        orderQueries.CreateOrderQ().invoke(
+            userQueries.FetchUserViaId().invoke(userId)!!,
+            dishQueries.FetchDishQ().invoke(dishId)!!,
+        )
+
+
+
 
 
 
@@ -232,6 +239,9 @@ fun deletingTables() {
     val authenticateUserViaLoginQueries = AuthenticateUserViaLoginQ(settings, store.userRepository)
 
     database.useTransaction {
+        database.deleteAll(OrderDishes)
+        database.deleteAll(Orders)
+        database.deleteAll(Reviews)
         database.deleteAll(Users)
         database.deleteAll(Dishes)
         database.deleteAll(Restaurants)

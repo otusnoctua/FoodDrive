@@ -19,11 +19,11 @@
     </div>
     {% if model.order.orderStatus == "В ожидании" %}
         <div>
-            <a href="/basket/delete/{{model.order.id}}" class="button">Удалить заказ</a>
+            <a id="delete-button" href="/basket/delete/{{model.order.id}}" class="button">Удалить заказ</a>
         </div>
     {% elseif model.order.orderStatus != "Готово"%}
         <div>
-            <a href="/basket/delete/{{model.order.id}}" class="button">Отказаться</a>
+            <a id="rejection-button" href="/basket/delete/{{model.order.id}}" class="button">Отказаться</a>
         </div>
     {% endif %}
 {% endblock %}
