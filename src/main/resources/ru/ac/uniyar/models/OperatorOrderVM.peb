@@ -2,7 +2,7 @@
 {% block content %}
     <h2 class="text-center" id="order"> Заказ номер: {{ model.order.id }} </h2>
     <h3 class="text-lefT"> Контактная информация:  </h3>
-    <p>Имя заказчика: {{ model.user.name }} </p>
+    <p>Заказчик: {{ model.user.name }} </p>
     <p>Телефон: {{ model.user.phone }} </p>
     <p>Email: {{ model.user.email }} </p>
     <h3 class="text-left">Информация о заказе:  </h3>

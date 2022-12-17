@@ -2,7 +2,7 @@
 
 {% block content %}
     <div>
-        <p>Имя: {{currentUser.username}}</p>
+        <p>Логин: {{currentUser.username}}</p>
         <p>Телефон: {{currentUser.phone}}</p>
         <p>Почта: {{currentUser.email}}</p>
         {% if permissions.editUser %}
