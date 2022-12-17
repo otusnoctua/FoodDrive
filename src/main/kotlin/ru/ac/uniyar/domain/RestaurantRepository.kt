@@ -2,9 +2,7 @@ package ru.ac.uniyar.domain
 
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
-import org.ktorm.entity.add
-import org.ktorm.entity.find
-import org.ktorm.entity.toList
+import org.ktorm.entity.*
 
 class RestaurantRepository(
     database : Database
@@ -25,6 +23,9 @@ class RestaurantRepository(
     }
 
     fun delete(id: Int){
+        db.orders.filter { it.restaurant_id eq id }.forEach { order -> db.delete(Orders) { it.id eq order.id} }
+        db.reviews.filter { it.restaurant_id eq id }.forEach { review -> db.delete(Reviews) { it.id eq review.id} }
+        db.users.filter { it.restaurant_id eq id }.forEach { user -> db.delete(Users) { it.id eq user.id} }
         db.delete(Restaurants) { it.id eq id }
     }
 
